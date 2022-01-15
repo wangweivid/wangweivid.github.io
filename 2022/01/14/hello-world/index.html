@@ -688,33 +688,6 @@
     </div>
 
     
-        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
-<link rel="stylesheet" href="/css/my-gitalk.css">
-
-<div class="card gitalk-card" data-aos="fade-up">
-    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
-        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
-        <span>评论</span>
-    </div>
-    <div id="gitalk-container" class="card-content"></div>
-</div>
-
-<script src="/libs/gitalk/gitalk.min.js"></script>
-<script>
-    let gitalk = new Gitalk({
-        clientID: '',
-        clientSecret: '',
-        repo: '',
-        owner: '',
-        admin: null,
-        id: '2022-01-14T20-43-13',
-        distractionFreeMode: false  // Facebook-like distraction free mode
-    });
-
-    gitalk.render('gitalk-container');
-</script>
-
-    
 
     
 
@@ -957,11 +930,6 @@
         left: unset;
         visibility: visible;
     }
-
-    .v[data-class="v"] .vwrap .vheader .vinput {
-      width: 32%;
-      border-bottom: 1px dashed #dedede;
-    }
 </style>
 
 <div class="card valine-card" data-aos="fade-up">
@@ -976,53 +944,19 @@
 <script src="/libs/valine/av-min.js"></script>
 <script src="/libs/valine/Valine.min.js"></script>
 <script>
-let metaPlaceholder = {"nick":"昵称/QQ号(必填)"} ;
-//这里要换行
-new Valine({
+    new Valine({
         el: '#vcomments',
         appId: 'nxPiLxfaAglhnBy4Fh7QQhsn-gzGzoHsz',
         appKey: 'hOek3ykc8WDaXuhBWYWxC6GD',
-        notify: 'true' === 'true',
+        notify: 'false' === 'true',
         verify: 'true' === 'true',
         visitor: 'true' === 'true',
-        avatar: 'monsterid',
+        avatar: 'mm',
         pageSize: '10',
-        lang: 'zh-CN',
-        placeholder: '留下你的足迹..',
-        meta: ["nick", "mail", "link"],
-        recordIP: 'true' === 'true',
-        enableQQ: 'monsterid',
-        requiredFields: ["46606772953bed0812789d6dc955614e"],
-        master: ["46606772953bed0812789d6dc955614e"],
-        friends: ["cb3e577ff029d6073400d5557effd41f"],
-        tagMeta: ["博主"],
-        metaPlaceholder: metaPlaceholder,
-
+        lang: 'zh-cn',
+        placeholder: 'just go go'
     });
-
-    document.body.addEventListener('click', function(e) {
-        if (e.target.classList.contains('vsubmit')) {
-            const email = document.querySelector('input[type=email]');
-            const nick = document.querySelector('input[name=nick]');
-            const reg = /^[A-Za-z0-9_-\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-            if (!email.value || !nick.value || !reg.test(email.value)) {
-                const str = `<div class="valert txt-center"><div class="vtext">请填写正确的昵称和邮箱！</div></div>`;
-                const vmark = document.querySelector('.vmark');
-                vmark.innerHTML = str;
-                vmark.style.display = 'block';
-
-                e.stopPropagation();
-
-                setTimeout(function() {
-                    vmark.style.display = 'none';
-                    vmark.innerHTML = '';
-                }, 2500);
-            }
-        }
-        }, true);
 </script>
-
-
 
     
 
