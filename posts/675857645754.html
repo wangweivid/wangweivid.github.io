@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="密码学-基础知识概述, 摆渡沧桑">
+    <meta name="keywords" content="硬件安全技术——芯片安全设计技术4（PUF）, 摆渡沧桑">
     <meta name="description" content="专注于Web,分享生活,分享知识">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>密码学-基础知识概述 | 摆渡沧桑</title>
+    <title>硬件安全技术——芯片安全设计技术4（PUF） | 摆渡沧桑</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -367,12 +367,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014929.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">密码学-基础知识概述</h1>
+                    <h1 class="description center-align post-title">硬件安全技术——芯片安全设计技术4（PUF）</h1>
                 </div>
             </div>
         </div>
@@ -488,8 +488,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95/">
-                                <span class="chip bg-color">密码算法</span>
+                            <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/">
+                                <span class="chip bg-color">硬件安全</span>
                             </a>
                         
                     </div>
@@ -513,7 +513,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-05-06
+                    2021-05-29
                 </div>
                 
 
@@ -547,83 +547,86 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h4><p>密码只是信息安全的一部分，它的目的很明确就是为了解决信息安全问题。不同的密码技术算法解决不同的信息安全问题，但没有一种技术能解决所有信息安全问题。</p>
-<p>信息安全有四类特性：</p>
-<ul>
-<li>机密性：为了防止信息被窃听，对应的密码技术有对称密码和非对称密码。</li>
-<li>完整性：为了防止信息被篡改，对应的密码技术有单向散列函数、消息认证码、数字签名。<ul>
-<li>认证：为了防止攻击者伪装成真正的发送者，对应的密码技术有消息认证码和数字签名。</li>
-<li>不可否认性：为了防止发送者事后否认自己没有做过，对应的密码技术为数字签名。</li>
-</ul>
-</li>
-</ul>
-<p>为了尽可能的解决不同的信息安全特性，我们可能需要组合使用多种密码技术。信息安全面临的威胁点和所对应的密码技术之间的关系可用下图来表示：<br><img src="https://img-blog.csdnimg.cn/20210506160358663.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>以上主要从类别分类包括6种密码技术：</p>
+                <h3 id="一、什么是PUF"><a href="#一、什么是PUF" class="headerlink" title="一、什么是PUF"></a>一、什么是PUF</h3><h5 id="1-物理不可克隆函数——PUF"><a href="#1-物理不可克隆函数——PUF" class="headerlink" title="1. 物理不可克隆函数——PUF"></a>1. 物理不可克隆函数——PUF</h5><p>物理不可克隆函数(即PUF：physical unclonable function)是一种芯片的<strong>数字指纹</strong>，用作半导体设备(如微处理器)的唯一身份，增强了芯片抵抗逆向的能力。</p>
+<p>PUF通常用于密码学。物理不可克隆函数是物理结构中体现的物理实体。目前，PUF通常用集成电路来实现，通常用于对安全性要求较高的应用中。</p>
+<p>从2010年到2013年，PUF在<strong>智能卡市场</strong>获得了关注，作为提供“<strong>硅指纹</strong>”的有前途的方式，创建了独特于个人智能卡的加密密钥。<br><img src="https://img-blog.csdnimg.cn/20210529150929642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>现在，PUF成为商用FPGA中安全替代电池备份秘密密钥的存储器，如Xilinx Zynq Ultrascale ++ 和Altera。</p>
+<p>PUF取决于其物理微结构的独特性。<strong>这种微观结构取决于制造过程中引入的随机物理因素</strong>。这些因素是<strong>不可预测和不可控制</strong>的，这使得<strong>复制或克隆结构</strong>几乎是不可能的。</p>
+<p>但是这只是一项芯片设计模块功能，与<strong>TrustZone技术</strong>存在本质区别。</p>
+<h5 id="2-PUF特性"><a href="#2-PUF特性" class="headerlink" title="2. PUF特性"></a>2. PUF特性</h5><p><img src="https://img-blog.csdnimg.cn/20210529151253585.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ol>
-<li>对称密码</li>
-<li>非对称密码</li>
-<li>单向散列函数 </li>
-<li>消息认证码 </li>
-<li>数字签名</li>
-<li>伪随机数生成器</li>
+<li>唯一性<br>每一个芯片都是随机分布的、唯一的<ol>
+<li>防克隆性<br>芯片本身就是在芯片制造过程中由于不确定因素提取出来的，无法重新复制相同的PUF值</li>
+<li>不可预测性<br>由于芯片在制造出来之前，没有办法来预测</li>
+<li>防篡改性<br>芯片本身PUF值无法定位修改</li>
+<li>无需存储<br>每次芯片启动只需要在电路结构中提取，无需存储器件来存储</li>
 </ol>
-<p>如果看具体的算法，那就包括 <strong>AES、RSA、MD5、SHA1、SHA256、HMAC</strong> 等。有些人还将 BASE64 也理解为一种加解密的密码技术，但BASE64 只是一种编码方式，和 ASCII 和 UTF-8 编码的本质上一样，主要用途就是将不可打印的二进制数据编码为可打印的字符串，因为它不解决信息安全四个特性中的任何一种。大家都知道高性能和高安全是很难兼顾，鱼和熊掌不可兼得，我们能做的是尽力根据自己的业务找到平衡点。下面分别介绍一下这些技术和他们对应的具体算法。</p>
-<h3 id="2、对称加密"><a href="#2、对称加密" class="headerlink" title="2、对称加密"></a>2、对称加密</h3><p>对称加密也称为共享密钥密码、私钥密码，是指用相同的密钥加密和解密时的方式。对称加密算法的优点是算法公开、计算量小、加密速度快、加密效率高。缺点是，交易双方都使用同样钥匙，密钥的分发和管理比较困难，安全性得不到保证。</p>
-<p>常用的对称加密算法有：<strong>DES、3DES、AES、Blowfish、RC5、IDEA</strong> 等，其中DES已经可以现实中被暴力破解，现在的使用最广泛的对称加密算法是 AES。密码算法可以分为分组密码和流密码两种。其中AES和DES都是属于分组密码。分组密码是将明文消息分成一定长度的N个分组，然后对每个分组进行加密。AES的分组长度是128比特，分组密码有很多模式，如果模式选择不恰当，就无法充分保证机密性。</p>
-<p> AES 是一种分组密码，即将明文消息拆分为一定长度的N个分组，然后对每个分组进行加密。AES 的分组长度固定为 128 比特，而密钥可以是 128/192/256比特。既然是固定长度的分组，那我们要加密任意长度的明文，就涉及到如何将多个分组进行迭代加密的问题，因此，就有了分组模式。常用的分组模式有：<strong>ECB、CBC、CFB、OFB、CTR 等</strong>。最常用的是ECB 和 CBC模式，因此，需要了解下这两种模式的用法和区别。</p>
-<p>ECB 全称为 Electronic CodeBook，电子密码本模式，是最简单的一种模式，它直接将明文分割成多个分组并逐个加密，如下图：<br><img src="https://img-blog.csdnimg.cn/20210506160557357.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br> 这种模式的优点就是简单、快速，加密和解密都支持并行计算。而缺点也比较明显，因为每个明文分组都各自独立地进行加密和解密，如果明文中存在多个相同的明文分组，则这些分组最终会被转换为相同的密文分组。这样一来，只要观察一下密文，就可以知道明文中存在怎样的重复组合，并可以以此为线索来破译密码。另外，攻击者可以通过改变密文分组的顺序，或删除密文分组，或替换掉密文分组，就可以达到对明文操纵的目的，而无需破译密码。在实际应用中，很少需要进行并行计算的加解密场景，因此，一般情况下不会采用这种分组模式，而更推荐采用 CBC 模式。</p>
-<p>CBC 全称为 Cipher Block Chaining，密文分组链接模式，是将前一个密文分组与当前明文分组的内容混合起来进行加密的，如下图：<br><img src="https://img-blog.csdnimg.cn/20210506160630995.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>在 CBC 模式中，首先将明文分组与前一个密文分组进行 XOR 运算，然后再进行加密。加密第一个明文分组时，由于不存在“前一个密文分组”，因此需要事先准备一个长度为一个分组的比特序列来代替“前一个密文分组”，这个比特序列称为初始化向量(initialization vector)，通常缩写为 IV。CBC 模式避免了 ECB 模式的弱点，明文的重复排列不会反映在密文中。不过，相比 ECB 模式，CBC 模式多了一个初始化向量IV。</p>
-<p>另外，当最后一个明文分组的内容小于分组长度时，需要用一些特定的数据进行填充，填充方式也有很多种，常用的有两种：PKCS#5 和 PKCS#7。需要注意的就是，不同编程语言使用的填充方式可能会不同。比如，Java 是使用 PKCS#5，而 iOS 的 Objective-C 和 Swift 则采用 PKCS#7。不过，对于 AES 来说，两种填充方式是一样的。</p>
-<p>下图给出了AES加解密的流程示意图<br><img src="https://img-blog.csdnimg.cn/20210506161630288.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></p>
-<p>　　在实际应用中，我们一般都是在前端对密码或其他敏感数据进行加密，然后在后端进行解密。因为前后端涉及到不同语言的实现，为了保证前后端经过加解密后的结果一致，有几个参数是需要保持一致的：</p>
-<ul>
-<li><p>(1) <strong>密钥</strong>：密钥都要使用同一个，这点基本没有疑问，但需要注意的就是，密钥长度需要统一为 128/192/256 比特，即 16/24/32 字节。</p>
 </li>
-<li><p>(2) <strong>分组模式</strong>：分组模式推荐统一为 CBC 模式，且要显式声明，因为不同语言的默认分组模式可能会不同。</p>
+</ol>
+<h5 id="3-PUF结构"><a href="#3-PUF结构" class="headerlink" title="3. PUF结构"></a>3. PUF结构</h5><p><img src="https://img-blog.csdnimg.cn/20210529152437793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ol>
+<li><p>SRAM PUF<br>SRAM PUF利用SRAM Cell，首尾相接的反相器，在制造过程中，虽然电路架构完全一样，但是电路驱动能力有强弱之分，导致SRAM在上电时的Cell上0,1的分布是随机分布的，因此，利用这个特征可以提取出PUF</p>
 </li>
-<li><p>(3) <strong>初始化向量</strong>：加密和解密时的初始化向量 IV 也是要一致的，同样也不要使用默认设置，而要显式定义。</p>
+<li><p>仲裁PUF<br>仲裁PUF，同一个信号从起点到终点所用的时间（延迟），在制造过程中会存在误差。</p>
 </li>
-<li><p>(4) <strong>填充方式</strong>：Java 采用 PKCS5Padding，iOS 和 JavaScript 采用 PKCS7，对于 AES 来说，两者是一样的。</p>
+<li><p>RO PUF（环形振荡器）<br>环形振荡器PUF，利用环形振荡器电路，在不同芯片制造出来之后，频率产生也会存在误差</p>
 </li>
-</ul>
-<p>　　还有一点也需要注意，AES 算法本身操作的都是 byte 字节数组，因此，加密后一般会使用 BASE64 编码将 byte 数组转为字符串，而解密之前则先用 BASE64 解码将字符串转回 byte 数组。</p>
-<p>　　使用对称加密最关键的就是要保证密钥的安全，一般不建议直接在网络上传输密钥，另外，在客户端也要做好密钥的安全存储。
-　　</p>
-<h3 id="3、非对称加密"><a href="#3、非对称加密" class="headerlink" title="3、非对称加密"></a>3、非对称加密</h3><p>　　非对称加密也称公钥加密，使用了一对密钥，用公钥进行加密，再用配对的私钥进行解密。公钥是公开的，而私钥是保密的。相比对称加密安全性提高了，但牺牲了性能，加解密的速度慢了几个数量级，消息越长，加密和解密的速度越慢。</p>
-<p>　　使用最广泛的非对称加密算法就是 RSA，其原理是利用了大整数质因数分解问题的困难度，加密和解密其实就是非常简单的两条公式：</p>
-<p>　　<strong>加密：密文 ＝ 明文^E mod N<br>解密：明文 ＝ 密文^D mod N</strong></p>
-<p>　　即是说，加密就是对明文的 E 次方后除以 N 求余数的过程，其中 E 和 N 的组合就是公钥，即公钥 = (E, N)。而解密过程就是对密文进行 D 次方后除以 N 得到余数，即是明文，D 和 N 的组合就是私钥，即私钥 = (D, N)。公钥和私钥共有的 N 称为 module，即模数，E 和 D 则分别是公钥指数和私钥指数。因为 RSA 是基于以上数学问题的，所以其明文、密钥和密文都是数字，我们平时看到的字符串其实都是二进制表示的数字经过 BASE64 编码的。</p>
-<p>　　密钥长度越长越安全，推荐使用 1024 比特或更大的值，这里说的 1024 密钥长度其实是指模数的长度。还有，不同于对称密码可以加密任意长度的明文，RSA 明文长度是不能超过密钥长度的。Java 默认的 RSA 加密实现明文长度最长为密钥长度减去 11 字节，假如密钥长度设为 1024 比特，即 128 字节，那明文长度则不能超过 128 - 11 = 117 字节，如果超过该长度则会抛异常。如果想要加密的明文比较长，那就生成更长的密钥，如 2048 比特，那明文可以长达 245 字节，足够了。太长的明文也不推荐使用 RSA 进行加密，性能太低了。 </p>
-<p>　　另外，为了提高安全性，RSA 加密时都会填充一些随机数。RSA 加密填充方式主要有三种：NoPadding、PKCS1Padding、OAEPPadding。其中，最常用的就是 PKCS1Padding，它会在明文前面填充 11 字节的随机数，因此，对同一明文每次加密产生的密文都会不一样。如果想让每次加密产生的密文都一样，那填充方式就采用 NoPadding，即不填充，但这样无疑减低了安全性，所以一般不建议采用 NoPadding。</p>
-<p>　　实际应用中，我们不会直接对长消息进行非对称加密，而只会对一些安全性要求非常高的短消息进行加密，比如用户的密码、对称加密的密钥。SSL/TLS 的加密方案就是用对称加密对请求消息进行加密，用公钥加密对对称加密的密钥进行加密。</p>
-<p>想要破解就得通过n算出p和q，但是b比较大，大数的质因分解困难，但是量子计算机很有可能破解。</p>
-<h3 id="4、单向散列函数"><a href="#4、单向散列函数" class="headerlink" title="4、单向散列函数"></a>4、单向散列函数</h3><p>　　对称加密和非对称加密主要是用来解决消息的机密性问题的，即可以防止消息被窃听导致秘密泄露，但却无法校验消息是否被篡改。要校验消息是否被篡改，就要对消息进行完整性校验，有多种校验方案，最简单高效的就是单向散列函数。</p>
-<p>　　单向散列函数也称哈希函数、杂凑函数、消息摘要算法等，是能把任意长的输入消息串转变成固定长的输出串的一种函数，输出值称为“散列值”或“消息摘要”，也称为消息的“指纹”。使用单向散列函数，同一消息会生成同样的散列值，而只要改了消息，哪怕只改了 1 个字节，最终的散列值变化也很大，因此，很适合用这个散列值校验消息的完整性。</p>
-<p>　　最常用的单向散列函数就是 <strong>MD5</strong> 和 <strong>SHA</strong>，SHA 其实包括了 SHA-1、SHA-224、SHA-256、SHA-384 和 SHA-512，后四种并称为 SHA-2。有时候，我们去下载一些软件的安装文件时，官方一般都会提供对应该文件的 MD5 和 SHA-1 的散列值，以便我们可以对下载后的文件自己生成散列值，再和官方提供的散列值进行比对，就知道这个文件有没有被修改过。</p>
-<p>　　在我们平时的实际应用中，倒是很少会单独使用单向散列函数，一般都会结合其他技术一起使用。毕竟，单独使用的安全性不高。就举用户密码的安全来说吧，很多应用会将用户密码直接 MD5 之后传输给服务端。这种方案主要存在两个安全隐患，一是对于一些不够复杂的密码难以防范彩虹表，二是不同用户如果设置了相同密码那散列值无疑会一样。</p>
-<p>　　先说第一点，首先，先了解下什么是彩虹表。彩虹表是一个用于单向散列函数逆运算的预先计算好的表，为了破解密码的散列值而准备。我们可以简单理解为彩虹表就是在明文和密文之间建立起对应关系的字典表，可以通过已知的密文反查出明文，虽然实际上其原理远比想象中复杂得多。比如说，密码“123456”的 MD5 结果是“E10ADC3949BA59ABBE56E057F20F883E”，那我监听到用户登录的请求，拿到“E10ADC3949BA59ABBE56E057F20F883E”这个密码串时，从准备好的彩虹表中就可以反查出原密码是“123456”。</p>
-<p>再说第二点，设置了相同密码的不同用户，由于他们 MD5 后的散列值全都一样，那么只要破解了其中一个密码，就等于破解了多个用户的密码。</p>
-<p>　　为了应对以上两个问题，比较好的方案就是 MD5 + salt，也称 MD5 加盐，即将原密码拼上一串盐值 salt 之后再进行 MD5。盐值 salt 是一个随机字符串，每个用户的 salt 值一般都是不同的，这样就可以保证不同用户最终 MD5 出来的散列值不一样，而且因为有一串随机字符串，彩虹表也很难发挥作用了。</p>
-<h3 id="5、消息认证码"><a href="#5、消息认证码" class="headerlink" title="5、消息认证码"></a>5、消息认证码</h3><p>　　消息认证码是一种确认完整性并进行认证的技术，英文名称为message authentication code，简称为MAC。 </p>
-<p>　　虽然单向散列函数可以用来对消息进行完整性校验，但无法校验消息是否来自合法的发送者，即无法解决认证问题。要解决发送者的认证问题，最常用的有两种方案，一是采用消息认证码，二是使用数字签名。这一小节我们先来了解下消息认证码。 </p>
-<p>　　消息认证码的输入包括任意长度的消息和一个发送者与接收者之间共享的密钥，它可以输出固定长度的数据，这个数据称为 MAC 值。 </p>
-<p>　　消息认证码的实现方式有很多种，最常用的实现方式就是 HMAC，再具体点，根据使用哪种单向散列函数可分为：HMAC-MD5、HMAC-SHA1、HMAC-SHA256 等等。HMAC 简单理解就是带有密钥的散列函数，因为有了密钥，就可以对发送者进行认证；也因为使用了散列函数，也具有完整性校验的性质。 </p>
-<p>认证的基本流程就是：</p>
-<ul>
-<li>发送者使用共享密钥对消息计算 MAC 值；</li>
-<li>发送者将消息和 MAC 值一起发送给接收者；</li>
-<li>接收者收到消息和 MAC 值后，使用同一个共享密钥对消息计算 MAC 值；</li>
-<li>对比计算出来的 MAC 值和接收到的 MAC 值是否一致，一致则认证成功。</li>
-</ul>
-<p>　　现在，很多接口所添加的 URL 签名机制，其实就是对请求做 MAC 认证，具体的设计细节后面的文章再详细说明。不过，因为使用了共享密钥，因此也存在和对称加密一样的密钥安全问题</p>
-<h3 id="6、数字签名"><a href="#6、数字签名" class="headerlink" title="6、数字签名"></a>6、数字签名</h3><p>　　数字签名相当于现实世界中的盖章、签字的功能，使用数字签名可以识别篡改和伪装，还可以防止否认。 </p>
-<p>　　数字签名可以解决发送者的认证问题，而且，数字签名还具有不可抵赖性。数字签名的原理也非常简单，其实就是将非对称加密反过来用。我们知道，非对称加密是用公钥加密，然后用私钥解密。而数字签名则是用私钥加密，生成的密文就是数字签名，再用公钥解密。用私钥进行加密这一行为只能由持有私钥的人完成，正是基于这一事实，才可以将用私钥加密的密文作为签名来对待。而由于公钥是对外公开的，因此任何人都可以用公钥进行解密，即任何人都能够对签名进行验证。</p>
-<p>　　另外，我们也知道，非对称加密本身加密和解密是非常慢的，消息越长，性能越慢，因此，一般不用来加密和解密长消息。同样的，一般也不会直接对长消息签名，通常的做法是对消息的散列值进行签名，因为散列值比较短，所以加密签名相对就会快很多。因此，你会看到数字签名有类似 MD5withRSA、SHA1withRSA 这样的实现。</p>
-<p>　　最后，需要注意一点，像 MD5withRSA 和 SHA1withRSA 这样的数字签名实现可以校验消息完整性、对发送者进行认证、还可防止抵赖，但却不能解决机密性的问题，不要妄想用一种密码技术就能解决所有问题。</p>
-<p>　　不过，数字签名其实不太适合直接用在客户端上。因为客户端要对消息签名，那么客户端就需要保存私钥，那依然有私钥的安全配送和存储问题。数字签名使用最广泛的应该就是用在数字证书上了，这还涉及到 SSL/TLS 和 CA 等，后面的文章再聊这个话题。</p>
-<h3 id="7、伪随机数生成器"><a href="#7、伪随机数生成器" class="headerlink" title="7、伪随机数生成器"></a>7、伪随机数生成器</h3><p>　　伪随机数生成器并不直接解决信息安全问题，但它承担了密钥生成的重要职责。而密钥的重要性就不用多说了。</p>
-<h3 id="8、总结"><a href="#8、总结" class="headerlink" title="8、总结"></a>8、总结</h3><p>密码技术其实非常多，还包括各种单一技术的组合，我们本篇文章所学的只是最基础的一些知识，包括了对称加密、非对称加密、单向散列函数、消息认证码、数字签名这些密码技术的一些必备知识点，只有掌握了这些，才能理解和设计一些安全性更高的应用。 </p>
-<p>　　对称加密和非对称加密用来解决机密性问题，对称加密的速度快，适合用来加密长消息，但密钥在安全配送和客户端的存储是个难点；而非对称加密避免了共享密钥的安全配送和存储问题，但对长消息的加密速度非常慢，只适合用来加密短消息。单向散列函数可以用来对消息进行完整性校验，但很少单独使用。消息认证码简单理解就是带密钥的单向散列函数，既能校验完整性，还能对发送者进行认证，但因为使用了共享密钥，也存在和对称密码一样的共享密钥的安全配送和存储问题。数字签名能解决完整性校验、认证和防止抵赖等问题，最广泛的应用是在数字证书上。</p>
-<p>参考博文：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lanxue0803/article/details/80137279">https://blog.csdn.net/lanxue0803/article/details/80137279</a></p>
+<li><p>VIA PUF<br>实际设计中，VIA存在设计规则，利用设计规则，设计从小到大的孔洞，根据工艺的特性，来提取出VIA PUF</p>
+</li>
+</ol>
+<h5 id="5-与TrustZone技术的区别"><a href="#5-与TrustZone技术的区别" class="headerlink" title="5. 与TrustZone技术的区别"></a>5. 与TrustZone技术的区别</h5><p><img src="https://img-blog.csdnimg.cn/20210529153405434.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>TrustZone技术是一种安全执行区域概念，是<strong>芯片运行状态在共享资源、总线系统的安全态与非安全态</strong>的问题。基于TrustZone技术的<strong>TEEOS</strong>，形成一个可信执行环境，能够执行某些操作、保护某些资源。</p>
+<p>PUF可以被用作<strong>唯一且不可篡改的设备标识符</strong>。PUF也可以用于安全密钥生成和存储以及随机源。</p>
+<h3 id="二、SRAM-PUF特点"><a href="#二、SRAM-PUF特点" class="headerlink" title="二、SRAM PUF特点"></a>二、SRAM PUF特点</h3><h5 id="1-SRAM-PUF"><a href="#1-SRAM-PUF" class="headerlink" title="1. SRAM PUF"></a>1. SRAM PUF</h5><p>深亚微米工艺上来说，制造过程中随机因素会影响电路特性，从而导致Cell上电时，0与1随机分布，这个随机分布，基本上是固定的分布，这样可以提取出PUF值<br><img src="https://img-blog.csdnimg.cn/20210529160021982.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="2-SRAM-PUF-Key存储"><a href="#2-SRAM-PUF-Key存储" class="headerlink" title="2. SRAM PUF Key存储"></a>2. SRAM PUF Key存储</h5><p>PUF Key在芯片生命周期使用阶段：</p>
+<ol>
+<li><p><strong>Enrollment——QTP</strong>(One Time Process)<br><img src="https://img-blog.csdnimg.cn/2021052916031822.png" alt="在这里插入图片描述"><br>从SRAM PUF中提取R值，经过PUF-IP，再经过AC过程（用于纠错），然后配合上电过程完成启动</p>
+</li>
+<li><p><strong>Key重构</strong>——每次上电都需要重新执行这个过程<br>R’值和之前R值是不一样的，由于芯片SRAM Cell 80%0,1值是确定的，但是也有少部分是随机变化的。通过AC纠错，可以保证每次SRAM生成的PUF Key是固定的。<br><img src="https://img-blog.csdnimg.cn/20210529160559890.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>前提条件</strong>：<br><img src="https://img-blog.csdnimg.cn/20210529160811663.png" alt="在这里插入图片描述"><br>a. AC和Key相关性是0，即从ACcode是无法推导出PUF key<br>b. 提取出的Key值需要达到一定的可靠性</p>
+</li>
+</ol>
+<h5 id="3-SRAM-PUF-产品形态"><a href="#3-SRAM-PUF-产品形态" class="headerlink" title="3. SRAM PUF 产品形态"></a>3. SRAM PUF 产品形态</h5><ol>
+<li><p>软件形态</p>
+</li>
+<li><p>硬件IP形态<br><img src="https://img-blog.csdnimg.cn/20210529161152979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="4-SRAM-PUF生命使用周期"><a href="#4-SRAM-PUF生命使用周期" class="headerlink" title="4. SRAM PUF生命使用周期"></a>4. SRAM PUF生命使用周期</h5><p>软件的BROADKEY可以部署至各个生命周期的芯片上，<br><img src="https://img-blog.csdnimg.cn/20210529162213900.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以保障25年的生命周期</p>
+</li>
+<li>可靠性</li>
+<li>制造型</li>
+<li>安全认证<br><img src="https://img-blog.csdnimg.cn/20210529162320386.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ol>
+<h3 id="三、SRAM-PUF应用"><a href="#三、SRAM-PUF应用" class="headerlink" title="三、SRAM PUF应用"></a>三、SRAM PUF应用</h3><h5 id="1-生成应用Key流"><a href="#1-生成应用Key流" class="headerlink" title="1. 生成应用Key流"></a>1. 生成应用Key流</h5><p>与SRAM PUF流程一致</p>
+<ol>
+<li>Enrollment</li>
+<li>Key 重构<br><img src="https://img-blog.csdnimg.cn/20210529162523286.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ol>
+<h5 id="2-Wrap-Operation"><a href="#2-Wrap-Operation" class="headerlink" title="2. Wrap Operation"></a>2. Wrap Operation</h5><p>与之前一种的区别是，这次的Key值不作为应用密钥，<br>而是作为应用密钥的加密密钥来使用</p>
+<ol>
+<li><p>Enrollment<br><img src="https://img-blog.csdnimg.cn/20210529162823451.png" alt="在这里插入图片描述"></p>
+</li>
+<li><p>Key 编程<br><img src="https://img-blog.csdnimg.cn/20210529162833386.png" alt="在这里插入图片描述"></p>
+</li>
+<li><p>Key重构<br><img src="https://img-blog.csdnimg.cn/20210529162841362.png" alt="在这里插入图片描述"></p>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20210529162758116.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="3-防克隆的应用方案"><a href="#3-防克隆的应用方案" class="headerlink" title="3. 防克隆的应用方案"></a>3. 防克隆的应用方案</h5><p><strong>安全固件的导入：</strong></p>
+<ol>
+<li><p>BROADKEY集成在bootloader中，含有两个内容，一个是Bootloader，另外一个为存储密钥，为固件的解密密钥。除了部件以外，还有加解密库。<br><img src="https://img-blog.csdnimg.cn/20210529163535631.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+<li><p>把这个固件download到产品的flash中，然后需要通过<strong>BROADKEY</strong>把 <strong>AC code</strong>提取出来，存储到数据区<br><img src="https://img-blog.csdnimg.cn/20210529163606552.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+<li>将BROADKEY生成Key将固件的<strong>解密密钥进行加密</strong>以后，存储到flash数据区<br><img src="https://img-blog.csdnimg.cn/20210529163741262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>用固件的解密密钥将初始导入的加密固件解密出来，存储至可执行区域中<br><img src="https://img-blog.csdnimg.cn/20210529163917535.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>因为固件已经解密完成，因此把bootloader中的解密密钥删除，同时导入固件的加密密钥也可以删除<br><img src="https://img-blog.csdnimg.cn/2021052916401965.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>最后，用PUF Key生成MAC值，存储到数据区，以上为安全固件的导入过程<br><img src="https://img-blog.csdnimg.cn/20210529164422385.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>使用过程</strong>：<br>a. 在安装过程中，固件已经装好。<br>b. 芯片上电后，bootloader可以都会AC code<br>c. 同时生成PUF key，同时利用PUF key来对固件进行计算，同时与之前MAC值进行比较。如果正确则可以执行固件，比较错误，则会进入错误状态。<br><img src="https://img-blog.csdnimg.cn/20210529164930340.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>固件升级</strong><br><img src="https://img-blog.csdnimg.cn/20210529165054791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>防克隆原理</strong><br><img src="https://img-blog.csdnimg.cn/20210529165200374.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如果将芯片中固件放入另一个固件，即使两个芯片完全一样。<br>每次上电中，BROADKEY则会提取出PUF Key，如果芯片一旦换了之后，读取AC code进行PUF Key的提取，就会发现AC code并不是芯片本身的AC code，所以会报错。则会影响下一步的过程。因此，可以防克隆的攻击。</li>
+</ol>
+<h3 id="四、结论"><a href="#四、结论" class="headerlink" title="四、结论"></a>四、结论</h3><p>SRAM PUF的特征</p>
+<ol>
+<li>可以容易的加载PUF  key的功能</li>
+<li>很高的可靠性，可以保证小于 $10^{-12}$ 错误概率</li>
+<li>很好的工艺适配性（7nm~.13um的工艺）</li>
+<li>安全认证高</li>
+</ol>
 
                 
             </div>
@@ -650,7 +653,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://wangweivid.github.io/posts/9178982e.html">https://wangweivid.github.io/posts/9178982e.html</a>
+                    <a href="https://wangweivid.github.io/posts/675857645754.html">https://wangweivid.github.io/posts/675857645754.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -688,8 +691,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95/">
-                                    <span class="chip bg-color">密码算法</span>
+                                <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/">
+                                    <span class="chip bg-color">硬件安全</span>
                                 </a>
                             
                         </div>
@@ -1126,12 +1129,12 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/posts/e9912263.html">
+                <a href="/posts/675868658655754.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014929.jpg" class="responsive-img" alt="密码学-公钥密码体系之背包算法1">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术3">
                         
-                        <span class="card-title">密码学-公钥密码体系之背包算法1</span>
+                        <span class="card-title">硬件安全技术——芯片安全设计技术3</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1142,7 +1145,7 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-05-12
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-05-29
                         </span>
                         <span class="publish-author">
                             
@@ -1159,8 +1162,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">密码算法</span>
+                    <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">硬件安全</span>
                     </a>
                     
                 </div>
@@ -1171,15 +1174,15 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/9178982e.html">
+                <a href="/posts/e9913346.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014929.jpg" class="responsive-img" alt="密码学-基础知识概述">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——概述1(安全威胁和硬件安全技术)">
                         
-                        <span class="card-title">密码学-基础知识概述</span>
+                        <span class="card-title">硬件安全技术——概述1(安全威胁和硬件安全技术)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1190,7 +1193,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-28
                             </span>
                         <span class="publish-author">
                             
@@ -1204,12 +1207,11 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">密码算法</span>
+                    <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">硬件安全</span>
                     </a>
                     
                 </div>
@@ -1377,6 +1379,13 @@
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
 
 
 
