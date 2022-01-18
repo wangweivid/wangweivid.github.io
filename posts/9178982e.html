@@ -51,7 +51,7 @@
             <div class="brand-logo">
                 <a href="/" class="waves-effect waves-light">
                     
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    <img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="/medias/logo.png" class="logo-img" alt="LOGO">
                     
                     <span class="logo-span">摆渡沧桑</span>
                 </a>
@@ -173,7 +173,7 @@
 
     <div class="mobile-head bg-color">
         
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        <img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="/medias/logo.png" class="logo-img circle responsive-img">
         
         <div class="logo-name">摆渡沧桑</div>
         <div class="logo-desc">
@@ -557,7 +557,7 @@
 </ul>
 </li>
 </ul>
-<p>为了尽可能的解决不同的信息安全特性，我们可能需要组合使用多种密码技术。信息安全面临的威胁点和所对应的密码技术之间的关系可用下图来表示：<br><img src="https://img-blog.csdnimg.cn/20210506160358663.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>以上主要从类别分类包括6种密码技术：</p>
+<p>为了尽可能的解决不同的信息安全特性，我们可能需要组合使用多种密码技术。信息安全面临的威胁点和所对应的密码技术之间的关系可用下图来表示：<br><img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="https://img-blog.csdnimg.cn/20210506160358663.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>以上主要从类别分类包括6种密码技术：</p>
 <ol>
 <li>对称密码</li>
 <li>非对称密码</li>
@@ -570,10 +570,10 @@
 <h3 id="2、对称加密"><a href="#2、对称加密" class="headerlink" title="2、对称加密"></a>2、对称加密</h3><p>对称加密也称为共享密钥密码、私钥密码，是指用相同的密钥加密和解密时的方式。对称加密算法的优点是算法公开、计算量小、加密速度快、加密效率高。缺点是，交易双方都使用同样钥匙，密钥的分发和管理比较困难，安全性得不到保证。</p>
 <p>常用的对称加密算法有：<strong>DES、3DES、AES、Blowfish、RC5、IDEA</strong> 等，其中DES已经可以现实中被暴力破解，现在的使用最广泛的对称加密算法是 AES。密码算法可以分为分组密码和流密码两种。其中AES和DES都是属于分组密码。分组密码是将明文消息分成一定长度的N个分组，然后对每个分组进行加密。AES的分组长度是128比特，分组密码有很多模式，如果模式选择不恰当，就无法充分保证机密性。</p>
 <p> AES 是一种分组密码，即将明文消息拆分为一定长度的N个分组，然后对每个分组进行加密。AES 的分组长度固定为 128 比特，而密钥可以是 128/192/256比特。既然是固定长度的分组，那我们要加密任意长度的明文，就涉及到如何将多个分组进行迭代加密的问题，因此，就有了分组模式。常用的分组模式有：<strong>ECB、CBC、CFB、OFB、CTR 等</strong>。最常用的是ECB 和 CBC模式，因此，需要了解下这两种模式的用法和区别。</p>
-<p>ECB 全称为 Electronic CodeBook，电子密码本模式，是最简单的一种模式，它直接将明文分割成多个分组并逐个加密，如下图：<br><img src="https://img-blog.csdnimg.cn/20210506160557357.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br> 这种模式的优点就是简单、快速，加密和解密都支持并行计算。而缺点也比较明显，因为每个明文分组都各自独立地进行加密和解密，如果明文中存在多个相同的明文分组，则这些分组最终会被转换为相同的密文分组。这样一来，只要观察一下密文，就可以知道明文中存在怎样的重复组合，并可以以此为线索来破译密码。另外，攻击者可以通过改变密文分组的顺序，或删除密文分组，或替换掉密文分组，就可以达到对明文操纵的目的，而无需破译密码。在实际应用中，很少需要进行并行计算的加解密场景，因此，一般情况下不会采用这种分组模式，而更推荐采用 CBC 模式。</p>
-<p>CBC 全称为 Cipher Block Chaining，密文分组链接模式，是将前一个密文分组与当前明文分组的内容混合起来进行加密的，如下图：<br><img src="https://img-blog.csdnimg.cn/20210506160630995.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>在 CBC 模式中，首先将明文分组与前一个密文分组进行 XOR 运算，然后再进行加密。加密第一个明文分组时，由于不存在“前一个密文分组”，因此需要事先准备一个长度为一个分组的比特序列来代替“前一个密文分组”，这个比特序列称为初始化向量(initialization vector)，通常缩写为 IV。CBC 模式避免了 ECB 模式的弱点，明文的重复排列不会反映在密文中。不过，相比 ECB 模式，CBC 模式多了一个初始化向量IV。</p>
+<p>ECB 全称为 Electronic CodeBook，电子密码本模式，是最简单的一种模式，它直接将明文分割成多个分组并逐个加密，如下图：<br><img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="https://img-blog.csdnimg.cn/20210506160557357.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br> 这种模式的优点就是简单、快速，加密和解密都支持并行计算。而缺点也比较明显，因为每个明文分组都各自独立地进行加密和解密，如果明文中存在多个相同的明文分组，则这些分组最终会被转换为相同的密文分组。这样一来，只要观察一下密文，就可以知道明文中存在怎样的重复组合，并可以以此为线索来破译密码。另外，攻击者可以通过改变密文分组的顺序，或删除密文分组，或替换掉密文分组，就可以达到对明文操纵的目的，而无需破译密码。在实际应用中，很少需要进行并行计算的加解密场景，因此，一般情况下不会采用这种分组模式，而更推荐采用 CBC 模式。</p>
+<p>CBC 全称为 Cipher Block Chaining，密文分组链接模式，是将前一个密文分组与当前明文分组的内容混合起来进行加密的，如下图：<br><img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="https://img-blog.csdnimg.cn/20210506160630995.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>在 CBC 模式中，首先将明文分组与前一个密文分组进行 XOR 运算，然后再进行加密。加密第一个明文分组时，由于不存在“前一个密文分组”，因此需要事先准备一个长度为一个分组的比特序列来代替“前一个密文分组”，这个比特序列称为初始化向量(initialization vector)，通常缩写为 IV。CBC 模式避免了 ECB 模式的弱点，明文的重复排列不会反映在密文中。不过，相比 ECB 模式，CBC 模式多了一个初始化向量IV。</p>
 <p>另外，当最后一个明文分组的内容小于分组长度时，需要用一些特定的数据进行填充，填充方式也有很多种，常用的有两种：PKCS#5 和 PKCS#7。需要注意的就是，不同编程语言使用的填充方式可能会不同。比如，Java 是使用 PKCS#5，而 iOS 的 Objective-C 和 Swift 则采用 PKCS#7。不过，对于 AES 来说，两种填充方式是一样的。</p>
-<p>下图给出了AES加解密的流程示意图<br><img src="https://img-blog.csdnimg.cn/20210506161630288.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></p>
+<p>下图给出了AES加解密的流程示意图<br><img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="https://img-blog.csdnimg.cn/20210506161630288.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></p>
 <p>　　在实际应用中，我们一般都是在前端对密码或其他敏感数据进行加密，然后在后端进行解密。因为前后端涉及到不同语言的实现，为了保证前后端经过加解密后的结果一致，有几个参数是需要保持一致的：</p>
 <ul>
 <li><p>(1) <strong>密钥</strong>：密钥都要使用同一个，这点基本没有疑问，但需要注意的就是，密钥长度需要统一为 128/192/256 比特，即 16/24/32 字节。</p>
@@ -819,10 +819,10 @@
                         <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
                     </ul>
                     <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                        <img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
                     </div>
                     <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                        <img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
                     </div>
                 </div>
             </div>
@@ -1129,7 +1129,7 @@
                 <a href="/posts/e9912263.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014929.jpg" class="responsive-img" alt="密码学-公钥密码体系之背包算法1">
+                        <img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014929.jpg" class="responsive-img" alt="密码学-公钥密码体系之背包算法1">
                         
                         <span class="card-title">密码学-公钥密码体系之背包算法1</span>
                     </div>
@@ -1177,7 +1177,7 @@
                 <a href="/posts/9178982e.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014929.jpg" class="responsive-img" alt="密码学-基础知识概述">
+                        <img src="http://inews.gtimg.com/newsapp_ls/0/14437714106/0" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014929.jpg" class="responsive-img" alt="密码学-基础知识概述">
                         
                         <span class="card-title">密码学-基础知识概述</span>
                     </div>
@@ -1712,6 +1712,12 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 
 </html>
