@@ -51,7 +51,7 @@
             <div class="brand-logo">
                 <a href="/" class="waves-effect waves-light">
                     
-                    <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/medias/logo.png" class="logo-img" alt="LOGO">
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
                     
                     <span class="logo-span">摆渡沧桑</span>
                 </a>
@@ -173,7 +173,7 @@
 
     <div class="mobile-head bg-color">
         
-        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/medias/logo.png" class="logo-img circle responsive-img">
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
         
         <div class="logo-name">摆渡沧桑</div>
         <div class="logo-desc">
@@ -552,14 +552,14 @@
 <li>Crypto Engine只是解决了<strong>密码计算问题</strong>，只是单纯的拼凑组合是无法组成安全系统的</li>
 <li>各种<strong>高等级的认证</strong>要求底<strong>层的核心安全，密码实现</strong>需要由硬件来完成参与</li>
 </ol>
-<h5 id="2-传统安全解决方案对比"><a href="#2-传统安全解决方案对比" class="headerlink" title="2. 传统安全解决方案对比"></a>2. 传统安全解决方案对比</h5><p>三种方法：MCU，TEE，SE<br>方案无好坏之分，只有是否符合系统的应用场景来选择解决方案<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529112656464.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="2-传统安全解决方案对比"><a href="#2-传统安全解决方案对比" class="headerlink" title="2. 传统安全解决方案对比"></a>2. 传统安全解决方案对比</h5><p>三种方法：MCU，TEE，SE<br>方案无好坏之分，只有是否符合系统的应用场景来选择解决方案<br><img src="https://img-blog.csdnimg.cn/20210529112656464.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="3-SoC安全解决方案"><a href="#3-SoC安全解决方案" class="headerlink" title="3. SoC安全解决方案"></a>3. SoC安全解决方案</h5><ol>
 <li>将<strong>传统的SE的功能集成到SoC中</strong>，避免了<strong>板级走线</strong>带来的安全风险</li>
 <li><strong>避免了外部的数据传输性能的瓶颈</strong>，可以作为加速器使用</li>
 <li><strong>无需额外的芯片，降低了整体成本</strong></li>
 <li>目前手机AP厂商大多数使用该解决方案<h3 id="二、Root-of-Trust（信任根）"><a href="#二、Root-of-Trust（信任根）" class="headerlink" title="二、Root of Trust（信任根）"></a>二、Root of Trust（信任根）</h3><h5 id="1-信任根（RoT）是建立信任链的来源，也是SoC中安全根基"><a href="#1-信任根（RoT）是建立信任链的来源，也是SoC中安全根基" class="headerlink" title="1. 信任根（RoT）是建立信任链的来源，也是SoC中安全根基"></a>1. 信任根（RoT）是建立信任链的来源，也是SoC中安全根基</h5>其涉及<strong>安全启动</strong>、<strong>密钥管理</strong>两部分<h5 id="2-安全启动"><a href="#2-安全启动" class="headerlink" title="2. 安全启动"></a>2. 安全启动</h5></li>
 <li>硬件负责<strong>初始化</strong>安全启动过程中需要使用的<strong>模块</strong>，例如<strong>随机数发生器、安全传感器、NVM控制器</strong>等</li>
-<li><p>CPU从自身ROM中读取一级启动代码，对外部的二级Bootloader <strong>进行解密和验签</strong>，确保二级Bootloader的完整性和认证性<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/2021052911392989.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<li><p>CPU从自身ROM中读取一级启动代码，对外部的二级Bootloader <strong>进行解密和验签</strong>，确保二级Bootloader的完整性和认证性<br><img src="https://img-blog.csdnimg.cn/2021052911392989.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="3-密钥管理"><a href="#3-密钥管理" class="headerlink" title="3. 密钥管理"></a>3. 密钥管理</h5></li>
 <li><p>保护密钥的<strong>机密性</strong>，密钥一般存储在NVM中</p>
 </li>
@@ -580,7 +580,7 @@
 <li>智能电表是<strong>IoT典型安全敏感应用</strong><ol>
 <li>智能电表处于一个<strong>开放的不可控的环境</strong>下</li>
 <li>只能电表覆盖量极大，并且与基础民生相关，有着很高的价值</li>
-<li>智能电表是一个典型的基于<strong>MCU的SoC芯片</strong>，SoC中有着很多的<strong>防护措施保护RoT和运行安全</strong><br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529145628722.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>智能电表是一个典型的基于<strong>MCU的SoC芯片</strong>，SoC中有着很多的<strong>防护措施保护RoT和运行安全</strong><br><img src="https://img-blog.csdnimg.cn/20210529145628722.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
 </ol>
 </li>
 </ol>
@@ -785,10 +785,10 @@
                         <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
                     </ul>
                     <div id="alipay">
-                        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
                     </div>
                     <div id="wechat">
-                        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
                     </div>
                 </div>
             </div>
@@ -1095,7 +1095,7 @@
                 <a href="/posts/465465754.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术2">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术2">
                         
                         <span class="card-title">硬件安全技术——芯片安全设计技术2</span>
                     </div>
@@ -1143,7 +1143,7 @@
                 <a href="/posts/675857645754.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术4（PUF）">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术4（PUF）">
                         
                         <span class="card-title">硬件安全技术——芯片安全设计技术4（PUF）</span>
                     </div>
@@ -1677,12 +1677,6 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-<script>
-            window.imageLazyLoadSetting = {
-                isSPA: false,
-                preloadRatio: 1,
-                processImages: null,
-            };
-        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</body>
 
 </html>
