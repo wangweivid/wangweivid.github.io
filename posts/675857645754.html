@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="硬件安全技术——芯片安全设计技术4（PUF）, 摆渡沧桑">
-    <meta name="description" content="专注于Web,分享生活,分享知识">
+    <meta name="description" content="芯片算法架构师">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -51,7 +51,7 @@
             <div class="brand-logo">
                 <a href="/" class="waves-effect waves-light">
                     
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/medias/logo.png" class="logo-img" alt="LOGO">
                     
                     <span class="logo-span">摆渡沧桑</span>
                 </a>
@@ -173,12 +173,12 @@
 
     <div class="mobile-head bg-color">
         
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/medias/logo.png" class="logo-img circle responsive-img">
         
         <div class="logo-name">摆渡沧桑</div>
         <div class="logo-desc">
             
-            专注于Web,分享生活,分享知识
+            芯片算法架构师
             
         </div>
     </div>
@@ -549,11 +549,11 @@
             <div id="articleContent">
                 <h3 id="一、什么是PUF"><a href="#一、什么是PUF" class="headerlink" title="一、什么是PUF"></a>一、什么是PUF</h3><h5 id="1-物理不可克隆函数——PUF"><a href="#1-物理不可克隆函数——PUF" class="headerlink" title="1. 物理不可克隆函数——PUF"></a>1. 物理不可克隆函数——PUF</h5><p>物理不可克隆函数(即PUF：physical unclonable function)是一种芯片的<strong>数字指纹</strong>，用作半导体设备(如微处理器)的唯一身份，增强了芯片抵抗逆向的能力。</p>
 <p>PUF通常用于密码学。物理不可克隆函数是物理结构中体现的物理实体。目前，PUF通常用集成电路来实现，通常用于对安全性要求较高的应用中。</p>
-<p>从2010年到2013年，PUF在<strong>智能卡市场</strong>获得了关注，作为提供“<strong>硅指纹</strong>”的有前途的方式，创建了独特于个人智能卡的加密密钥。<br><img src="https://img-blog.csdnimg.cn/20210529150929642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>从2010年到2013年，PUF在<strong>智能卡市场</strong>获得了关注，作为提供“<strong>硅指纹</strong>”的有前途的方式，创建了独特于个人智能卡的加密密钥。<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529150929642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>现在，PUF成为商用FPGA中安全替代电池备份秘密密钥的存储器，如Xilinx Zynq Ultrascale ++ 和Altera。</p>
 <p>PUF取决于其物理微结构的独特性。<strong>这种微观结构取决于制造过程中引入的随机物理因素</strong>。这些因素是<strong>不可预测和不可控制</strong>的，这使得<strong>复制或克隆结构</strong>几乎是不可能的。</p>
 <p>但是这只是一项芯片设计模块功能，与<strong>TrustZone技术</strong>存在本质区别。</p>
-<h5 id="2-PUF特性"><a href="#2-PUF特性" class="headerlink" title="2. PUF特性"></a>2. PUF特性</h5><p><img src="https://img-blog.csdnimg.cn/20210529151253585.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="2-PUF特性"><a href="#2-PUF特性" class="headerlink" title="2. PUF特性"></a>2. PUF特性</h5><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529151253585.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ol>
 <li>唯一性<br>每一个芯片都是随机分布的、唯一的<ol>
 <li>防克隆性<br>芯片本身就是在芯片制造过程中由于不确定因素提取出来的，无法重新复制相同的PUF值</li>
@@ -563,7 +563,7 @@
 </ol>
 </li>
 </ol>
-<h5 id="3-PUF结构"><a href="#3-PUF结构" class="headerlink" title="3. PUF结构"></a>3. PUF结构</h5><p><img src="https://img-blog.csdnimg.cn/20210529152437793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="3-PUF结构"><a href="#3-PUF结构" class="headerlink" title="3. PUF结构"></a>3. PUF结构</h5><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529152437793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ol>
 <li><p>SRAM PUF<br>SRAM PUF利用SRAM Cell，首尾相接的反相器，在制造过程中，虽然电路架构完全一样，但是电路驱动能力有强弱之分，导致SRAM在上电时的Cell上0,1的分布是随机分布的，因此，利用这个特征可以提取出PUF</p>
 </li>
@@ -574,51 +574,51 @@
 <li><p>VIA PUF<br>实际设计中，VIA存在设计规则，利用设计规则，设计从小到大的孔洞，根据工艺的特性，来提取出VIA PUF</p>
 </li>
 </ol>
-<h5 id="5-与TrustZone技术的区别"><a href="#5-与TrustZone技术的区别" class="headerlink" title="5. 与TrustZone技术的区别"></a>5. 与TrustZone技术的区别</h5><p><img src="https://img-blog.csdnimg.cn/20210529153405434.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>TrustZone技术是一种安全执行区域概念，是<strong>芯片运行状态在共享资源、总线系统的安全态与非安全态</strong>的问题。基于TrustZone技术的<strong>TEEOS</strong>，形成一个可信执行环境，能够执行某些操作、保护某些资源。</p>
+<h5 id="5-与TrustZone技术的区别"><a href="#5-与TrustZone技术的区别" class="headerlink" title="5. 与TrustZone技术的区别"></a>5. 与TrustZone技术的区别</h5><p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529153405434.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>TrustZone技术是一种安全执行区域概念，是<strong>芯片运行状态在共享资源、总线系统的安全态与非安全态</strong>的问题。基于TrustZone技术的<strong>TEEOS</strong>，形成一个可信执行环境，能够执行某些操作、保护某些资源。</p>
 <p>PUF可以被用作<strong>唯一且不可篡改的设备标识符</strong>。PUF也可以用于安全密钥生成和存储以及随机源。</p>
-<h3 id="二、SRAM-PUF特点"><a href="#二、SRAM-PUF特点" class="headerlink" title="二、SRAM PUF特点"></a>二、SRAM PUF特点</h3><h5 id="1-SRAM-PUF"><a href="#1-SRAM-PUF" class="headerlink" title="1. SRAM PUF"></a>1. SRAM PUF</h5><p>深亚微米工艺上来说，制造过程中随机因素会影响电路特性，从而导致Cell上电时，0与1随机分布，这个随机分布，基本上是固定的分布，这样可以提取出PUF值<br><img src="https://img-blog.csdnimg.cn/20210529160021982.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="二、SRAM-PUF特点"><a href="#二、SRAM-PUF特点" class="headerlink" title="二、SRAM PUF特点"></a>二、SRAM PUF特点</h3><h5 id="1-SRAM-PUF"><a href="#1-SRAM-PUF" class="headerlink" title="1. SRAM PUF"></a>1. SRAM PUF</h5><p>深亚微米工艺上来说，制造过程中随机因素会影响电路特性，从而导致Cell上电时，0与1随机分布，这个随机分布，基本上是固定的分布，这样可以提取出PUF值<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529160021982.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="2-SRAM-PUF-Key存储"><a href="#2-SRAM-PUF-Key存储" class="headerlink" title="2. SRAM PUF Key存储"></a>2. SRAM PUF Key存储</h5><p>PUF Key在芯片生命周期使用阶段：</p>
 <ol>
-<li><p><strong>Enrollment——QTP</strong>(One Time Process)<br><img src="https://img-blog.csdnimg.cn/2021052916031822.png" alt="在这里插入图片描述"><br>从SRAM PUF中提取R值，经过PUF-IP，再经过AC过程（用于纠错），然后配合上电过程完成启动</p>
+<li><p><strong>Enrollment——QTP</strong>(One Time Process)<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/2021052916031822.png" alt="在这里插入图片描述"><br>从SRAM PUF中提取R值，经过PUF-IP，再经过AC过程（用于纠错），然后配合上电过程完成启动</p>
 </li>
-<li><p><strong>Key重构</strong>——每次上电都需要重新执行这个过程<br>R’值和之前R值是不一样的，由于芯片SRAM Cell 80%0,1值是确定的，但是也有少部分是随机变化的。通过AC纠错，可以保证每次SRAM生成的PUF Key是固定的。<br><img src="https://img-blog.csdnimg.cn/20210529160559890.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>前提条件</strong>：<br><img src="https://img-blog.csdnimg.cn/20210529160811663.png" alt="在这里插入图片描述"><br>a. AC和Key相关性是0，即从ACcode是无法推导出PUF key<br>b. 提取出的Key值需要达到一定的可靠性</p>
+<li><p><strong>Key重构</strong>——每次上电都需要重新执行这个过程<br>R’值和之前R值是不一样的，由于芯片SRAM Cell 80%0,1值是确定的，但是也有少部分是随机变化的。通过AC纠错，可以保证每次SRAM生成的PUF Key是固定的。<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529160559890.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>前提条件</strong>：<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529160811663.png" alt="在这里插入图片描述"><br>a. AC和Key相关性是0，即从ACcode是无法推导出PUF key<br>b. 提取出的Key值需要达到一定的可靠性</p>
 </li>
 </ol>
 <h5 id="3-SRAM-PUF-产品形态"><a href="#3-SRAM-PUF-产品形态" class="headerlink" title="3. SRAM PUF 产品形态"></a>3. SRAM PUF 产品形态</h5><ol>
 <li><p>软件形态</p>
 </li>
-<li><p>硬件IP形态<br><img src="https://img-blog.csdnimg.cn/20210529161152979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h5 id="4-SRAM-PUF生命使用周期"><a href="#4-SRAM-PUF生命使用周期" class="headerlink" title="4. SRAM PUF生命使用周期"></a>4. SRAM PUF生命使用周期</h5><p>软件的BROADKEY可以部署至各个生命周期的芯片上，<br><img src="https://img-blog.csdnimg.cn/20210529162213900.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以保障25年的生命周期</p>
+<li><p>硬件IP形态<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529161152979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="4-SRAM-PUF生命使用周期"><a href="#4-SRAM-PUF生命使用周期" class="headerlink" title="4. SRAM PUF生命使用周期"></a>4. SRAM PUF生命使用周期</h5><p>软件的BROADKEY可以部署至各个生命周期的芯片上，<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529162213900.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以保障25年的生命周期</p>
 </li>
 <li>可靠性</li>
 <li>制造型</li>
-<li>安全认证<br><img src="https://img-blog.csdnimg.cn/20210529162320386.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>安全认证<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529162320386.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
 </ol>
 <h3 id="三、SRAM-PUF应用"><a href="#三、SRAM-PUF应用" class="headerlink" title="三、SRAM PUF应用"></a>三、SRAM PUF应用</h3><h5 id="1-生成应用Key流"><a href="#1-生成应用Key流" class="headerlink" title="1. 生成应用Key流"></a>1. 生成应用Key流</h5><p>与SRAM PUF流程一致</p>
 <ol>
 <li>Enrollment</li>
-<li>Key 重构<br><img src="https://img-blog.csdnimg.cn/20210529162523286.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>Key 重构<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529162523286.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
 </ol>
 <h5 id="2-Wrap-Operation"><a href="#2-Wrap-Operation" class="headerlink" title="2. Wrap Operation"></a>2. Wrap Operation</h5><p>与之前一种的区别是，这次的Key值不作为应用密钥，<br>而是作为应用密钥的加密密钥来使用</p>
 <ol>
-<li><p>Enrollment<br><img src="https://img-blog.csdnimg.cn/20210529162823451.png" alt="在这里插入图片描述"></p>
+<li><p>Enrollment<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529162823451.png" alt="在这里插入图片描述"></p>
 </li>
-<li><p>Key 编程<br><img src="https://img-blog.csdnimg.cn/20210529162833386.png" alt="在这里插入图片描述"></p>
+<li><p>Key 编程<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529162833386.png" alt="在这里插入图片描述"></p>
 </li>
-<li><p>Key重构<br><img src="https://img-blog.csdnimg.cn/20210529162841362.png" alt="在这里插入图片描述"></p>
+<li><p>Key重构<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529162841362.png" alt="在这里插入图片描述"></p>
 </li>
 </ol>
-<p><img src="https://img-blog.csdnimg.cn/20210529162758116.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529162758116.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h5 id="3-防克隆的应用方案"><a href="#3-防克隆的应用方案" class="headerlink" title="3. 防克隆的应用方案"></a>3. 防克隆的应用方案</h5><p><strong>安全固件的导入：</strong></p>
 <ol>
-<li><p>BROADKEY集成在bootloader中，含有两个内容，一个是Bootloader，另外一个为存储密钥，为固件的解密密钥。除了部件以外，还有加解密库。<br><img src="https://img-blog.csdnimg.cn/20210529163535631.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<li><p>BROADKEY集成在bootloader中，含有两个内容，一个是Bootloader，另外一个为存储密钥，为固件的解密密钥。除了部件以外，还有加解密库。<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529163535631.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 </li>
-<li><p>把这个固件download到产品的flash中，然后需要通过<strong>BROADKEY</strong>把 <strong>AC code</strong>提取出来，存储到数据区<br><img src="https://img-blog.csdnimg.cn/20210529163606552.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<li><p>把这个固件download到产品的flash中，然后需要通过<strong>BROADKEY</strong>把 <strong>AC code</strong>提取出来，存储到数据区<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529163606552.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 </li>
-<li>将BROADKEY生成Key将固件的<strong>解密密钥进行加密</strong>以后，存储到flash数据区<br><img src="https://img-blog.csdnimg.cn/20210529163741262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
-<li>用固件的解密密钥将初始导入的加密固件解密出来，存储至可执行区域中<br><img src="https://img-blog.csdnimg.cn/20210529163917535.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
-<li>因为固件已经解密完成，因此把bootloader中的解密密钥删除，同时导入固件的加密密钥也可以删除<br><img src="https://img-blog.csdnimg.cn/2021052916401965.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
-<li>最后，用PUF Key生成MAC值，存储到数据区，以上为安全固件的导入过程<br><img src="https://img-blog.csdnimg.cn/20210529164422385.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>使用过程</strong>：<br>a. 在安装过程中，固件已经装好。<br>b. 芯片上电后，bootloader可以都会AC code<br>c. 同时生成PUF key，同时利用PUF key来对固件进行计算，同时与之前MAC值进行比较。如果正确则可以执行固件，比较错误，则会进入错误状态。<br><img src="https://img-blog.csdnimg.cn/20210529164930340.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>固件升级</strong><br><img src="https://img-blog.csdnimg.cn/20210529165054791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>防克隆原理</strong><br><img src="https://img-blog.csdnimg.cn/20210529165200374.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如果将芯片中固件放入另一个固件，即使两个芯片完全一样。<br>每次上电中，BROADKEY则会提取出PUF Key，如果芯片一旦换了之后，读取AC code进行PUF Key的提取，就会发现AC code并不是芯片本身的AC code，所以会报错。则会影响下一步的过程。因此，可以防克隆的攻击。</li>
+<li>将BROADKEY生成Key将固件的<strong>解密密钥进行加密</strong>以后，存储到flash数据区<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529163741262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>用固件的解密密钥将初始导入的加密固件解密出来，存储至可执行区域中<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529163917535.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>因为固件已经解密完成，因此把bootloader中的解密密钥删除，同时导入固件的加密密钥也可以删除<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/2021052916401965.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>最后，用PUF Key生成MAC值，存储到数据区，以上为安全固件的导入过程<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529164422385.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>使用过程</strong>：<br>a. 在安装过程中，固件已经装好。<br>b. 芯片上电后，bootloader可以都会AC code<br>c. 同时生成PUF key，同时利用PUF key来对固件进行计算，同时与之前MAC值进行比较。如果正确则可以执行固件，比较错误，则会进入错误状态。<br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529164930340.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>固件升级</strong><br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529165054791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>防克隆原理</strong><br><img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://img-blog.csdnimg.cn/20210529165200374.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如果将芯片中固件放入另一个固件，即使两个芯片完全一样。<br>每次上电中，BROADKEY则会提取出PUF Key，如果芯片一旦换了之后，读取AC code进行PUF Key的提取，就会发现AC code并不是芯片本身的AC code，所以会报错。则会影响下一步的过程。因此，可以防克隆的攻击。</li>
 </ol>
 <h3 id="四、结论"><a href="#四、结论" class="headerlink" title="四、结论"></a>四、结论</h3><p>SRAM PUF的特征</p>
 <ol>
@@ -822,10 +822,10 @@
                         <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
                     </ul>
                     <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
                     </div>
                     <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
                     </div>
                 </div>
             </div>
@@ -1132,7 +1132,7 @@
                 <a href="/posts/675868658655754.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术3">
+                        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术3">
                         
                         <span class="card-title">硬件安全技术——芯片安全设计技术3</span>
                     </div>
@@ -1180,7 +1180,7 @@
                 <a href="/posts/e9913346.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——概述1(安全威胁和硬件安全技术)">
+                        <img src="https://cdn.jsdelivr.net/gh/shw2018/cdn@1.0/sakura/img/loader/orange.progress-bar-stripe-loader.svg" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——概述1(安全威胁和硬件安全技术)">
                         
                         <span class="card-title">硬件安全技术——概述1(安全威胁和硬件安全技术)</span>
                     </div>
@@ -1721,6 +1721,12 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 
 </html>
