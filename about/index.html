@@ -423,21 +423,21 @@
                     <div class="post-statis col l4 hide-on-med-and-down" data-aos="zoom-in-right">
                         
 <div class="statis">
-    <span class="count"><a href="/">9</a></span>
+    <span class="count"><a href="/">24</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories">1</a></span>
+    <span class="count"><a href="/categories">3</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">2</a></span>
+    <span class="count"><a href="/tags">10</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -453,21 +453,21 @@
                                 <div class="post-statis hide-on-large-only" data-aos="zoom-in-right">
                                     
 <div class="statis">
-    <span class="count"><a href="/">9</a></span>
+    <span class="count"><a href="/">24</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories">1</a></span>
+    <span class="count"><a href="/categories">3</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">2</a></span>
+    <span class="count"><a href="/tags">10</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -504,9 +504,6 @@
 
 
 
-<a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-    <i class="fa fa-qq"></i>
-</a>
 
                                 </div>
                             </div>
@@ -542,9 +539,6 @@
 
 
 
-<a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-    <i class="fa fa-qq"></i>
-</a>
 
                         </div>
                     </div>
@@ -611,7 +605,7 @@
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,0,0,0,8,1,0,0,0,0,0,0,0],
+                data: [0,0,0,0,8,5,11,0,0,0,0,0,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -653,7 +647,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"密码学","value":9}],
+                data: [{"name":"密码学","value":9},{"name":"数字IC设计","value":10},{"name":"SOC","value":5}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -677,7 +671,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["硬件安全","密码算法"]
+                data: ["硬件安全","Verilog","AMBA","跨时钟域","密码算法","分频器","边沿检测","流水线握手协议","无毛刺时钟MUX设计","脉冲同步器"]
             }
         ],
         yAxis: [
@@ -690,7 +684,7 @@
                 type: 'bar',
                 color: ['#82d3f4'],
                 barWidth : 18,
-                data: [6,3],
+                data: [6,6,5,4,3,2,1,1,1,1],
                 markPoint: {
                     symbolSize: 45,
                     data: [{
@@ -719,6 +713,32 @@
     tagsChart.setOption(tagsOption);
 </script>
 
+
+                
+                
+<div class="my-projects">
+    <div class="title center-align" data-aos="zoom-in-up">
+        <i class="fas fa-gift"></i>&nbsp;&nbsp;我的项目
+    </div>
+    <div class="row">
+        
+        
+        <div class="col s12 m6 l4" data-aos="fade-up">
+            <div class="info center-align">
+                <a href="https://github.com/wangweivid/RSA-Montgomery-Algorithm-Hardware-implement" class="icon"
+                   style="background: linear-gradient(to bottom right, #66BB6A 0%, #81C784 100%)" target="_blank">
+                    <i class="fas fa-rocket"></i>
+                </a>
+                <div class="info-title">
+                    <a href="https://github.com/wangweivid/RSA-Montgomery-Algorithm-Hardware-implement" target="_blank">芯片安全IP（RSA-4096）</a>
+                </div>
+                <div class="info-desc">基于Montgomery算法的高速、可配置RSA密码IP核硬件设计。</div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
 
                 
 
@@ -839,9 +859,6 @@
 
 
 
-<a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-    <i class="fa fa-qq"></i>
-</a>
 </div>
     </div>
 </footer>
