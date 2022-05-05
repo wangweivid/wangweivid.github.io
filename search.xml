@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>公钥密码体系之Elgamal算法3</title>
+      <link href="/posts/e9989081226666663.html"/>
+      <url>/posts/e9989081226666663.html</url>
+      
+        <content type="html"><![CDATA[<p>公钥密码体系之Elgamal算法3</p><h3 id="1-ElGamal算法"><a href="#1-ElGamal算法" class="headerlink" title="1. ElGamal算法"></a>1. ElGamal算法</h3><p>ElGamal算法是基于离散对数求解困难的加密体系。与RSA算法一样，都能用于数据加密和数据签名。但是两者的原理不一样，ELGmal算法基于离散对数问题，而RSA算法基于大数分级困难问题。此外，对于ElGamal算法对于使用相同的私钥，对相同的明文进行加密，每次得到的加密结果却不一样，这是ElGamal算法另一个重要特征。</p><h3 id="2-ElGamal算法基本原理"><a href="#2-ElGamal算法基本原理" class="headerlink" title="2. ElGamal算法基本原理"></a>2. ElGamal算法基本原理</h3><h5 id="2-1-ElGamal密钥生成"><a href="#2-1-ElGamal密钥生成" class="headerlink" title="2.1 ElGamal密钥生成"></a>2.1 ElGamal密钥生成</h5><ol><li>随机选择一个大素数$p$，且要求 $p-1$有大素数因子。再选择一个模$p$的本原元$g$。将$p$和$g$公开。</li><li>随机选择一个整数$x$作为<strong>私钥</strong>，$2≤x≤ p-2$ </li><li>计算<script type="math/tex">y=g^x mod  p</script><br>取$y$为<strong>公钥</strong>。</li></ol><h5 id="2-2-ElGamal加密过程"><a href="#2-2-ElGamal加密过程" class="headerlink" title="2.2 ElGamal加密过程"></a>2.2 ElGamal加密过程</h5><ol><li>对明文$M$进行加密，随机地选取一个整数$k$，$2≤k≤p-2$,并要求$k$与$p-1$互素</li><li>计算：<script type="math/tex; mode=display">a＝g^k mod p$$   $$b＝M*y^k mod p</script></li><li>密文对为$（a,b）$，并且密文的大小时明文的两倍。</li></ol><h5 id="2-3-ElGamal解密过程"><a href="#2-3-ElGamal解密过程" class="headerlink" title="2.3 ElGamal解密过程"></a>2.3 ElGamal解密过程</h5><ol><li>由密文可得明文$M$，计算<script type="math/tex; mode=display">M=b/a^x mod p</script>其中$x$为私钥。</li><li>解密过程和Diffie-Hellman密钥交换过程极为类似。</li><li>下面给出了加密和解密过程<br><img src="https://img-blog.csdnimg.cn/56aa51c3b6534b5ea1b725cf9e60ffef.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pGG5rih5rKn5qGR,size_16,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></li></ol><h5 id="2-4-ElGamal签名过程"><a href="#2-4-ElGamal签名过程" class="headerlink" title="2.4 ElGamal签名过程"></a>2.4 ElGamal签名过程</h5><h5 id="签名："><a href="#签名：" class="headerlink" title="签名："></a>签名：</h5><ol><li>对消息$M$进行签名时，首先选择一个随机数$k$,并要求$k$与$p-1$互素。</li><li>计算：<script type="math/tex; mode=display">a=g^kmodp</script></li><li>利用扩展欧几里得算法，求出b:<script type="math/tex; mode=display">M=(xa+kb)mod(p-1)</script></li><li>签名结果为（a,b）。需要注意的是，k需要保密。</li></ol><h6 id="验签："><a href="#验签：" class="headerlink" title="验签："></a>验签：</h6><ol><li>需要验证下面公式成立：<script type="math/tex; mode=display">y^aa^bmodp=g^Mmodp</script></li><li>下面给出签名和验签的大致流程<br><img src="https://img-blog.csdnimg.cn/784bd0728d0b40dba0f014c5b834f714.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pGG5rih5rKn5qGR,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></li><li>需要注意的是，在每次使用ElGamal算法进行签名时，都需要更新随机数k。<h6 id="具体案例："><a href="#具体案例：" class="headerlink" title="具体案例："></a>具体案例：</h6></li><li>选择$p=11,g=2$,私人秘钥$x=8$,计算：<script type="math/tex; mode=display">y=g^xmodp => y=2^8 mod 11 = 3</script></li><li>因此，公开秘钥是$y=3,g=2,p=11$</li><li>对消息$M=5$进行签名，首先随机选择随机数$k=9$，验证$gcd（9,10）=1$，计算：<script type="math/tex; mode=display">a=g^kmodp=2^9mod11=6</script>利用欧几里得算法求b:<script type="math/tex; mode=display">M=(ax+kbmod(p-1)) $$  $$ 5=(8*6 + 9*b)mod10</script>求解得到$b=3$,于是签名对$(a,b)$为$（6,3）$</li><li>验签上述签名的正确性，只需要验证下面：<script type="math/tex; mode=display">y^aa^bmodp=g^Mmodp$$ $$3^66^3mod11=2^5mod11</script></li></ol><h5 id="2-5-ElGamal算法软件算法实现的快慢"><a href="#2-5-ElGamal算法软件算法实现的快慢" class="headerlink" title="2.5 ElGamal算法软件算法实现的快慢"></a>2.5 ElGamal算法软件算法实现的快慢</h5><p>具有160 bit的指数的ElGamal算法对不同模数长度的快慢表<br><img src="https://img-blog.csdnimg.cn/34a895e2e42e48c8ba8d2614073f9688.png" alt="在这里插入图片描述"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 密码学 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 密码算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>AMBA总线协议（五）—— AXI3 协议接口信号介绍1</title>
       <link href="/posts/917253435abaaa111.html"/>
       <url>/posts/917253435abaaa111.html</url>

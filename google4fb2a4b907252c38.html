@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="AMBA总线协议（五）—— AXI3 协议接口信号介绍1, 摆渡沧桑">
+    <meta name="keywords" content="摆渡沧桑">
     <meta name="description" content="芯片算法架构师">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>AMBA总线协议（五）—— AXI3 协议接口信号介绍1 | 摆渡沧桑</title>
+    <title>摆渡沧桑</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -369,12 +369,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">AMBA总线协议（五）—— AXI3 协议接口信号介绍1</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -488,25 +488,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/AMBA/">
-                                <span class="chip bg-color">AMBA</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/SOC/" class="post-category">
-                                SOC
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -515,14 +502,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-12
+                    2022-05-05
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-01-21
+                    2022-05-05
                 </div>
                 
 
@@ -549,62 +536,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <ol>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/107511746">AMBA总线协议（一）—— 一文看懂APB总线协议</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110235612">AMBA总线协议（二）—— 一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631">AMBA总线协议（三）—— 一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110673909">AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110871257">AMBA总线协议（五）—— AXI3 协议接口信号介绍1</a><h4 id="1-AXI-协议介绍："><a href="#1-AXI-协议介绍：" class="headerlink" title="1. AXI 协议介绍："></a>1. AXI 协议介绍：</h4><h6 id="a-AXI协议"><a href="#a-AXI协议" class="headerlink" title="a. AXI协议"></a>a. AXI协议</h6></li>
-<li>AMBA AXI协议主要用于高性能，高频率系统设计，并且有很多特性支持AXI可以应用于高速的互连架构</li>
-<li>最新AMBA 接口（指AXI 3）主要目标：</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">1) 高带宽、低延迟的设计
-2) 不需要桥接器就可以工作在高频 
-3) 满足更广的组件接口的要求
-4) 很适合具有初始化延迟高的内存控制器
-5) 灵活性，在互连架构的实现上具有灵活性
-6) 向下兼容AHB，APB接口<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ol>
-<li>AXI协议的关键特征：</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">1) 地址控制和数据相分离；
-2) 支持使用字节STROBE进行非对齐数据传输
-3) 突发事务只需要提供地址
-4) 读、写数据通道分离，实现更低成本的直接访问内存（DMA）
-5) 支持多Outstanding 地址
-6) 支持乱序传输实现
-7) 流水线<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h6 id="b-接口信号"><a href="#b-接口信号" class="headerlink" title="b. 接口信号"></a>b. 接口信号</h6><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/2020120813320525.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h4 id="2-AXI通道"><a href="#2-AXI通道" class="headerlink" title="2. AXI通道"></a>2. AXI通道</h4><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/202012081326328.png" alt="在这里插入图片描述"></p>
-<ol>
-<li>读、写地址通道</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">i) 读写事务都有自己单独的读、写地址通道，地址通道携带传输所需的所有的地址和控制信息
-ii) AXI协议支持：
-	One. 不同长度LEN的突发，1-16传输&#x2F;一个burst
-	Two. 突发传输SIZE 8- 1024 bit
-	Three. 回环WRAP，增量INCR，非增量NON-INCR
-	Four. 原子操作，使用独占、锁定访问
-	Five. 系统级cache,和buffer控制
-	Six. 安全和私有访问<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ol>
-<li>读数据通道</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">读数据通道将读数据和读反应信息将从设备发送给主设备
-	i) 数据bus，位宽8-1024 bit
-	ii) 读响应，表明读传输事务完成的状态<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ol>
-<li>写数据通道</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">写数据通道，将写数据从主机发送到从机:
-	i) 数据bus，位宽8-1024 bit
-	ii) 一个字节通道strobe，表明数据bus上哪一个字节是有效的<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ol>
-<li>写响应通道</li>
-</ol>
-<pre class="line-numbers language-none"><code class="language-none">写响应通道提供了写传输事务中，从机回应的信息
-每次burst完成后会提供完成信号，并不是一次burst传输中，每次传输都会给出，而只在最后完成时给出；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
+                google-site-verification: google4fb2a4b907252c38.html
                 
             </div>
             <hr/>
@@ -630,7 +562,7 @@ ii) AXI协议支持：
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://www.weivid.vip/posts/917253435abaaa111.html">https://www.weivid.vip/posts/917253435abaaa111.html</a>
+                    <a href="https://www.weivid.vip/google4fb2a4b907252c38.html">https://www.weivid.vip/google4fb2a4b907252c38.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -667,11 +599,7 @@ ii) AXI协议支持：
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/AMBA/">
-                                    <span class="chip bg-color">AMBA</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -1102,64 +1030,18 @@ ii) AXI协议支持：
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/posts/e9989081226666663.html">
-                    <div class="card-image">
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928014929.jpg" class="responsive-img" alt="公钥密码体系之Elgamal算法3">
-                        
-                        <span class="card-title">公钥密码体系之Elgamal算法3</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-01
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" class="post-category">
-                                    密码学
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">密码算法</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/posts/91724fff66645676547745745.html">
+                <a href="/google4fb2a4b907252c38.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg" class="responsive-img" alt="AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）">
                         
-                        <span class="card-title">AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</span>
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1170,28 +1052,55 @@ ii) AXI协议支持：
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-11
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-05
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/SOC/" class="post-category">
-                                    SOC
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Weivid Wang
                             
                         </span>
                     </div>
                 </div>
+
                 
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/AMBA/">
-                        <span class="chip bg-color">AMBA</span>
-                    </a>
-                    
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
+            </div>
+            <div class="card">
+                <a href="/google4fb2a4b907252c38.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        
+                        <span class="card-title"></span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Weivid Wang
+                            
+                        </span>
+                    </div>
                 </div>
+
                 
             </div>
         </div>
