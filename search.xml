@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>公钥密码体系之Elgamal算法3</title>
+      <title>密码学之公钥密码体系（3）：Elgamal算法</title>
       <link href="/posts/e9989081226666663.html"/>
       <url>/posts/e9989081226666663.html</url>
       
@@ -391,31 +391,6 @@
     
     
     <entry>
-      <title>密码学——公钥密码体系之RSA算法2</title>
-      <link href="/posts/e99890812263.html"/>
-      <url>/posts/e99890812263.html</url>
-      
-        <content type="html"><![CDATA[<p>密码学——公钥密码体系之RSA算法2</p><h3 id="一、RSA算法背景"><a href="#一、RSA算法背景" class="headerlink" title="一、RSA算法背景"></a>一、RSA算法背景</h3><p>上一讲介绍了公钥密码体系中的背包算法，在Merkle背包算法出现后不久，便出现了第一个比较完善的公开秘钥算法RSA，它可以用于加密也可以用于数字签名（一般常用作数字签名，速度较快）。</p><p>RSA算法以它的三个发明者Ron Rivest，Adi Shamir和Leonard Adleman的名字命名。</p><p>RSA的安全基于大数分解的难度。其公开密钥和私人秘钥是一对大素数的函数。从一个公开密钥和密文中恢复出明文的难度等价于分解两个大素数之积。</p><h3 id="二、RSA算法描述"><a href="#二、RSA算法描述" class="headerlink" title="二、RSA算法描述"></a>二、RSA算法描述</h3><ol><li>为了产生两个密钥，选取两个大素数$p$和$q$.为了获得最大程度的安全性，两数的长度一样。计算乘积。<script type="math/tex; mode=display">n=pq</script></li><li>然后随机算去加密密钥$e$，使得 $e$ 和$(p-1)(q-1)$互素。最后用欧几里得扩展算法计算解密密钥$d$,以满足<script type="math/tex; mode=display">ed = 1 mod (p-1)(q-1)</script>则<script type="math/tex; mode=display">d=e^{-1}mod(p-1)(q-1)</script>其中，$d$与$n$也互素。$e$和$n$是公开密钥，两个素数$p$和$q$不再需要，他们应该被舍弃，但绝不能泄露</li></ol><p>加密消息$m$时，首先将它分成比n小的数据分组（采用二进制数，选取小于n的2的最大次幂）。也就是说，如果$p$和$q$为100位素数，那么n将有200位，每个消息分组mi应小于200位长（如果需要加密固定的消息分组，那么可以在它的左边填充0，并确保该数比n小）。加密后的密文c，将由相同长度的分组ci组成。加密公式简化为：</p><script type="math/tex; mode=display">c_i=m_i^emod(n)</script><p>解密消息时，取每一个加密后的分组ci并计算：<br><img src="https://img-blog.csdnimg.cn/20210529205337710.png" alt><br>这个公式能恢复明文，如下<br><img src="https://img-blog.csdnimg.cn/20210529205620487.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>消息用d加密就像用e解密一样容易。</p><p><strong>举一个简单的例子</strong>：<br>选择$p=47$，$q=71$，那么</p><script type="math/tex; mode=display">n=pq=3347</script><p>加密密钥$e$必须与$(p-1)(q-1)=46*70=3220$没有公因子。<br>随机选取$e=79$，那么：</p><script type="math/tex; mode=display">d=79^{-1}mod3220=1019</script><p>该结果使用扩展欧几里得算法求出。公开$e$和$n$，将$d$保密，丢弃$p$和$q$。</p><p>对于加密消息：$m=688232687966668003$<br>首先将其分为小的分组。在此例中，按3位数字一组就可以进行加密。这个消息将分成6个分组m，进行加密：<br>$m_1=688$<br>$m_2=232$<br>$m_3=687$<br>$m_4=966$<br>$m_5=668$<br>$m_6=003$</p><p>第一个分组加密为：<br>$688^{79}mod3337 = 1570 = c_1$<br>对随后的分组进行同样的运算产生加密后的密文：</p><script type="math/tex; mode=display">c=15702756209122762423158</script><p>解密消息时需要用解密密钥1019进行相同的指数运算。因而</p><script type="math/tex; mode=display">1570^{1019}mod3337=688=m_1</script><p>消息的其余部分可用同样的方法恢复出来</p><h3 id="三、RSA的硬件实现"><a href="#三、RSA的硬件实现" class="headerlink" title="三、RSA的硬件实现"></a>三、RSA的硬件实现</h3><ol><li>已有的RSA芯片<br><img src="https://img-blog.csdnimg.cn/20210530171636900.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></li><li><p>RSA速度<br>RSA硬件实现时，RSA比DES慢大约1000倍。最快的具有512位模数的VLSI硬件实现的吞吐量为64Kbit每秒。也有一些实现1024位RSA的加密芯片。如今设计512bit的芯片可以达到1Mb/s，该芯片在1995年制成。在智能卡中已经大量实现了RSA，这些实现都比较慢。</p><p> 有兴趣的读者可以关注我之前的专门RSA硬件设计专栏：<br><a href="https://blog.csdn.net/vivid117/article/details/114192073?spm=1001.2014.3001.5501">基于Montgomery算法的高速、可配置RSA密码IP核硬件设计系列博文</a></p><p> 软件实现时，DES大约比RSA快100倍。这些数字会随着技术发展而发生相应的变化，但RSA的速度将永远不会达到对称算法的速度。下表给出了软件实现RSA算法的情况：<br><img src="https://img-blog.csdnimg.cn/20210530172239956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></p></li><li>RSA硬件和软件加速<br>对于RSA硬件实现，可以采用<strong>蒙哥马利算法</strong>来加速硬件。</li></ol><p>如果很适当的选择了一个$e$值，RSA加密速度将快很多。最常用的三个$e$值为3,17和65537（2^16+1）（二进制表示只有两个1，所以只需要17次乘法来实现指数运算）。<br><strong>X.509</strong>中建议采用65537；<br><strong>PEM</strong>中建议采用3；<br><strong>PKCS#1</strong>中建议采用3和65537；<br>即便是一组用户使用同样的$e$值，采用这三个值中的任何一个都不存在安全问题<br>假如已经保存了$p$和$g$值，以及诸如$dmod(p-1)、q^{-1}dmod(p-1)、modp$这类数，那么运用<strong>中国剩余定理</strong>就能使私人密钥的运行速度加快。这些数很容易从私人密钥和公开密钥中计算出来。</p><h3 id="四、RSA的安全性"><a href="#四、RSA的安全性" class="headerlink" title="四、RSA的安全性"></a>四、RSA的安全性</h3><p>对于RSA的安全性完全依赖于大数分解的难度，从技术上来说，这是不正确的，只是一种推测。<br>从数学上从未证明过，需要分解n才能从$e$和$c$中计算出$m$。用一种完全不同方法来对RSA进行密码分析还只是一种想象。如果这种新方法能让密码分析者推算出$d$,也可以作为分解大数的一种新方法。</p><p>也可以通过猜测$(p-1)(q-1)$的值来攻击RSA。但这种攻击没有分解n容易。</p><p>对于持有极端怀疑态度的人来说，有些RSA的变型已经被证明和大数分解同样困难。分解$n$是最显而易见的攻击方法。敌方手中有公开秘钥$e$和模数$n$，要找到解密密钥$d$，他们就必须分解$n$，目前，<strong>129位十进制数字的模数是能分解的临界数。所以，n应该大于这个数</strong>。</p><p>对于密码分析者来说，有可能尝试每一种可能的d，直到获得正确的一个。这种穷举攻击还没有试图分解$n$更有效。</p><p>随着时间的推移，声称已经找到破译RSA的简单方法，但直到现在这些宣称还没有强有力的证据。</p><p>还有其他的担心，大多数用于计算素数$p$和$q$的算法是有概率的，假如$p$和$q$不是素数又如何？首先可以找出这件事发生尽可能小的概率。如果不是素数，这就意味着加密和解密均不能正确的工作，可以立即放弃。出现这种问题的主要原因是素性检测是基于概率来检测的。</p><h3 id="五、对RSA的选择密文攻击"><a href="#五、对RSA的选择密文攻击" class="headerlink" title="五、对RSA的选择密文攻击"></a>五、对RSA的选择密文攻击</h3><p>有些攻击专门针对RSA的实现。他们不攻击算法本身，而是<strong>攻击协议</strong>。仅使用RSA而不重视它的实现时不够的。实现的细节其实也很重要</p><p><strong>情形1——攻击协议</strong>：Eve在Alice的通信过程中进行窃听，设法成功选取一个用她的公开秘钥加密的密文$c$，Eve想读出消息。从数学角度来说，她想得到$m$，这里：</p><script type="math/tex; mode=display">m=c^d$$为了恢复$m$，首先先选取一个随机数$r$，满足$r$小于$n$。他得到的Alice的公开秘钥$e$,然后计算：$$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r=x^dmodn$<br>现在，Eve让Alice用她的私人秘钥对y签名，以便解密$y$（Alice必须对消息，而非消息的散列值签名）。记住，Alice以前从未见过$y$.Alice发送给Eve:</p><script type="math/tex; mode=display">u=y^dmodn</script><p>现在Eve计算：</p><script type="math/tex; mode=display">tumodn=r^{-1}y^dmodn=r^{-1}x^dc^dmodn=c^dmodn=m</script><p>那么Eve，现在就获得了m。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 密码学 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 密码算法 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>数字IC设计1——跨时钟域篇1（概述）</title>
       <link href="/posts/9.178982e+84.html"/>
       <url>/posts/9.178982e+84.html</url>
@@ -433,6 +408,31 @@
         <tags>
             
             <tag> 跨时钟域 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>密码学之公钥密码体系（2）：RSA算法2</title>
+      <link href="/posts/e99890812263.html"/>
+      <url>/posts/e99890812263.html</url>
+      
+        <content type="html"><![CDATA[<p>密码学——公钥密码体系之RSA算法2</p><h3 id="一、RSA算法背景"><a href="#一、RSA算法背景" class="headerlink" title="一、RSA算法背景"></a>一、RSA算法背景</h3><p>上一讲介绍了公钥密码体系中的背包算法，在Merkle背包算法出现后不久，便出现了第一个比较完善的公开秘钥算法RSA，它可以用于加密也可以用于数字签名（一般常用作数字签名，速度较快）。</p><p>RSA算法以它的三个发明者Ron Rivest，Adi Shamir和Leonard Adleman的名字命名。</p><p>RSA的安全基于大数分解的难度。其公开密钥和私人秘钥是一对大素数的函数。从一个公开密钥和密文中恢复出明文的难度等价于分解两个大素数之积。</p><h3 id="二、RSA算法描述"><a href="#二、RSA算法描述" class="headerlink" title="二、RSA算法描述"></a>二、RSA算法描述</h3><ol><li>为了产生两个密钥，选取两个大素数$p$和$q$.为了获得最大程度的安全性，两数的长度一样。计算乘积。<script type="math/tex; mode=display">n=pq</script></li><li>然后随机算去加密密钥$e$，使得 $e$ 和$(p-1)(q-1)$互素。最后用欧几里得扩展算法计算解密密钥$d$,以满足<script type="math/tex; mode=display">ed = 1 mod (p-1)(q-1)</script>则<script type="math/tex; mode=display">d=e^{-1}mod(p-1)(q-1)</script>其中，$d$与$n$也互素。$e$和$n$是公开密钥，两个素数$p$和$q$不再需要，他们应该被舍弃，但绝不能泄露</li></ol><p>加密消息$m$时，首先将它分成比n小的数据分组（采用二进制数，选取小于n的2的最大次幂）。也就是说，如果$p$和$q$为100位素数，那么n将有200位，每个消息分组mi应小于200位长（如果需要加密固定的消息分组，那么可以在它的左边填充0，并确保该数比n小）。加密后的密文c，将由相同长度的分组ci组成。加密公式简化为：</p><script type="math/tex; mode=display">c_i=m_i^emod(n)</script><p>解密消息时，取每一个加密后的分组ci并计算：<br><img src="https://img-blog.csdnimg.cn/20210529205337710.png" alt><br>这个公式能恢复明文，如下<br><img src="https://img-blog.csdnimg.cn/20210529205620487.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>消息用d加密就像用e解密一样容易。</p><p><strong>举一个简单的例子</strong>：<br>选择$p=47$，$q=71$，那么</p><script type="math/tex; mode=display">n=pq=3347</script><p>加密密钥$e$必须与$(p-1)(q-1)=46*70=3220$没有公因子。<br>随机选取$e=79$，那么：</p><script type="math/tex; mode=display">d=79^{-1}mod3220=1019</script><p>该结果使用扩展欧几里得算法求出。公开$e$和$n$，将$d$保密，丢弃$p$和$q$。</p><p>对于加密消息：$m=688232687966668003$<br>首先将其分为小的分组。在此例中，按3位数字一组就可以进行加密。这个消息将分成6个分组m，进行加密：<br>$m_1=688$<br>$m_2=232$<br>$m_3=687$<br>$m_4=966$<br>$m_5=668$<br>$m_6=003$</p><p>第一个分组加密为：<br>$688^{79}mod3337 = 1570 = c_1$<br>对随后的分组进行同样的运算产生加密后的密文：</p><script type="math/tex; mode=display">c=15702756209122762423158</script><p>解密消息时需要用解密密钥1019进行相同的指数运算。因而</p><script type="math/tex; mode=display">1570^{1019}mod3337=688=m_1</script><p>消息的其余部分可用同样的方法恢复出来</p><h3 id="三、RSA的硬件实现"><a href="#三、RSA的硬件实现" class="headerlink" title="三、RSA的硬件实现"></a>三、RSA的硬件实现</h3><ol><li>已有的RSA芯片<br><img src="https://img-blog.csdnimg.cn/20210530171636900.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></li><li><p>RSA速度<br>RSA硬件实现时，RSA比DES慢大约1000倍。最快的具有512位模数的VLSI硬件实现的吞吐量为64Kbit每秒。也有一些实现1024位RSA的加密芯片。如今设计512bit的芯片可以达到1Mb/s，该芯片在1995年制成。在智能卡中已经大量实现了RSA，这些实现都比较慢。</p><p> 有兴趣的读者可以关注我之前的专门RSA硬件设计专栏：<br><a href="https://blog.csdn.net/vivid117/article/details/114192073?spm=1001.2014.3001.5501">基于Montgomery算法的高速、可配置RSA密码IP核硬件设计系列博文</a></p><p> 软件实现时，DES大约比RSA快100倍。这些数字会随着技术发展而发生相应的变化，但RSA的速度将永远不会达到对称算法的速度。下表给出了软件实现RSA算法的情况：<br><img src="https://img-blog.csdnimg.cn/20210530172239956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></p></li><li>RSA硬件和软件加速<br>对于RSA硬件实现，可以采用<strong>蒙哥马利算法</strong>来加速硬件。</li></ol><p>如果很适当的选择了一个$e$值，RSA加密速度将快很多。最常用的三个$e$值为3,17和65537（2^16+1）（二进制表示只有两个1，所以只需要17次乘法来实现指数运算）。<br><strong>X.509</strong>中建议采用65537；<br><strong>PEM</strong>中建议采用3；<br><strong>PKCS#1</strong>中建议采用3和65537；<br>即便是一组用户使用同样的$e$值，采用这三个值中的任何一个都不存在安全问题<br>假如已经保存了$p$和$g$值，以及诸如$dmod(p-1)、q^{-1}dmod(p-1)、modp$这类数，那么运用<strong>中国剩余定理</strong>就能使私人密钥的运行速度加快。这些数很容易从私人密钥和公开密钥中计算出来。</p><h3 id="四、RSA的安全性"><a href="#四、RSA的安全性" class="headerlink" title="四、RSA的安全性"></a>四、RSA的安全性</h3><p>对于RSA的安全性完全依赖于大数分解的难度，从技术上来说，这是不正确的，只是一种推测。<br>从数学上从未证明过，需要分解n才能从$e$和$c$中计算出$m$。用一种完全不同方法来对RSA进行密码分析还只是一种想象。如果这种新方法能让密码分析者推算出$d$,也可以作为分解大数的一种新方法。</p><p>也可以通过猜测$(p-1)(q-1)$的值来攻击RSA。但这种攻击没有分解n容易。</p><p>对于持有极端怀疑态度的人来说，有些RSA的变型已经被证明和大数分解同样困难。分解$n$是最显而易见的攻击方法。敌方手中有公开秘钥$e$和模数$n$，要找到解密密钥$d$，他们就必须分解$n$，目前，<strong>129位十进制数字的模数是能分解的临界数。所以，n应该大于这个数</strong>。</p><p>对于密码分析者来说，有可能尝试每一种可能的d，直到获得正确的一个。这种穷举攻击还没有试图分解$n$更有效。</p><p>随着时间的推移，声称已经找到破译RSA的简单方法，但直到现在这些宣称还没有强有力的证据。</p><p>还有其他的担心，大多数用于计算素数$p$和$q$的算法是有概率的，假如$p$和$q$不是素数又如何？首先可以找出这件事发生尽可能小的概率。如果不是素数，这就意味着加密和解密均不能正确的工作，可以立即放弃。出现这种问题的主要原因是素性检测是基于概率来检测的。</p><h3 id="五、对RSA的选择密文攻击"><a href="#五、对RSA的选择密文攻击" class="headerlink" title="五、对RSA的选择密文攻击"></a>五、对RSA的选择密文攻击</h3><p>有些攻击专门针对RSA的实现。他们不攻击算法本身，而是<strong>攻击协议</strong>。仅使用RSA而不重视它的实现时不够的。实现的细节其实也很重要</p><p><strong>情形1——攻击协议</strong>：Eve在Alice的通信过程中进行窃听，设法成功选取一个用她的公开秘钥加密的密文$c$，Eve想读出消息。从数学角度来说，她想得到$m$，这里：</p><script type="math/tex; mode=display">m=c^d$$为了恢复$m$，首先先选取一个随机数$r$，满足$r$小于$n$。他得到的Alice的公开秘钥$e$,然后计算：$$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r=x^dmodn$<br>现在，Eve让Alice用她的私人秘钥对y签名，以便解密$y$（Alice必须对消息，而非消息的散列值签名）。记住，Alice以前从未见过$y$.Alice发送给Eve:</p><script type="math/tex; mode=display">u=y^dmodn</script><p>现在Eve计算：</p><script type="math/tex; mode=display">tumodn=r^{-1}y^dmodn=r^{-1}x^dc^dmodn=c^dmodn=m</script><p>那么Eve，现在就获得了m。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 密码学 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 密码算法 </tag>
             
         </tags>
       
@@ -591,7 +591,7 @@
     
     
     <entry>
-      <title>密码学-公钥密码体系之背包算法1</title>
+      <title>密码学之公钥密码体系（1）：背包算法1</title>
       <link href="/posts/e9912263.html"/>
       <url>/posts/e9912263.html</url>
       
