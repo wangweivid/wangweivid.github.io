@@ -579,25 +579,28 @@ x≡z \mod q, x≡-z \mod q</script><p>经过组合，可以得到如下四个�
 \begin{cases}
 x≡y \mod p\\
 x≡z \mod q
-\end{cases} \\
-$$</script><p>\begin{cases}<br>x≡-y \mod p\<br>x≡z \mod q<br>\end{cases}\</p>
-<script type="math/tex; mode=display">
+\end{cases} \\</script><script type="math/tex; mode=display">
+\begin{cases}
+x≡-y \mod p\\
+x≡z \mod q
+\end{cases}\\</script><script type="math/tex; mode=display">
 \begin{cases}
 x≡y \mod p\\
 x≡-z \mod q
-\end{cases}\\</script><p>\begin{cases}<br>x≡-y \mod p\<br>x≡-z \mod q<br>\end{cases}\</p>
-<script type="math/tex; mode=display">
-
-因此，有中国剩余定理可以解出每一个方程组的解，一共有$4$组解，因此可以看出，每一个密文所对应的明文均不唯一。
-为了解决这个办法，可以在加密$m$时，在$m$的明文信息中加入私人信息，供解密使用。
-
-## 三、Rabin方案具体案例
-1. 选择$p=7,q=11, n=77$,因此，明文空间为$P={0,1,2,...,76}$
-2. 选择加密明文为$m=20$， 加密之后密文$c=20^2 mod 77 =15$
-3. 当$n$很大，无法破解时，我们无法计算，如果我们假设以及知道了$77$的两个因子为$7$和$11$，已知密文为$15$，求解明文$m$.</script><p>m=\sqrt{c} \mod p \<br>m=\sqrt{c} \mod q</p>
-<script type="math/tex; mode=display">
-由于$p≡q≡3 \mod 4$,因此，有如下公式成立：</script><p>m=c^{1/4(p+1)} \mod p,m=-c^{1/4(p+1)} \mod p\<br>m=c^{1/4(q+1)} \mod q,m=-c^{1/4(q+1)} \mod q</p>
-<p>$$<br>两两一组，可以求解$m$为${64,20,13,57}$</p>
+\end{cases}\\</script><script type="math/tex; mode=display">
+\begin{cases}
+x≡-y \mod p\\
+x≡-z \mod q
+\end{cases}\\</script><p>因此，有中国剩余定理可以解出每一个方程组的解，一共有$4$组解，因此可以看出，每一个密文所对应的明文均不唯一。<br>为了解决这个办法，可以在加密$m$时，在$m$的明文信息中加入私人信息，供解密使用。</p>
+<h2 id="三、Rabin方案具体案例"><a href="#三、Rabin方案具体案例" class="headerlink" title="三、Rabin方案具体案例"></a>三、Rabin方案具体案例</h2><ol>
+<li>选择$p=7,q=11, n=77$,因此，明文空间为$P={0,1,2,…,76}$</li>
+<li>选择加密明文为$m=20$， 加密之后密文$c=20^2 mod 77 =15$</li>
+<li>当$n$很大，无法破解时，我们无法计算，如果我们假设以及知道了$77$的两个因子为$7$和$11$，已知密文为$15$，求解明文$m$.<script type="math/tex; mode=display">
+m=\sqrt{c} \mod p \\
+m=\sqrt{c} \mod q</script>由于$p≡q≡3 \mod 4$,因此，有如下公式成立：<script type="math/tex; mode=display">
+m=c^{1/4(p+1)} \mod p,m=-c^{1/4(p+1)} \mod p\\
+m=c^{1/4(q+1)} \mod q,m=-c^{1/4(q+1)} \mod q</script>两两一组，可以求解$m$为${64,20,13,57}$</li>
+</ol>
 
                 
             </div>
