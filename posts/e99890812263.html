@@ -1274,7 +1274,7 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
             collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
+            headingSelector: 'h1,h2, h3, h4'
         });
 
         // modify the toc link href to support Chinese.
@@ -1286,7 +1286,7 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
 
         // modify the heading title id to support Chinese.
         i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
+        $('#articleContent').children('h1,h2, h3, h4').each(function () {
             $(this).attr('id', tocHeading + (++i));
         });
 
