@@ -382,7 +382,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -574,7 +574,7 @@
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631">AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110673909">AMBA总线协议（四）——Multi-Layer AHB System (多层AHB总线架构)</a></li>
 </ol>
-<h3 id="1-AHB-5-协议："><a href="#1-AHB-5-协议：" class="headerlink" title="1. AHB 5 协议："></a>1. AHB 5 协议：</h3><ol>
+<h3><span id="1-ahb-5-协议">1. AHB 5 协议：</span></h3><ol>
 <li>AMBA AHB协议总线的接口适用于高性能的设计。</li>
 </ol>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">主模块：Cortex-M内核，DMA存储器，DMA外设，以太网DMA USB等
@@ -600,8 +600,8 @@ g. 锁定传输
 h. 多从机选择
 i. 原子性访问 Single-copy Atomicity 
 j. 用户信号<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="2-存储器类型（Extended-Momory-Type）"><a href="#2-存储器类型（Extended-Momory-Type）" class="headerlink" title="2.     存储器类型（Extended Momory Type）"></a>2.     存储器类型（Extended Momory Type）</h3><p>AHB5 定义了扩展存储器类型的功能。定义接口是否支持扩展的存储器类型，如果没有定义，那么接口就不支持该类型<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201202222118247.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="3-字节顺序ENDIANNESS"><a href="#3-字节顺序ENDIANNESS" class="headerlink" title="3.字节顺序ENDIANNESS"></a>3.字节顺序ENDIANNESS</h3><ol>
+<h3><span id="2-存储器类型extended-momory-type">2.     存储器类型（Extended Momory Type）</span></h3><p>AHB5 定义了扩展存储器类型的功能。定义接口是否支持扩展的存储器类型，如果没有定义，那么接口就不支持该类型<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201202222118247.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3><span id="3字节顺序endianness">3.字节顺序ENDIANNESS</span></h3><ol>
 <li>AHB支持大端和小端系统，支持两种存储大端数据的方案；</li>
 <li>AHB5 引入了Endian功能，定义支持哪种大端数据的方法：</li>
 </ol>
@@ -613,13 +613,13 @@ BE32：字不变的大端模式；字访问对最高有效字节与最低有效�
 </code></pre><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">1) Address : 传输地址
 2) Data_bus_bytes：8 bit数据总线字节通道的数量；
 3) INT(x)：对X取整<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h5 id="a-小端模式："><a href="#a-小端模式：" class="headerlink" title="a. 小端模式："></a>a. 小端模式：</h5><p>1) 当小端模式访问一个字节，下面方程显示使用了那些数据位</p>
+<h5><span id="a-小端模式">a. 小端模式：</span></h5><p>1) 当小端模式访问一个字节，下面方程显示使用了那些数据位</p>
 <pre><code>Byte_Lane = Address - INT(Address / Data_bus_bytes) * Data_bus_bytes
 </code></pre><p>2) 数据在DATA[8<em>Byte_lane + 7 : 8</em>Byte_lane]上传输；</p>
 <p>3) 当大的小端模式传输出现时，数据传输：</p>
 <pre><code>1) 最低有效字节被驱动到传输地址上；
 2) 然后越来越大的字节按照地址递增的方式依次传输；
-</code></pre><h5 id="b-字节不变的大端模式："><a href="#b-字节不变的大端模式：" class="headerlink" title="b. 字节不变的大端模式："></a>b. 字节不变的大端模式：</h5><p>1) 当字节不变的大端模式访问一个字节，下面方程显示具体使用的数据位情况：</p>
+</code></pre><h5><span id="b-字节不变的大端模式">b. 字节不变的大端模式：</span></h5><p>1) 当字节不变的大端模式访问一个字节，下面方程显示具体使用的数据位情况：</p>
 <pre><code>Byte_Lane = Address –(INT(Address / Data_bus_Bytes)) × Data_Bus_Bytes
 </code></pre><p>2) 数据在DATA[8<em>Byte_lane + 7 : 8</em>Byte_lane]上传输；</p>
 <p>3) 注意：</p>
@@ -627,7 +627,7 @@ BE32：字不变的大端模式；字访问对最高有效字节与最低有效�
 </code></pre><p>4) 当大量的字节不变大端模式传输时，数据传输：</p>
 <pre><code>1) 最高有效字节被驱动到传输地址上；
 2) 越来越少的字节数按照地址递增的方式依次传输
-</code></pre><h5 id="c-字不变的大端模式："><a href="#c-字不变的大端模式：" class="headerlink" title="c. 字不变的大端模式："></a>c. 字不变的大端模式：</h5><p>1) 当字不变的大端模式访问一个字节，下面方程显示具体使用数据位的情况：</p>
+</code></pre><h5><span id="c-字不变的大端模式">c. 字不变的大端模式：</span></h5><p>1) 当字不变的大端模式访问一个字节，下面方程显示具体使用数据位的情况：</p>
 <pre><code>Address_Offset = Address –(INT(Address / Data_Bus_Bytes)) × Data_bus_Bytes
 Word_Offset = (INT(Address_Offset / 4)) × 4
 Byte_Offset = Address_Offset – Word_Offset
@@ -636,7 +636,7 @@ Byte_Offset = Address_Offset – Word_Offset
 </ol>
 <p>有关AHB5， AHB-Lite， AHB2的其他详细介绍可以阅读官方SPEC文档，具体后续会有详细的介绍。</p>
 <p>本次主要介绍AHB 三个版本的协议的相同点与不同点：</p>
-<h3 id="2-AHB-5，-AHB-Lite，与AHB-2三个版本的介绍"><a href="#2-AHB-5，-AHB-Lite，与AHB-2三个版本的介绍" class="headerlink" title="2. AHB 5， AHB-Lite，与AHB 2三个版本的介绍"></a>2. AHB 5， AHB-Lite，与AHB 2三个版本的介绍</h3><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201202220021442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>欢迎关注下面公众号，每周精选一篇原创文章！！！<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/2020120222280630.png" alt="在这里插入图片描述"></p>
+<h3><span id="2-ahb-5-ahb-lite与ahb-2三个版本的介绍">2. AHB 5， AHB-Lite，与AHB 2三个版本的介绍</span></h3><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201202220021442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>欢迎关注下面公众号，每周精选一篇原创文章！！！<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/2020120222280630.png" alt="在这里插入图片描述"></p>
 
                 
             </div>
@@ -1142,7 +1142,7 @@ Byte_Offset = Address_Offset – Word_Offset
                 <a href="/posts/917253435abaaa111.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg" class="responsive-img" alt="AMBA总线协议（五）—— AXI3 协议接口信号介绍1">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AMBA总线协议（五）—— AXI3 协议接口信号介绍1">
                         
                         <span class="card-title">AMBA总线协议（五）—— AXI3 协议接口信号介绍1</span>
                     </div>
@@ -1190,7 +1190,7 @@ Byte_Offset = Address_Offset – Word_Offset
                 <a href="/posts/917253435abaaa.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg" class="responsive-img" alt="AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)">
                         
                         <span class="card-title">AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)</span>
                     </div>

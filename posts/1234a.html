@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="AMBA总线协议（一）——一文看懂APB总线协议, Janice Blog">
+    <meta name="keywords" content="AHB2APB桥接器设计（1）——基本原理, Janice Blog">
     <meta name="description" content="Designer">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>AMBA总线协议（一）——一文看懂APB总线协议 | Janice Blog</title>
+    <title>AHB2APB桥接器设计（1）——基本原理 | Janice Blog</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -387,7 +387,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">AMBA总线协议（一）——一文看懂APB总线协议</h1>
+                    <h1 class="description center-align post-title">AHB2APB桥接器设计（1）——基本原理</h1>
                 </div>
             </div>
         </div>
@@ -537,14 +537,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    1.4k
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    5 Min
+                    4 Min
                 </div>
                 
 
@@ -567,41 +567,71 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2><span id="0amba总线概括">0.AMBA总线概括</span></h2><p>AMBA AHB 总线协议介绍请点击以下链接：</p>
+                <p>🔥点击进入<a target="_blank" rel="noopener" href="https://bbs.csdn.net/forums/hardware_security">【硬件安全】</a>社区，查看更多精彩内容🔥</p>
+<p><a href="#box">🔥点击查看《AMBA总线》系列文章🔥</a>   </p>
+<blockquote>
+<p>📢 <strong>声明</strong>：<br>🥭 作者主页：<a target="_blank" rel="noopener" href="http://weivid.vip">【摆渡沧桑的CSDN主页】</a>。<br>⚠️ 未经作者允许，禁止转载。<br>⚠️ 本文为非盈利性质，目的为个人学习记录及知识分享。因能力受限，存在知识点分析不正确的可能。若您参考本文造成了不良后果，本人不承担相关责任。<br>⚠️ 若本文所采用图片或相关引用侵犯了您的合法权益，请联系我进行删除。<br>😄 欢迎大家指出文章错误，欢迎同行与我交流 ~</p>
+</blockquote>
+<p>@[toc]</p>
+<h2><span id="一-ahb2apb桥的基本原理">一、AHB2APB桥的基本原理</span></h2><h3><span id="1-ahb与apb总线">1. AHB与APB总线</span></h3><blockquote>
+<p>AHB: Advanced High-performance Bus，高级高性能总线<br>APB: Advanced Peripheral Bus，高级外设总线</p>
+</blockquote>
+<h3><span id="2-ahb与apb总线的特性">2. AHB与APB总线的特性</span></h3><p><strong>AHB:</strong></p>
+<blockquote>
+<p>1.高性能、高时钟频率、高带宽<br>2.多master并行操作、Burst突发操作、split分片传输、2级流水线传输<br>3.可以作为master接口，也可以作为slave接口<br>4.CPU、DSP、DMA、FLASH、SRAM等</p>
+</blockquote>
+<p><strong>APB：</strong></p>
+<blockquote>
+<p>1.低速、低带宽<br>2.设计简单，只有SETUP、ENABLE两个状态<br>3.专为降低功耗和接口复杂而设计的总线<br>4.只作为slave属性的外设总线<br>5.常见的有UART,I2C,SPI,RTC,GRCC,PWM等</p>
+</blockquote>
+<h3><span id="3-ahb2apb桥的作用为什么会有桥">3. AHB2APB桥的作用（为什么会有桥？）</span></h3><blockquote>
+<pre><code>1.用于AHB主设备到APB的从设备的连接
+2.完成AHB和APB协议的转换、以及异步数据的通信
+3.AHB2APB桥是AHB总线上的从设备，也是APB总线唯一一个主设备
+</code></pre></blockquote>
+<h3><span id="4-soc系统中的ahb2apb桥所处的位置">4. SoC系统中的AHB2APB桥所处的位置</span></h3><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/d5edabefd64948609d7601e2dadd454d.png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>左边是SoC系统中基本的master，如Cortex M3， 通过matrix仲裁器会将总线地址，分别映射到AHB的slave中，<br>中间通过两个bridge（外设众多，可以通过两组bridge来管理不同外设），AHB将与APB上的从设备通信</p>
+</blockquote>
+<h2><span id="二-ahb2apb桥的分类按照时钟频率来分">二、AHB2APB桥的分类（按照时钟频率来分）</span></h2><h3><span id="1-soc系统总线的时钟分布">1. SoC系统总线的时钟分布</span></h3><blockquote>
 <ol>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110235612">AMBA总线协议（二）一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631">AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110673909">AMBA总线协议（四）——Multi-Layer AHB System (多层AHB总线架构)</a></li>
+<li>SOC系统中时钟来源很多，如对于RTC，WatchDog等外设，对于时钟频率的要求很低（32.768KHz）但是对于CPU，DMA，Memory等可能需要很高的时钟频率，这样会用到PLL产生高频率的时钟</li>
+<li>对于AHB总线的时钟，会对main clk进行分频，得到APB的时钟，可以设置不同的时钟工作频点，分别得到AHB和APB总线的时钟频率</li>
+<li>对于AHB和APB总线，他们各自上的时钟频率可能是不一样的，也可能是相同的，同步桥和异步桥</li>
 </ol>
-<p><strong>AMBA（Advanced Microcontroller Bus Architecture）</strong> 总线是由ARM公司提出的一种开放性的片上总线标准，它独立于处理器和工艺技术，具有高速度低功耗等特点。</p>
-<p>系统芯片中各个模块之间需要有接口来连接；<br>总线作为子系统之间共享的通信链路；</p>
-<p>其优点：<strong>低成本，方便易用</strong><br>缺点：<strong>容易有性能瓶颈</strong><br>AMBA总线的发展历史：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">AMBA 1.0 : ASB, APB
-AMBA 2.0 : AHB, ASB, APB
-AMBA 3.0 : AMBA Advanced eXiensibele Interface (AXI)
-AMBA 4.0 : ...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>AMBA总线体系包括以下三种总线：</p>
-<ol>
-<li>AHB：Advanced High-performance Bus，用于高性能、高时钟工作频率模块。</li>
-<li>ASB：Advanced System Bus，用于高性能系统模块。</li>
-<li>APB：Advanced Peripheral Bus，用于慢速外设模块。</li>
+</blockquote>
+<h3><span id="2-ahb2apb桥的分类">2. AHB2APB桥的分类</span></h3><blockquote>
+<pre><code>1. 复杂的SoC系统，由于时钟的多样性，导致AMBA总线的规范并没有规定AHB，APB总线的时钟关系
+2. 但是在一般的SoC中，为了灵活配置AHB，APB的时钟频率，所以AHB，APB工作时钟频率不一样
+3. AHB2APB同步桥：AHB和APB时钟来源相同，相位相同
+4. AHB2APB异步桥：AHB和APB时钟频率、相位可以相同也可以不同
+</code></pre><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/ca4666e3ba794964be4925ef2e9bf1d7.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<h2><span id="三-ahb2apb同步桥-时钟来源-相位相同apb使用的时钟和ahb的时钟相同">三、AHB2APB同步桥 （时钟来源、相位相同）——APB使用的时钟和AHB的时钟相同</span></h2><h3><span id="1-同步桥的优点">1. 同步桥的优点：</span></h3><blockquote>
+<pre><code>1. 设计简单、综合出来的面积小
+2. 非流水线结构、稳定可靠
+</code></pre><ol>
+<li>整个总线系统由单个时钟控制，有利于时序分析和综合</li>
 </ol>
-<p>下面给出一个典型的AMBA系统：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722135145430.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>以一个SOC系统架构设计为例：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722135414158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>从AHB/ASB总线到APB总线需要通过 <strong>桥接器（Bridge）</strong> 进行互联。</p>
-<h2><span id="1apb总线介绍">1.APB总线介绍</span></h2><p>应用于慢速外设，如UART、键盘等，不需要AHB总线体系中的Arbiter与Decoder。<br>Arbiter为仲裁器，决定哪个Master工作。Decoder为译码器，决定Master与哪个Slave进行数据传输。</p>
-<p><strong>1.1 接口主要信号</strong><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722135723312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="主要"><br>可以看出，APB总线接口主要有 <strong>系统信号，地址信号，方向信号，数据信号，传输阶段控制信号</strong></p>
-<h2><span id="2apb总线传输介绍时序部分">2.APB总线传输介绍（时序部分）</span></h2><h3><span id="21-状态机">2.1 状态机</span></h3><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722140053466.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>从状态机看,APB对每一笔数据的传送，均需<strong>花 2 个周期的时间</strong>，且 APB 的数据传递<strong>不适用在有流水线架构的模块设计</strong>中<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722140222293.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3><span id="22-写操作"><strong>2.2 写操作</strong></span></h3><p>下图表示APB基本的写操作<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722140404401.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<ol>
-<li>在 T1 时，有限状态机进入预设的 <strong>IDLE 状态</strong>；</li>
-<li>在 T2 时，数据地址、读写控制信号和写入的数据会在频率正沿触发时，开始作写的数据传递准备，这个周期也就是刚才所提及<strong>SETUP状态</strong>。==译码电路在此状态会根据数据地址去译码出所要写入APB Slave，此时所对应到 S 的 PSEL 信号将由 0 变 1；==</li>
-<li>在 T3 时，有限状态机会进入 <strong>ENABLE 状态</strong>，PENABLE 信号在此状态会被设成 1；</li>
-<li>在 T4 频率正沿触发时，PENABLE 信号将由 1 变 0，而 PSEL 信号在若没有其它数据的写入动作时，也将由 1 变 0。为了减少功率的消耗，APB 的数据地址和读写控制信号在下一笔数据传递前，将不会作任何改变。<h3><span id="23-读操作">2.3 读操作<img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722140636671.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></span></h3>由图中可发现除了写信号是倒过来有效外，APB 读操作时序图和写操作时序图非常相似，在这里我们就不再作详细的解释。<br>要特别注意的是，在 T3 后，也就是在进入 ENABLE 周期后，==APB 从必须要将 M 所要读取的数据准备好==，以便 M 可以在 ENABLE 周期末被 T4 正时钟沿触发时正确的将数据读取。</li>
-</ol>
-<h2><span id="3apb到ahb的接口">3.APB到AHB的接口</span></h2><h3><span id="31读操作">3.1读操作</span></h3><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722140937147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>在频率很高的情况下，<strong>在ENABLE CYCLE中可能数据不能够直接映射到AHB总线，需要在APB桥中在T4的时候打一下锁住，并在T5的时候才被AHB主采样。虽然需要多一个等待周期（一共2个，HREADY反压两拍），但是由于频率提升了因此总的性能也提升了。</strong><br>  T1：在 AHB 总线开始传送；<br>  T2：地址被 APB 总线采样。如果该传送是针对外设的话，这个地址就会被译码成选择信号发往外设。T2就是 AHB 的SETUP CYCLE。<br>  T3：APB 的 ENALBE CYCLE，PENABLE 拉高，数据被读出。<br>  T4：读出的数据直接映射到 AHB 总线上，在上升沿被 AHB 主采样。
-  </p>
-<h3><span id="32-写操作">3.2 写操作</span></h3><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722141132986.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>APB总线上的单块数据写操作不需要等待周期。APB桥的责任是对地址和数据进行采样，并在写操作的过程中保持它们的值。<br>  T1：AHB 开始作数据地址和读写控制信号的传递(HADDR 和 HWRITE)<br>  T2：APB bridge 栓取住 AHB 送来的数据地址及读写控制信号，同时进入到 APB 有限状态机的 ENABLE状态<br>  T3~：其后的读和写动作跟之前所介绍的 APB 读写动作一模一样，在这里我们不再加以详述。<br>下图是突发写传输时序图：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722141302282.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>虽然第一个传输可以零状态等待状态玩抽，但之后到外设总线的传输将为每个传输的执行要求一个等待状态。<br> APB桥中需要有 2 个地址寄存器，当处理一个数据块写操作时，可以寄存下一个数据块的地址。</p>
-<h3><span id="33-背靠背操作">3.3 背靠背操作</span></h3><p>下图给出了背靠背传输的时序，分别写，读，写，读</p>
-<p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20200722141646258.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如果写操作之后跟随着读操作，那么需要 3 个等待周期来完成读操作。通常的情况下，不会有读操作之后紧跟着写操作的发生，因为两者之间 CPU 会进行指令读取。</p>
+</blockquote>
+<h3><span id="2-同步桥缺点">2. 同步桥缺点：</span></h3><blockquote>
+<pre><code>1. 从设备功耗高
+2. 从设备工作时钟频率高，对设计时序有较高要求
+</code></pre></blockquote>
+<h2><span id="四-ahb2apb异步桥时钟频率-相位可以相同也可以不同">四、AHB2APB异步桥（时钟频率、相位可以相同也可以不同）</span></h2><h3><span id="1-异步桥的优点">1. 异步桥的优点：</span></h3><blockquote>
+<pre><code>1. APB时钟可以灵活配置
+2. 有利于功耗控制
+</code></pre></blockquote>
+<h3><span id="2-异步桥的缺点">2. 异步桥的缺点：</span></h3><blockquote>
+<pre><code>1. 设计复杂、需要增加跨时钟域的同步处理
+2. AHB读写低频APB设备需要调节等待周期，降低AHB主设备的性能
+3. APB的时钟频率会限制外设的最高传输速度，如SPI, UART等
+</code></pre></blockquote>
+<p><div id="box"></div></p>
+<p id="box">
+
+</p><p>🔥 <strong><em>精选往期 《AMBA总线》系列文章</em></strong>🔥</p>
+<p><strong><em>【协议篇】</em></strong><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/107511746"><strong><em>AMBA总线协议（一）——一文看懂APB总线协议</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110235612"><strong><em>AMBA总线协议（二）——一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631"><strong><em>AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631"><strong><em>AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110871257"><strong><em>AMBA总线协议（五）—— AXI3 协议接口信号介绍1</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110871426"><strong><em>AMBA总线协议（六）—— 一文看懂 AXI3 协议原子访问2</em></strong></a><br><a href></a><br><a href></a><br><a href></a></p>
 
                 
             </div>
@@ -628,7 +658,7 @@ AMBA 4.0 : ...<span aria-hidden="true" class="line-numbers-rows"><span></span><s
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://www.weivid.vip/posts/91724fff4567.html">https://www.weivid.vip/posts/91724fff4567.html</a>
+                    <a href="https://www.weivid.vip/posts/1234a.html">https://www.weivid.vip/posts/1234a.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1104,12 +1134,12 @@ AMBA 4.0 : ...<span aria-hidden="true" class="line-numbers-rows"><span></span><s
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/posts/91724fff6664567.html">
+                <a href="/posts/91724fff4567.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AMBA总线协议（二）——一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AMBA总线协议（一）——一文看懂APB总线协议">
                         
-                        <span class="card-title">AMBA总线协议（二）——一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别</span>
+                        <span class="card-title">AMBA总线协议（一）——一文看懂APB总线协议</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1120,7 +1150,7 @@ AMBA 4.0 : ...<span aria-hidden="true" class="line-numbers-rows"><span></span><s
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-09
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-08
                         </span>
                         <span class="publish-author">
                             
@@ -1152,12 +1182,12 @@ AMBA 4.0 : ...<span aria-hidden="true" class="line-numbers-rows"><span></span><s
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/1234a.html">
+                <a href="/posts/e9989081226666663agfda.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AHB2APB桥接器设计（1）——基本原理">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/8b5babf2153cb2ec.jpg" class="responsive-img" alt="密码学之公钥密码体系（4）：Rabin公钥密码方案">
                         
-                        <span class="card-title">AHB2APB桥接器设计（1）——基本原理</span>
+                        <span class="card-title">密码学之公钥密码体系（4）：Rabin公钥密码方案</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1168,14 +1198,14 @@ AMBA 4.0 : ...<span aria-hidden="true" class="line-numbers-rows"><span></span><s
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-08
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-15
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SOC/" class="post-category">
-                                    SOC
+                            <a href="/categories/Cryptography/" class="post-category">
+                                    Cryptography
                                 </a>
                             
                             
@@ -1185,8 +1215,8 @@ AMBA 4.0 : ...<span aria-hidden="true" class="line-numbers-rows"><span></span><s
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/AMBA/">
-                        <span class="chip bg-color">AMBA</span>
+                    <a href="/tags/Cryptography-Algorithm/">
+                        <span class="chip bg-color">Cryptography Algorithm</span>
                     </a>
                     
                 </div>

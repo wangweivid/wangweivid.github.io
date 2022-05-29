@@ -382,7 +382,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -574,7 +574,7 @@
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110235612">AMBA总线协议（二）—— 一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631">AMBA总线协议（三）—— 一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</a></li>
 </ol>
-<h4 id="1-介绍："><a href="#1-介绍：" class="headerlink" title="1. 介绍："></a>1. 介绍：</h4><p>multi-layer AHB 是基于AHB互联架构：</p>
+<h4><span id="1-介绍">1. 介绍：</span></h4><p>multi-layer AHB 是基于AHB互联架构：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">可以开发更多可用总线带宽的多主机系统
 可以构建灵活体系架构的复杂多主机系统；消除了在硬件设计阶段，就修改有关将系统资源分配给特定主机的设计决策要求
 可以使用标准的AHB主从模块而不需要修改
@@ -584,25 +584,25 @@
 AHB 基础架构是多路选择器块，完成多主机到外设的连接
 由于多层架构是基于AHB协议，可以复用之前设计的主机和从机，而不需要修改	<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201204220435812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h4 id="2-应用："><a href="#2-应用：" class="headerlink" title="2. 应用："></a>2. 应用：</h4><h6 id="a-多层互连拓朴结构"><a href="#a-多层互连拓朴结构" class="headerlink" title="a. 多层互连拓朴结构"></a>a. 多层互连拓朴结构</h6><p>每一个主机都有自己的AHB layer，通过 interconnnect matrix 连接；<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201204221712568.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4><span id="2-应用">2. 应用：</span></h4><h6><span id="a-多层互连拓朴结构">a. 多层互连拓朴结构</span></h6><p>每一个主机都有自己的AHB layer，通过 interconnnect matrix 连接；<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201204221712568.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">说明：
 	i. 每个layer有一个译码器，决定那个slave需要传输；
 	ii. MUX决定了传输从适当的传输到所需要的slave;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h4 id="3-Advance-Options"><a href="#3-Advance-Options" class="headerlink" title="3. Advance Options"></a>3. Advance Options</h4><h6 id="a-第一种：私有从机"><a href="#a-第一种：私有从机" class="headerlink" title="a. 第一种：私有从机"></a>a. 第一种：私有从机</h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 让slave私有，如slave4&#x2F;5只属于Master2，这将可以使用AHB-Lite来互连，减少了互连矩阵的复杂性；
+<h4><span id="3-advance-options">3. Advance Options</span></h4><h6><span id="a-第一种私有从机">a. 第一种：私有从机</span></h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 让slave私有，如slave4&#x2F;5只属于Master2，这将可以使用AHB-Lite来互连，减少了互连矩阵的复杂性；
 ii. 当从机只被一个主机使用时，可以使用此互连结构；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p> <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201204221755482.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h6 id="b-第二种：一个从端口上多从机"><a href="#b-第二种：一个从端口上多从机" class="headerlink" title="b. 第二种：一个从端口上多从机"></a>b. 第二种：一个从端口上多从机</h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 让多个从设备单个挂载在互连矩阵上，这对于组合多个低带宽的从机很有用；
+<h6><span id="b-第二种一个从端口上多从机">b. 第二种：一个从端口上多从机</span></h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 让多个从设备单个挂载在互连矩阵上，这对于组合多个低带宽的从机很有用；
 ii. 可以用在一系列从设备被一个主设备访问（如DMA），而互联矩阵仅用在特殊情况下可以访问，如dubug系统时。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201204221911268.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h6 id="c-第三种：一个layer层中多主机"><a href="#c-第三种：一个layer层中多主机" class="headerlink" title="c. 第三种：一个layer层中多主机"></a>c. 第三种：一个layer层中多主机</h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 多主机共享一个Layer，适用于结合众多低带宽的多主机，如测试接口控制器TIC<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h6><span id="c-第三种一个layer层中多主机">c. 第三种：一个layer层中多主机</span></h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 多主机共享一个Layer，适用于结合众多低带宽的多主机，如测试接口控制器TIC<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201204221918697.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h6 id="d-第四种：分离的AHB子系统"><a href="#d-第四种：分离的AHB子系统" class="headerlink" title="d. 第四种：分离的AHB子系统"></a>d. 第四种：分离的AHB子系统</h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 每个layer可以成为完整的AHB子系统；
+<h6><span id="d-第四种分离的ahb子系统">d. 第四种：分离的AHB子系统</span></h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 每个layer可以成为完整的AHB子系统；
 ii. 单从设备。通常片上存储器，用作两个子系统的缓存区<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201204221927344.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h6 id="e-第五种：多端口的从设备"><a href="#e-第五种：多端口的从设备" class="headerlink" title="e. 第五种：多端口的从设备"></a>e. 第五种：多端口的从设备</h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 多层AHB系统中，如SRAM控制器，可以并行被不同layer高效传输；
+<h6><span id="e-第五种多端口的从设备">e. 第五种：多端口的从设备</span></h6><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">i. 多层AHB系统中，如SRAM控制器，可以并行被不同layer高效传输；
 ii. 通过设计从机有多个AHB从设备端口<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201204221933586.png" alt="在这里插入图片描述"></p>
-<h4 id="4-例子："><a href="#4-例子：" class="headerlink" title="4. 例子："></a>4. 例子：</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">a. CPU1有处于AHB layer 1;
+<h4><span id="4-例子">4. 例子：</span></h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">a. CPU1有处于AHB layer 1;
 b. CPU2与DMA engine 共享AHB layer2;
 c. SRAM 仅连接至layer，仅可以被CPU1访问；
 d. LCD控制器，仅连至layer2,可以被DMA和CPU2访问；
@@ -1115,7 +1115,7 @@ f. 外部SRAM接口有两个layer层的接口<span aria-hidden="true" class="lin
                 <a href="/posts/91724fff66645676547745745.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg" class="responsive-img" alt="AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）">
                         
                         <span class="card-title">AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</span>
                     </div>
@@ -1163,7 +1163,7 @@ f. 外部SRAM接口有两个layer层的接口<span aria-hidden="true" class="lin
                 <a href="/posts/91724fff6664567.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg" class="responsive-img" alt="AMBA总线协议（二）——一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AMBA总线协议（二）——一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别">
                         
                         <span class="card-title">AMBA总线协议（二）——一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别</span>
                     </div>

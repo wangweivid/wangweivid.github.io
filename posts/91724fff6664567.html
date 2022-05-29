@@ -382,7 +382,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -574,39 +574,39 @@
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631">AMBA总线协议（三）—— 一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110673909">AMBA总线协议（四）——Multi-Layer AHB System (多层AHB总线架构)</a></li>
 </ol>
-<h2 id="一、AHB-Lite协议"><a href="#一、AHB-Lite协议" class="headerlink" title="一、AHB-Lite协议"></a>一、AHB-Lite协议</h2><h4 id="1-AHB-Lite协议："><a href="#1-AHB-Lite协议：" class="headerlink" title="1.     AHB-Lite协议："></a>1.     AHB-Lite协议：</h4><ol>
+<h2><span id="一-ahb-lite协议">一、AHB-Lite协议</span></h2><h4><span id="1-ahb-lite协议">1.     AHB-Lite协议：</span></h4><ol>
 <li><p>AHB-Lite协议为AMBA 3 家族的AHB协议，其简化了AHB的协议复杂性；面向高性能，高频率系统设计；AHB-Lite Slave一般是内存器件（MCU）,外部存储器接口和高带宽外围器件，低带宽的器件也可以连接至AHB-Lite上，但是一般通过桥接器连接至APB总线上。</p>
 </li>
 <li><p>AHB-Lite协议为单Master,多Slave的，因此没有仲裁器。与AHB 2协议特性不同的是，没有分块传输，单周期总线移交操作。</p>
 </li>
 </ol>
-<h4 id="2-AHB-Lite总线接口及结构："><a href="#2-AHB-Lite总线接口及结构：" class="headerlink" title="2. AHB-Lite总线接口及结构："></a>2. AHB-Lite总线接口及结构：</h4><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/2020112716253249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>说明：上图中包含了AHB-Lite总线的各个模块的组成部分：</p>
+<h4><span id="2-ahb-lite总线接口及结构">2. AHB-Lite总线接口及结构：</span></h4><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/2020112716253249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>说明：上图中包含了AHB-Lite总线的各个模块的组成部分：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">a. 主机
 b. 从机
 c. 译码器
 d. 多路MUX<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="二、AHB-2-协议"><a href="#二、AHB-2-协议" class="headerlink" title="二、AHB 2 协议"></a>二、AHB 2 协议</h2><p>下面是AHB 2协议简单介绍，具体功能介绍请参考官方SPEC文档</p>
-<h4 id="1-AHB总线协议"><a href="#1-AHB总线协议" class="headerlink" title="1. AHB总线协议"></a>1. AHB总线协议</h4><h5 id="a-主要用途：用于高性能、高时钟频率的系统结构，一般用于MCU"><a href="#a-主要用途：用于高性能、高时钟频率的系统结构，一般用于MCU" class="headerlink" title="a. 主要用途：用于高性能、高时钟频率的系统结构，一般用于MCU;"></a>a. 主要用途：用于高性能、高时钟频率的系统结构，一般用于MCU;</h5><h5 id="b-AHB总线的结构："><a href="#b-AHB总线的结构：" class="headerlink" title="b. AHB总线的结构："></a>b. AHB总线的结构：</h5><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201127163224704.png" alt="在这里插入图片描述"></p>
+<h2><span id="二-ahb-2-协议">二、AHB 2 协议</span></h2><p>下面是AHB 2协议简单介绍，具体功能介绍请参考官方SPEC文档</p>
+<h4><span id="1-ahb总线协议">1. AHB总线协议</span></h4><h5><span id="a-主要用途用于高性能-高时钟频率的系统结构一般用于mcu">a. 主要用途：用于高性能、高时钟频率的系统结构，一般用于MCU;</span></h5><h5><span id="b-ahb总线的结构">b. AHB总线的结构：</span></h5><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201127163224704.png" alt="在这里插入图片描述"></p>
 <p>AHB总线将微控制器，RAM,外部存储器接口，DMA等各种具有AHB总线接口的控制器连接起来，构成独立的完整的SoC系统，不仅如此，也可以通过AHB2APB桥接器，连接至APB总线系统</p>
-<h4 id="2-AHB的基本特性"><a href="#2-AHB的基本特性" class="headerlink" title="2. AHB的基本特性"></a>2. AHB的基本特性</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Burst传输（突发传输）；
+<h4><span id="2-ahb的基本特性">2. AHB的基本特性</span></h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Burst传输（突发传输）；
 Split事务处理（分块处理）；
 单周期总线Master移交；
 无三态；
 更宽的数据总线配置（如64，128等，具体规格可以根据自己来定）；
 流水线操作；
 可以支持多个主设备（最多16个）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="3-AHB总线的组成部分"><a href="#3-AHB总线的组成部分" class="headerlink" title="3.  AHB总线的组成部分"></a>3.  AHB总线的组成部分</h4><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201127163242200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4><span id="3-ahb总线的组成部分">3.  AHB总线的组成部分</span></h4><p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201127163242200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>说明：AHB总线由Master，Slave，和Infrastructure构成，infrastructure由arbiter，数据选择器，地址控制器，译码器构成；</p>
-<h5 id="主设备Master"><a href="#主设备Master" class="headerlink" title="主设备Master"></a>主设备Master</h5><pre><code>        1) 发起一次读、写操作；
+<h5><span id="主设备master">主设备Master</span></h5><pre><code>        1) 发起一次读、写操作；
         2) 某一时刻只允许一个主设备使用总线；
-</code></pre><h5 id="从设备Slave"><a href="#从设备Slave" class="headerlink" title="从设备Slave"></a>从设备Slave</h5><pre><code>        1) 响应一次读、写操作；
+</code></pre><h5><span id="从设备slave">从设备Slave</span></h5><pre><code>        1) 响应一次读、写操作；
         2) 通过地址映射来选择哪一个从设备（由译码器完成）
-</code></pre><h5 id="仲裁器Arbiter"><a href="#仲裁器Arbiter" class="headerlink" title="仲裁器Arbiter"></a>仲裁器Arbiter</h5><pre><code>        1) 仲裁某一个主设备控制总线
-</code></pre><h5 id="译码器Decoder"><a href="#译码器Decoder" class="headerlink" title="译码器Decoder"></a>译码器Decoder</h5><pre><code>        1) 通过地址译码决定选择哪一个从设备
-</code></pre><h4 id="3-总线可以分为三路通道"><a href="#3-总线可以分为三路通道" class="headerlink" title="3. 总线可以分为三路通道"></a>3. 总线可以分为三路通道</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">写数据总线
+</code></pre><h5><span id="仲裁器arbiter">仲裁器Arbiter</span></h5><pre><code>        1) 仲裁某一个主设备控制总线
+</code></pre><h5><span id="译码器decoder">译码器Decoder</span></h5><pre><code>        1) 通过地址译码决定选择哪一个从设备
+</code></pre><h4><span id="3-总线可以分为三路通道">3. 总线可以分为三路通道</span></h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">写数据总线
 读数据总线
 地址控制总线<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h2 id="三、-AHB-2-与AHB-Lite总线协议对比"><a href="#三、-AHB-2-与AHB-Lite总线协议对比" class="headerlink" title="三、 AHB 2 与AHB-Lite总线协议对比"></a>三、 AHB 2 与AHB-Lite总线协议对比</h2><p>下表详细介绍了AHB-Lite协议与AHB2 协议的接口信息对比情况，以及各自的特点等<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201127163426766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>欢迎关注下面公众号，每周精选一篇原创文章！！！<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201127163558580.png" alt="在这里插入图片描述"></p>
+<h2><span id="三-ahb-2-与ahb-lite总线协议对比">三、 AHB 2 与AHB-Lite总线协议对比</span></h2><p>下表详细介绍了AHB-Lite协议与AHB2 协议的接口信息对比情况，以及各自的特点等<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201127163426766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>欢迎关注下面公众号，每周精选一篇原创文章！！！<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20201127163558580.png" alt="在这里插入图片描述"></p>
 
                 
             </div>
@@ -1112,7 +1112,7 @@ Split事务处理（分块处理）；
                 <a href="/posts/917253435abaaa.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg" class="responsive-img" alt="AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)">
                         
                         <span class="card-title">AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)</span>
                     </div>
@@ -1160,7 +1160,7 @@ Split事务处理（分块处理）；
                 <a href="/posts/91724fff4567.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015537.jpg" class="responsive-img" alt="AMBA总线协议（一）——一文看懂APB总线协议">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AMBA总线协议（一）——一文看懂APB总线协议">
                         
                         <span class="card-title">AMBA总线协议（一）——一文看懂APB总线协议</span>
                     </div>
