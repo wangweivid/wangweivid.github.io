@@ -382,7 +382,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020502.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -569,7 +569,7 @@
             <div id="articleContent">
                 <p>数字IC设计——跨时钟域篇3（单比特处理）</p>
 <p>下面介绍常见的单比特跨时钟域的处理方法</p>
-<h3 id="一、慢时钟域信号同步到快时钟域的处理方法："><a href="#一、慢时钟域信号同步到快时钟域的处理方法：" class="headerlink" title="一、慢时钟域信号同步到快时钟域的处理方法："></a>一、慢时钟域信号同步到快时钟域的处理方法：</h3><ol>
+<h3><span id="一-慢时钟域信号同步到快时钟域的处理方法">一、慢时钟域信号同步到快时钟域的处理方法：</span></h3><ol>
 <li><p><strong>两级寄存器同步</strong><br>慢时钟信号进入到更快的时钟域时（频率相差2倍以上），此时不用考虑快时钟域信号采样丢失问题，可以考虑使用<strong>两级触发器</strong>进行同步处理。</p>
 </li>
 <li><p><strong>边沿检测同步器</strong><br>慢时钟信号进入到更快的时钟域时（频率相差2倍以上）,为了避免快时钟域多次采样到有效信号，快时钟需要对信号进行边沿检测。需要使用<strong>边沿检测同步器</strong></p>
@@ -577,7 +577,7 @@
 <li><p><strong>握手处理</strong>（单比特比较少用）<br>当一个慢时钟域的单比特信号进入到更快的时钟域，但是两个时钟频率相差不大（频率相差2倍以下），为了避免快时钟采样丢失，需要进行<strong>握手的同步处理</strong></p>
 </li>
 </ol>
-<h3 id="二、边沿检测"><a href="#二、边沿检测" class="headerlink" title="二、边沿检测"></a>二、边沿检测</h3><p>之前说了如果慢时钟信号进入快时钟域信号，并且频率相差较大，那么快时钟域可以一直采样到慢时钟域信号，为了只在上升沿和下降沿或者双边沿采样到值，因此需要使用到<strong>边沿检测同步器</strong>。</p>
+<h3><span id="二-边沿检测">二、边沿检测</span></h3><p>之前说了如果慢时钟信号进入快时钟域信号，并且频率相差较大，那么快时钟域可以一直采样到慢时钟域信号，为了只在上升沿和下降沿或者双边沿采样到值，因此需要使用到<strong>边沿检测同步器</strong>。</p>
 <p>之前写过一篇博客，可以参考：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/90757350?spm=1001.2014.3001.5501">FPGA基础入门篇(四) 边沿检测电路</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/116153790?spm=1001.2014.3001.5501">数字IC设计verilog编写——3边沿检测</a></p>
 <ol>
 <li>上升沿检测<br>快时钟先将输入信号进行两级同步处理，再进行一个时钟的延迟，延迟后的信号取反与同步信号做与逻辑，得到信号的上升沿。<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210605102136708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
@@ -627,7 +627,7 @@ assign double_edge_flag &#x3D; signal_reg_2 ^ signale_reg_3;
 endmodule
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>说明：<br>在跨时钟域处理时，首先对单比特信号进行<strong>二级同步</strong>的处理得到稳定的信号，然后<strong>第三级在处理边沿检测</strong>。<strong>总共需要三拍的操作</strong>。</p>
-<h3 id="三、快时钟域到慢时钟域处理方法"><a href="#三、快时钟域到慢时钟域处理方法" class="headerlink" title="三、快时钟域到慢时钟域处理方法"></a>三、快时钟域到慢时钟域处理方法</h3><p>快时钟域信号同步到慢时钟域的处理方法：</p>
+<h3><span id="三-快时钟域到慢时钟域处理方法">三、快时钟域到慢时钟域处理方法</span></h3><p>快时钟域信号同步到慢时钟域的处理方法：</p>
 <ol>
 <li><p><strong>电平拓展</strong><br>如果已知慢时钟域的时钟频率，可以考虑将快时钟域的信号进行电平扩展，使得足以被慢时钟域采样。</p>
 </li>
@@ -639,7 +639,7 @@ endmodule
 <ol>
 <li><strong>握手处理</strong>（稳定可靠，不管是单比特还是多比特，均可采用）<br>当一个快时钟的单比特信号进入到慢时钟域，同样可以使用握手的方式进行同步处理。</li>
 </ol>
-<h3 id="四、典型电路"><a href="#四、典型电路" class="headerlink" title="四、典型电路"></a>四、典型电路</h3><ol>
+<h3><span id="四-典型电路">四、典型电路</span></h3><ol>
 <li>跨时钟域的<strong>多个相关连的单比特信号不可以通过打拍的方式同步到目的时钟域</strong>。<br>对跨时钟域的<strong>timing path</strong>如果不处理，容易导致亚稳态。<br>如果做了同步处理，但同步处理不当俨然会出现glitch，多路扇出问题，re-convergence，datahold等问题导致电路实际运行出现故障。</li>
 </ol>
 <p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210605115607968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>CLKA domain中，DA1和DA2分别为两个DFF的输出，理想状态下，DA1和DA2到达与门两个输入端的时间是一样的，这样设计就不会出现问题。<br>但是<strong>后端布局环境等因素</strong>，导致的传播延迟Td会使A&amp;B存在一个glitch（<strong>信号到达与门的时间不一致</strong>）。而由于CLKB和CLKA为两个CLK Domain，之间不存在固定的相位关系，假设这个glitch恰好被CLKB锁存住，那么就会在DB2生成一个有效的高电平信号，这个高电平信号不是我们的设计所期望的，那就会导致后续的电路功能出现问题。</p>
@@ -1146,10 +1146,10 @@ endmodule
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/posts/null.html">
+                <a href="/posts/Infinity.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020502.jpg" class="responsive-img" alt="数字IC设计2——跨时钟域篇2（亚稳态）">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg" class="responsive-img" alt="数字IC设计2——跨时钟域篇2（亚稳态）">
                         
                         <span class="card-title">数字IC设计2——跨时钟域篇2（亚稳态）</span>
                     </div>
@@ -1197,7 +1197,7 @@ endmodule
                 <a href="/posts/91756769a2.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020502.jpg" class="responsive-img" alt="数字IC设计4——跨时钟域篇4（多比特处理）">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg" class="responsive-img" alt="数字IC设计4——跨时钟域篇4（多比特处理）">
                         
                         <span class="card-title">数字IC设计4——跨时钟域篇4（多比特处理）</span>
                     </div>

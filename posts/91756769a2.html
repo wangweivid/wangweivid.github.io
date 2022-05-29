@@ -382,7 +382,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020502.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -568,7 +568,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>数字IC设计——跨时钟域篇4（多比特处理）</p>
-<h3 id="一、-两级触发器的问题"><a href="#一、-两级触发器的问题" class="headerlink" title="一、 两级触发器的问题"></a>一、 两级触发器的问题</h3><ol>
+<h3><span id="一-两级触发器的问题">一、 两级触发器的问题</span></h3><ol>
 <li><strong>两级触发器存在的问题</strong><br>如果简单的按照单比特信号穿越方法各bit打两拍单独穿越，则会造成<strong>各个bit穿越时间不一致</strong>（寄存器对于每个信号的延迟时间不一样），则会造成另一个时钟域里面有一些被前一个时钟沿采到了，有些被后面的采到了，导致目的时钟域采到的值错误，造成中间态无意义的数据。<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210605215500869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
 <li>解决多比特跨时钟域方法</li>
 </ol>
@@ -615,7 +615,7 @@ always@(posedge clka or negedge rst_n) begin
 end
 
 endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="二、多比特信号跨时钟域的处理方法"><a href="#二、多比特信号跨时钟域的处理方法" class="headerlink" title="二、多比特信号跨时钟域的处理方法"></a>二、多比特信号跨时钟域的处理方法</h3><ol>
+<h3><span id="二-多比特信号跨时钟域的处理方法">二、多比特信号跨时钟域的处理方法</span></h3><ol>
 <li><p><strong>格需码编码</strong><br>通过编码的方式将多位信号转化为每次只有一位变化的信号，将“多比特”的跨时钟域变换成“单比特”进行处理。</p>
 </li>
 <li><p><strong>异步FFO</strong><br>异步FIFO融合了<strong>寄存器同步，格雷码编码，握手控制</strong>等处理方式，是处理跨时钟域数据传输最常用的方式。</p>
@@ -623,7 +623,7 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
 <li><p><strong>握手处理</strong><br>所谓握手，是指通信双方使用了专用控制信号进行数据收发的状态指示。<strong>这个控制信号既有发送域给接收域的，也有接收域给发送域的，有别于前面的单向控制信号检测方式</strong>。类似于DMA与外设模块的通信，会用到dma_req,dma_ack</p>
 </li>
 </ol>
-<h3 id="三、格雷码转换"><a href="#三、格雷码转换" class="headerlink" title="三、格雷码转换"></a>三、格雷码转换</h3><p>格雷码可以通过算法与二进制编码进行相互转换，相邻两个编码之间只有一位不同。</p>
+<h3><span id="三-格雷码转换">三、格雷码转换</span></h3><p>格雷码可以通过算法与二进制编码进行相互转换，相邻两个编码之间只有一位不同。</p>
 <ol>
 <li><strong>格雷码</strong>是一种特殊的二进制编码方式，在一定程度上优于二进制编码</li>
 <li>可以<strong>通过算法与二进制编码</strong>进行<strong>相互转换</strong></li>
@@ -1134,7 +1134,7 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                 <a href="/posts/91756769.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020502.jpg" class="responsive-img" alt="数字IC设计3——跨时钟域篇3（单比特处理）">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg" class="responsive-img" alt="数字IC设计3——跨时钟域篇3（单比特处理）">
                         
                         <span class="card-title">数字IC设计3——跨时钟域篇3（单比特处理）</span>
                     </div>
@@ -1182,7 +1182,7 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                 <a href="/posts/9.178982e+84.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020502.jpg" class="responsive-img" alt="数字IC设计1——跨时钟域篇1（概述）">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg" class="responsive-img" alt="数字IC设计1——跨时钟域篇1（概述）">
                         
                         <span class="card-title">数字IC设计1——跨时钟域篇1（概述）</span>
                     </div>
