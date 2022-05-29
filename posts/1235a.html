@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="数字IC设计10——verilog编写6（脉冲同步器）, Janice Blog">
+    <meta name="keywords" content="AHB2APB桥接器设计（1）——基本原理, Janice Blog">
     <meta name="description" content="Designer">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>数字IC设计10——verilog编写6（脉冲同步器） | Janice Blog</title>
+    <title>AHB2APB桥接器设计（1）——基本原理 | Janice Blog</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -382,12 +382,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">数字IC设计10——verilog编写6（脉冲同步器）</h1>
+                    <h1 class="description center-align post-title">AHB2APB桥接器设计（1）——基本原理</h1>
                 </div>
             </div>
         </div>
@@ -503,12 +503,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Verilog/">
-                                <span class="chip bg-color">Verilog</span>
-                            </a>
-                        
-                            <a href="/tags/%E8%84%89%E5%86%B2%E5%90%8C%E6%AD%A5%E5%99%A8/">
-                                <span class="chip bg-color">脉冲同步器</span>
+                            <a href="/tags/AMBA/">
+                                <span class="chip bg-color">AMBA</span>
                             </a>
                         
                     </div>
@@ -519,8 +515,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Digital-IC-Design/" class="post-category">
-                                Digital IC Design
+                            <a href="/categories/SOC/" class="post-category">
+                                SOC
                             </a>
                         
                     </div>
@@ -532,7 +528,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2021-07-07
+                    2022-05-01
                 </div>
                 
 
@@ -541,14 +537,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    430
+                    1.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>Read Times:&nbsp;&nbsp;
-                    1 Min
+                    6 Min
                 </div>
                 
 
@@ -571,56 +567,255 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>数字IC设计verilog编写——6脉冲同步器</p>
+                <p>🔥点击进入<a target="_blank" rel="noopener" href="https://bbs.csdn.net/forums/hardware_security">【硬件安全】</a>社区，查看更多精彩内容🔥</p>
+<p><a href="#box">🔥点击查看《AMBA总线》系列文章🔥</a>   </p>
+<blockquote>
+<p>📢 <strong>声明</strong>：<br>🥭 作者主页：<a target="_blank" rel="noopener" href="http://weivid.vip">【摆渡沧桑的CSDN主页】</a>。<br>⚠️ 未经作者允许，禁止转载。<br>⚠️ 本文为非盈利性质，目的为个人学习记录及知识分享。因能力受限，存在知识点分析不正确的可能。若您参考本文造成了不良后果，本人不承担相关责任。<br>⚠️ 若本文所采用图片或相关引用侵犯了您的合法权益，请联系我进行删除。<br>😄 欢迎大家指出文章错误，欢迎同行与我交流 ~</p>
+</blockquote>
+<p>@[toc]</p>
+<h2><span id="一-ahb2apb同步桥的整体介绍">一、AHB2APB同步桥的整体介绍</span></h2><h3><span id="11-模块框图">1.1 模块框图</span></h3><blockquote>
+<p><strong>模块框图:</strong><br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/5f8123847dc0492fa01c07ff262e13a4.png" alt="在这里插入图片描述"><br>可以分为三个部分来分析整个同步桥的设计:<br>主要功能将左边AHB的信号转换为APB的信号，同步桥只有一个时钟和复位，信号转换主要由一些组合逻辑来实现</p>
+<pre><code>1. 第一部分:  主要有HCLK，HRESETn, PCLKEN, APBACTIVE这些时钟、复位控制信号
+2. 第二部分: 主要以H开头的信号，主要是AHB BUS上的信号
+3. 第三部分: 主要以P开头的信号，主要是APB BSU上的信号
+</code></pre></blockquote>
+<h2><span id="二-ahb2apb同步桥的信号接口">二、AHB2APB同步桥的信号接口</span></h2><h3><span id="21-系统信号接口">2.1 系统信号接口</span></h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>方向</th>
+<th>位宽</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HCLK</td>
+<td>I</td>
+<td>1</td>
+<td>同步桥AHB和APB的同步时钟</td>
+</tr>
+<tr>
+<td>HRESETn</td>
+<td>I</td>
+<td>1</td>
+<td>同步桥AHB和AOB的同步复位</td>
+</tr>
+<tr>
+<td>PCLKEN</td>
+<td>I</td>
+<td>1</td>
+<td>PCLK的使能信号</td>
+</tr>
+<tr>
+<td>APBACTIVE</td>
+<td>O</td>
+<td>1</td>
+<td>指示APB桥工作信号，可以应用于后级APB BUS上的CLK GATE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3><span id="22-ahb-bus一侧的接口信号ahb-slave接口信号">2.2 AHB BUS一侧的接口信号（AHB Slave接口信号）</span></h3><p>有关AHB的详细协议介绍参考AMBA总线部分，此部分仅介绍模块已有的接口信号</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>方向</th>
+<th>位宽</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HSEL</td>
+<td>I</td>
+<td>1</td>
+<td>每个AHB从机的选通信号。每个从机有自己独立的从机选择信号，并用该信号，表示当前传输是都选中该从机，一般是地址信号的译码</td>
+</tr>
+<tr>
+<td>HADDR</td>
+<td>I</td>
+<td>16</td>
+<td>AHB 16 bit地址总线</td>
+</tr>
+<tr>
+<td>HTRANS</td>
+<td>I</td>
+<td>2</td>
+<td>AHB的传输类型，IDLE, BUSY, NONSEQ, SEQ四种传输类型</td>
+</tr>
+<tr>
+<td>HSIZE</td>
+<td>I</td>
+<td>3</td>
+<td>AHB每一个transfer传输数据的大小，以字节为单位</td>
+</tr>
+<tr>
+<td>HPROT</td>
+<td>I</td>
+<td>4</td>
+<td>AHB保护控制信号，需要slave带有保护功能，一般不作使用。主要给希望执行保护级别的模块使用</td>
+</tr>
+<tr>
+<td>HWRITE</td>
+<td>I</td>
+<td>1</td>
+<td>AHB写信号，高为写，低为读</td>
+</tr>
+<tr>
+<td>HWDATA</td>
+<td>I</td>
+<td>32</td>
+<td>AHB写数据</td>
+</tr>
+<tr>
+<td>HREADY</td>
+<td>I</td>
+<td>1</td>
+<td>AHB总线从机的输入ready信号</td>
+</tr>
+<tr>
+<td>HRDATA</td>
+<td>O</td>
+<td>32</td>
+<td>AHB读数据</td>
+</tr>
+<tr>
+<td>HREADYOUT</td>
+<td>O</td>
+<td>1</td>
+<td>AHB桥输出的ready信号，一般与HREADY对应</td>
+</tr>
+<tr>
+<td>HRESP</td>
+<td>O</td>
+<td>1</td>
+<td>AHB状态相应信号</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3><span id="23-apb-bsu一侧的接口信号-apb-master接口">2.3  APB BSU一侧的接口信号 （APB Master接口）</span></h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>方向</th>
+<th>位宽</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PADDR</td>
+<td>O</td>
+<td>16</td>
+<td>APB地址信号</td>
+</tr>
+<tr>
+<td>PENABLE</td>
+<td>O</td>
+<td>1</td>
+<td>APB使能信号</td>
+</tr>
+<tr>
+<td>PWRITE</td>
+<td>O</td>
+<td>1</td>
+<td>APB写信号，高为写，低为读</td>
+</tr>
+<tr>
+<td>PSTRB</td>
+<td>O</td>
+<td>4</td>
+<td>APB写选通信号，表示哪个字节有效</td>
+</tr>
+<tr>
+<td>PPROT</td>
+<td>O</td>
+<td>3</td>
+<td>APB Slave的保护类型。提供保护机制</td>
+</tr>
+<tr>
+<td>PWDATA</td>
+<td>O</td>
+<td>32</td>
+<td>APB写数据</td>
+</tr>
+<tr>
+<td>PSEL</td>
+<td>O</td>
+<td>1</td>
+<td>APB的设备的选通有效信号</td>
+</tr>
+<tr>
+<td>PRDATA</td>
+<td>I</td>
+<td>32</td>
+<td>APB读数据</td>
+</tr>
+<tr>
+<td>PREADY</td>
+<td>I</td>
+<td>1</td>
+<td>APB ready信号</td>
+</tr>
+<tr>
+<td>PSLVERR</td>
+<td>I</td>
+<td>1</td>
+<td>APB 传输错误信号</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3><span id="24-特殊型号说明">2.4  特殊型号说明</span></h3><h5><span id="241-apbactive信号同步桥的工作状态信号">2.4.1 APBACTIVE信号：同步桥的工作状态信号</span></h5><blockquote>
+<p>APBACTIVE = 1, 说明此时同步桥处于工作状态，有信号在AHB和APB之间传输<br>APBACTIVE可以用作APB子系统时钟门控信号，供外设做低功耗处理。</p>
+</blockquote>
+<h5><span id="242-pclken信号处理pclk与hclk之间的关系需要控制pclken信号">2.4.2 PCLKEN信号：（处理PCLK与HCLK之间的关系，需要控制PCLKEN信号）</span></h5><blockquote>
+<p>如果PCLK = HCLK，则PCLKEN 输入1；如果PCLK = 1/2 HCLK，则PCLKEN = PCLK<br>如果需要HCLK = N * PCLK，那么PCLKEN 需要在PCLK的上升沿的前一拍置位<br>在不增加逻辑复杂度的情况下，在一定程度上，增加了总线的灵活性，降低了功耗</p>
+</blockquote>
+<h5><span id="243-ahb中的hready信号">2.4.3 AHB中的HREADY信号：</span></h5><blockquote>
 <ol>
-<li>脉冲同步器<br>首先在源时钟域进行信号翻转，在跨时钟域到des_clk，并进行边沿检测，即为dec_clk时钟域的脉冲，实现脉冲同步；<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210605113510507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>脉冲同步器的使用中，快时钟的有效信号需要是单脉冲信号，并且两个有效信号的时间间隔需要大于等于两个同步器的时钟周期，否则，无法恢复出有效信号。</li>
+<li>作为AHB的从机，从机必须由一个输入ready和一个输出ready信号</li>
+<li><strong>HREADY信号</strong>： 同步桥的输入信号，外部AHB仲裁器收集各个AHB Slave设备的HREADYout信号，然后做出判断，在送给Slace 端口。表示AHB总线是否READY</li>
+<li><strong>HREADYout信号</strong>：同步桥的输出信号。代表同步桥是否准备好接收或者发送数据。在同步桥的数据转换中，APB读写操作至少需要两个时钟周期，设计时需要让AHB在合适的时候拉低HREADYout信号，添加合适的等待周期，从而实现AHB到APB的数据转换。<h5><span id="244-amba-apb-30信号">2.4.4    AMBA APB 3.0信号</span></h5><ol>
+<li><strong>PREADY</strong><br>APB Slave通过PREADY信号直接来告诉master，Slave的Ready状态。如果PREADY为高，表示可以接收读写操作，如果PREADY为低，表示Master需要等待</li>
 </ol>
-<p>在实际的电路设计中，<strong>异步电路的设计</strong>在实际应用中的重要意义不言而喻。由于信号在不同时钟域之间传输，容易发生<strong>亚稳态</strong>的问题导致，不同时钟域之间得到的信号不同。</p>
-<p>处理亚稳态常用打两拍的处理方法。</p>
-<p>多时钟域的处理方法很多，最有效的方法异步fifo,异步fifo适合处理不同时钟域之间传输的数据组，但有时不同时钟域之间<strong>仅仅传递脉冲</strong>，异步fifo就显的有点大材小用的，因此单信号的跨时钟域处理通常有：</p>
-<ul>
-<li>两级寄存器串联。</li>
-<li><strong>脉冲同步器</strong>。</li>
-<li>结绳法。</li>
-<li>采用握手。</li>
-</ul>
-<p>脉冲同步器一般用在快时钟域信号进入慢时钟域的电路设计中</p>
+</li>
+<li><strong>PSLVERR</strong><br>加入Slave反馈给Master Error 反馈功能</li>
+</ol>
+</blockquote>
+<h5><span id="245-amba-apb-40信号">2.4.5 AMBA APB 4.0信号</span></h5><blockquote>
 <ol>
-<li><strong>RTL 代码</strong></li>
+<li><strong>PSTRB[3:0]</strong><br>在写操作中，用来指示，byte lane （即多bit字节中哪一个字节是有效的）<br>在读操作应该改全1，读操作不考虑</li>
+<li><strong>PPROT[2:0]</strong><br>在新版的 APB 4.0协议中，可以采用作为外设访问权限的设置<ol>
+<li>PPROT[0]：0：正常可以访问；1：私有访问，特权级别</li>
+<li>PPROT[1]：0：安全访问；1：非安全访问</li>
+<li>PPROT[2]：0：数据；1：指令</li>
 </ol>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#96;timescale 1ns &#x2F; 1ps
+</li>
+</ol>
+</blockquote>
+<h2><span id="三-ahb2apb同步桥的设计参数">三、AHB2APB同步桥的设计参数</span></h2><p>定义一些参数，来让代码更加灵活，便于修改</p>
+<blockquote>
+<ol>
+<li><strong>ADDRWIDTH</strong>：16， 地址空间，对应64 KB的寻址空间</li>
+<li><strong>REGISTER_WDATA</strong>: 1, (主要定义AHB到APB在数据传输是否对寄存器需要处理)<br>优点：AHB2APB的同步桥PWDATA会变成寄存器输出，有利于时序优化<br>缺点：会增加HWDATA到PWDATA的输出延迟</li>
+<li><strong>REGISTER_RDATA</strong>: 1 (主要定义APB到AHB输出的读数据做寄存器处理)<br>优点：AHB2APB的同步桥PRDATA会变成寄存器输出，有利于时序优化<br>缺点：会增加PRDATA到HRDATA输出延迟<h2><span id="四-ahb2apb同步桥的时序图">四、AHB2APB同步桥的时序图</span></h2></li>
+</ol>
+</blockquote>
+<h3><span id="41-burst写传输">4.1 burst写传输：</span></h3><p>AHB这一侧，每个一个时钟周期会受到一个HREADY = 0的信号，等待APB将数据写入<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/38bc76b41d4e46b9bf11aee8f6741ed3.png" alt="在这里插入图片描述"></p>
+<h3><span id="42-back-back-传输写读循环">4.2     back-back 传输（写读循环）</span></h3><p>不经常出现一个写，接着一个读传输<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/030076572e0c4306a249c377c68cd2ce.png" alt="在这里插入图片描述"></p>
+<p><div id="box"></div></p>
+<p id="box">
 
-module pluse_sync(
-          input src_clk,
-          input src_rst_n,
-          input s_pluse,
-          input des_clk,
-          input des_rst_n,
-          output des_pluse
-);
-                                    
-
-reg 	src_pluse;
-
-always @ (posedge src_clk or negedge src_rst_n)
-    if(!src_rst_n)
-        src_pluse &lt;&#x3D; 1&#39;b0;
-    else if(s_pluse)
-        src_pluse &lt;&#x3D; ~src_pluse;
-        
-reg		 d_reg1,d_reg2;
-
-always @ (posedge des_clk or negedge des_rst_n)
-    if(!des_rst_n)
-        &#123;d_reg1,d_reg2&#125; &lt;&#x3D; 2&#39;b00;
-    else
-        &#123;d_reg1,d_reg2&#125; &lt;&#x3D; &#123;src_pluse,d_reg1&#125;;
-
-
-assign des_pluse &#x3D; (d_reg1 !&#x3D; d_reg2) ? 1&#39;b1:1&#39;b0;
-
-endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210605112000275.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</p><p>🔥 <strong><em>精选往期 《AMBA总线》系列文章</em></strong>🔥</p>
+<p><strong><em>【协议篇】</em></strong><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/107511746"><strong><em>AMBA总线协议（一）——一文看懂APB总线协议</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110235612"><strong><em>AMBA总线协议（二）——一文看懂AMBA2 AHB2与AMBA3 AHB-Lite总线协议的区别</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631"><strong><em>AMBA总线协议（三）——一文看懂AHB总线所有协议总结（AHB2 &amp; AHB-Lite &amp; AHB5 ）</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110501631"><strong><em>AMBA总线协议（四）—— Multi-Layer AHB System (多层AHB总线架构)</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110871257"><strong><em>AMBA总线协议（五）—— AXI3 协议接口信号介绍1</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/110871426"><strong><em>AMBA总线协议（六）—— 一文看懂 AXI3 协议原子访问2</em></strong></a></p>
+<p><strong><em>【实践篇】</em></strong><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/124888249?spm=1001.2014.3001.5502"><strong><em>AHB2APB桥接器设计（1）——基本原理</em></strong></a><br><a href></a><br><a href></a></p>
 
                 
             </div>
@@ -647,7 +842,7 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://www.weivid.vip/posts/91724fff.html">https://www.weivid.vip/posts/91724fff.html</a>
+                    <a href="https://www.weivid.vip/posts/1235a.html">https://www.weivid.vip/posts/1235a.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -685,12 +880,8 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Verilog/">
-                                    <span class="chip bg-color">Verilog</span>
-                                </a>
-                            
-                                <a href="/tags/%E8%84%89%E5%86%B2%E5%90%8C%E6%AD%A5%E5%99%A8/">
-                                    <span class="chip bg-color">脉冲同步器</span>
+                                <a href="/tags/AMBA/">
+                                    <span class="chip bg-color">AMBA</span>
                                 </a>
                             
                         </div>
@@ -1123,9 +1314,10 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/posts/1235a.html">
                     <div class="card-image">
@@ -1142,9 +1334,9 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-01
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-01
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1157,6 +1349,7 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1175,12 +1368,12 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/9172577577777.html">
+                <a href="/posts/91724fff.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg" class="responsive-img" alt="数字IC设计9——verilog编写5（无毛刺时钟MUX设计）">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/83b61856db896284.jpg" class="responsive-img" alt="数字IC设计10——verilog编写6（脉冲同步器）">
                         
-                        <span class="card-title">数字IC设计9——verilog编写5（无毛刺时钟MUX设计）</span>
+                        <span class="card-title">数字IC设计10——verilog编写6（脉冲同步器）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1191,7 +1384,7 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-07
                             </span>
                         <span class="publish-author">
                             
@@ -1212,8 +1405,8 @@ endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                         <span class="chip bg-color">Verilog</span>
                     </a>
                     
-                    <a href="/tags/%E6%97%A0%E6%AF%9B%E5%88%BA%E6%97%B6%E9%92%9FMUX%E8%AE%BE%E8%AE%A1/">
-                        <span class="chip bg-color">无毛刺时钟MUX设计</span>
+                    <a href="/tags/%E8%84%89%E5%86%B2%E5%90%8C%E6%AD%A5%E5%99%A8/">
+                        <span class="chip bg-color">脉冲同步器</span>
                     </a>
                     
                 </div>
