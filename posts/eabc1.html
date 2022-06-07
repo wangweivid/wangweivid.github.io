@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="密码学之公钥密码体系（2）：RSA算法2, 摆渡沧桑">
+    <meta name="keywords" content="密码学之对称加密体系（1）：AES、SM4的 S 盒有限域与复合域算法实现原理, 摆渡沧桑">
     <meta name="description" content="Designer">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>密码学之公钥密码体系（2）：RSA算法2 | 摆渡沧桑</title>
+    <title>密码学之对称加密体系（1）：AES、SM4的 S 盒有限域与复合域算法实现原理 | 摆渡沧桑</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -387,7 +387,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">密码学之公钥密码体系（2）：RSA算法2</h1>
+                    <h1 class="description center-align post-title">密码学之对称加密体系（1）：AES、SM4的 S 盒有限域与复合域算法实现原理</h1>
                 </div>
             </div>
         </div>
@@ -528,7 +528,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-06-05
+                    2019-06-17
                 </div>
                 
 
@@ -537,14 +537,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    10 分
                 </div>
                 
 
@@ -567,44 +567,97 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>密码学——公钥密码体系之RSA算法2</p>
-<h3><span id="一-rsa算法背景">一、RSA算法背景</span></h3><p>上一讲介绍了公钥密码体系中的背包算法，在Merkle背包算法出现后不久，便出现了第一个比较完善的公开秘钥算法RSA，它可以用于加密也可以用于数字签名（一般常用作数字签名，速度较快）。</p>
-<p>RSA算法以它的三个发明者Ron Rivest，Adi Shamir和Leonard Adleman的名字命名。</p>
-<p>RSA的安全基于大数分解的难度。其公开密钥和私人秘钥是一对大素数的函数。从一个公开密钥和密文中恢复出明文的难度等价于分解两个大素数之积。</p>
-<h3><span id="二-rsa算法描述">二、RSA算法描述</span></h3><ol>
-<li>为了产生两个密钥，选取两个大素数$p$和$q$.为了获得最大程度的安全性，两数的长度一样。计算乘积。<script type="math/tex; mode=display">n=pq</script></li>
-<li>然后随机算去加密密钥$e$，使得 $e$ 和$(p-1)(q-1)$互素。最后用欧几里得扩展算法计算解密密钥$d$,以满足<script type="math/tex; mode=display">ed = 1 mod (p-1)(q-1)</script>则<script type="math/tex; mode=display">d=e^{-1}mod(p-1)(q-1)</script>其中，$d$与$n$也互素。$e$和$n$是公开密钥，两个素数$p$和$q$不再需要，他们应该被舍弃，但绝不能泄露</li>
+                <p>🔥点击进入<a target="_blank" rel="noopener" href="https://bbs.csdn.net/forums/hardware_security">【硬件安全】</a>社区，查看更多精彩内容🔥</p>
+<p><a href="#box">🔥点击查看《硬件安全》系列文章🔥</a>   </p>
+<blockquote>
+<p>📢 <strong>声明</strong>：<br>🥭 作者主页：<a target="_blank" rel="noopener" href="http://weivid.blog.csdn.net">【摆渡沧桑的CSDN主页】</a>。<br>⚠️ 未经作者允许，禁止转载。<br>⚠️ 本文为非盈利性质，目的为个人学习记录及知识分享。因能力受限，存在知识点分析不正确的可能。若您参考本文造成了不良后果，本人不承担相关责任。<br>⚠️ 若本文所采用图片或相关引用侵犯了您的合法权益，请联系我进行删除。<br>😄 欢迎大家指出文章错误，欢迎同行与我交流 ~</p>
+</blockquote>
+<p>@[toc]</p>
+<h3><span id="一-引言">一、引言</span></h3><h4><span id="11-基于传统查表的s盒实现">1.1 基于传统查表的S盒实现</span></h4><blockquote>
+<p>本文要讲一下如何实现 AES 和 SM4 的 S 盒实现。<br>其实，除了我们平时使用<strong>查找表</strong>实现，如c 语言一个unsigned int Sbox[256] = {…}，verilog一个always case xxx:解决问题。而这种查表实现是S盒最基本的实现方法。<br>本文主要介绍一种较为复杂的S盒实现，可以将 S 盒的实现，并结合线性变换（AES 的 MixColumn，SM4 的 $L$变换）形成 $8\rightarrow 32$的大表 T-Table 进行加速，例如openssl的查表实现。<br>因此，我们本文将介绍通过<strong>逻辑运算</strong>的 S 盒实现方法。</p>
+<h4><span id="12-基于逻辑运算的s盒实现">1.2 基于逻辑运算的S盒实现</span></h4><p>AES 和 SM4 的 S 盒都是由 $GF(2^8)$ <strong>有限域</strong>上（有限域又称为伽罗瓦域）的运算进行生成的。可以直接基于其实现方法，对 S 盒进行计算实现。在 AES 和 SM4 的 S 盒生成公式中，均设计在 $GF(2^8)$ 的求逆运算，该运算比较耗时。有限域中求逆运算可以转化幂运算，例如 AES 的 S 盒可以表达为：</p>
+<script type="math/tex; mode=display">S(x) = 63 + 05x^{254} + 09x^{253} + F9x^{251} + 25x^{247} + 01x^{223} + B5x^{191} + 8Fx^{127}.</script><p>该运算定义在$GF(2^8)$上，直接实现同样较为复杂。</p>
+<p>还有一种方法，是使用<strong>布尔函数</strong>对 S 盒进行表达，利用布尔函数进行实现。该方法其实可以看作$GF(2)$上的表达。D. Gligoroski(<a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/On-Deviations-of-the-AES-S-box-when-Represented-as-Gligoroski-Elisabeth/420b0ba5d2948383fdabd95c9347043415df143e?p2df">On Deviations of the AES S-box when Represented as Vector Valued Boolean Function</a>)对 AES 的 S 盒进行了分析，得到其布尔函数表达式，例如，其中第0比特可表示为：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/12c8d040abe949cdb28e60c8578676b9.png" alt="在这里插入图片描述"><br>由此可以看出，布尔函数非常复杂，直接利用<strong>布尔函数表达式</strong>也不是一个好的思路。</p>
+<p><strong>D.Canright</strong>在<a target="_blank" rel="noopener" href="https://calhoun.nps.edu/bitstream/handle/10945/791/NPS-MA-04-001.pdf?sequence=1&amp;isAllowed=y">A Very Compact Rijndael S-box</a>一文中，提出一种实现思路：基于复合域进行实现。文章提出该方法实现在资源有限情况下的该类 S 盒的实现方式，后该方法被用于构造掩码实现（抵抗DPA攻击）和bitslice实现上。本文将对这个方法进行介绍。</p>
+</blockquote>
+<h3><span id="二-原理">二、原理</span></h3><h4><span id="21-基本原理">2.1 基本原理</span></h4><blockquote>
+<p>AES 和 SM4 的 S 盒生成都是基于$GF(2^8)$进行构造的，利用逆运算和仿射变换(affine)。<br><strong>仿射变换</strong>本身就能表示成逻辑运算，我们重点关注<strong>求逆运算</strong>。<br>AES 和 SM4 的表达都是基于多项式基，以 <strong>AES 的有限域</strong>为例，假设$A$为多项式<script type="math/tex">x^8+x^4+x^3+x+1</script>的根，即:</p>
+<script type="math/tex; mode=display">A^8+A^4+A^3+A+1=0</script><p>那么任何一个元素$x$可以表示为<script type="math/tex">x = x_7A^7+x_6A^6+x_5A^5+x_4A^4+x_3A^3+x_2A^2+x_1A+x_0</script><br>这种做法是将$GF(2^8)$直接看作$GF(2)$的8次扩域。<br>我们也可以不这么看，<strong>将$GF(2^8)$看成$GF(2^4)$的2次扩域，$GF(2^{4})$可以进一步看作$GF(2^2)$的2次扩域，再进一步$GF(2^2)$可以看作$GF(2)$的2次扩域</strong>。<br>而$GF(2^8)$的求逆运算，可以通过数学表达式，转换为$GF(2^4)$的求逆和一些乘、加操作。<br>这些操作可以进一步向下转化。下面我们详细说明一下。</p>
+<p>$K = GF(q^n)$为$GF(q)$的n次扩域，$\beta$ 为多项式的根，那么多项式基为<script type="math/tex">\{ 1,\beta,\beta^2, \ldots, \beta^{n-1} \}</script><br>任何一个元素$x$，可以表示为<script type="math/tex">x = x_{n-1}\beta^{n-1}+\ldots+x_1\beta+x_0</script><br>这也是AES 和 SM4 所采用的基表示方式。<br>此外，除了多项式基以外，域的表达方式还可以使用正规基进行表达，正规基为${\beta, \beta^q, \beta^{q^2}, \ldots, \beta^{q^{n-1}}}$，正规基使用了多项式的全部根。</p>
+</blockquote>
+<h4><span id="22-gf28的逆">2.2 $GF(2^8)$的逆</span></h4><blockquote>
+<p>$GF(2^8)$，可以看作$GF(2^4)$的2次扩域，也就是在$GF(2^4)$上寻找一个不可约二次多项式：<script type="math/tex">r(y) = y^2 + \tau y +\upsilon</script><br>其中，$\tau$ 和 $\upsilon$ 为 $GF(2^4)$ 的元素。<br>设 $Y$ 为 $r(y)$ 的根，则 $GF(2^8)$ 元素的多项式基为 ${Y, 1}$，正规基为${Y, Y^{16}}$。</p>
+<h6><span id>#</span></h6><p><strong>Canright</strong>在文章中讨论了多项式基和正规基两种方式，我们这里只看正规基。对于$GF(2^8)$的元素 <script type="math/tex">g = \gamma_1 Y^{16} + \gamma_0 Y</script><br>求逆：</p>
+<script type="math/tex; mode=display">d = \delta_1 Y^{16} + \delta_0 Y</script><p> $\gamma_i$ 和 $\delta_i$ 都是$GF(2^4)$的元素, $gd = 1$，待定系数求解，可得出</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\delta_1 &= [\gamma_1 \gamma_0 \tau^2 + (\gamma_1^2 + \gamma_0^2)\upsilon]^{-1}\gamma_0 \\
+\delta_0 &= [\gamma_1 \gamma_0 \tau^2 + (\gamma_1^2 + \gamma_0^2)\upsilon]^{-1}\gamma_1
+\end{cases}\\</script><p>在其文内有详细推导方法。<br>观察系数，其达到的效果就是，$GF(2^8)$的求逆运算，转化成为$GF(2^4)$的乘法、平方和求逆。</p>
+<p>可以选择不可约多项式为<script type="math/tex">r(y) = y^2 + y + \upsilon=(y+Y)(y+Y^{16})</script><br>也就是 $\tau$ 取1来降低求解复杂度，这样，对$g = \gamma_1 Y^{16} + \gamma_0 Y$的求逆可简化为如下图：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/8ac785292bee4143b9a0fc6d158f9e8f.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<h4><span id="23-gf24的逆">2.3 $GF(2^4)$的逆</span></h4><blockquote>
+<p>同样，$GF(2^4)$可以看作$GF(2^2)$的二次扩域，也就是在$GF(2^2)$寻找一个不可约二次多项式:</p>
+<script type="math/tex; mode=display">s(z) = z^2 + Tz + N</script><p>设$Z$ 为该多项式的根，取正规基${Z^4, Z}$。<br>和$GF(2^8)$计算方法相同，可计算$GF(2^4)$元素<script type="math/tex">\upsilon = \Gamma_1 Z^4+\Gamma_0 Z</script><br>求逆：</p>
+<script type="math/tex; mode=display">\delta = \Delta_1 Z^4 + \Delta_0 Z</script><p>其中$\upsilon\delta=1$,待定系数求解，可得出</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\Delta_1 &= [\Gamma_1 \Gamma_0 T^2 + (\Gamma_1^2 + \Gamma_0^2)N]^{-1}\Gamma_0 \\
+\Delta_0 &= [\Gamma_1 \Gamma_0 T^2 + (\Gamma_1^2 + \Gamma_0^2)N]^{-1}\Gamma_1
+\end{cases}\\</script><p>也可以取$T = 1$降低复杂度，那么在$GF(2^4)$求逆运算如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/f53c74fbd9704299a47ef1380715e108.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<h4><span id="24-gf24的乘法">2.4 $GF(2^4)$的乘法</span></h4><blockquote>
+<p>在$GF(2^8)$求逆时，也涉及到了$GF(2^4)$的乘法。$GF(2^4)$的乘法$\upsilon\delta = (\Gamma_1 Z^4+\Gamma_0 Z)(\Delta_1 Z^4 + \Delta_0 Z)$可按照如下公式计算：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\Phi &= N(\Gamma_1+\Gamma_0)(\Delta_1+\Delta_0) \\
+\upsilon\delta&= [\Phi+\Gamma_1\Delta_1]Z^4+[\Phi+\Gamma_0\Delta_0]Z \\
+\Phi_1&=\Phi+\Gamma_1\Delta_1 \\
+\Phi_0&=\Phi+\Gamma_0\Delta_0
+\end{cases}\\</script><p>如下图：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/52112f7512c54666bcf58a5ae5605584.png" alt></p>
+</blockquote>
+<h4><span id="25-gf22的逆">2.5 $GF(2^2)$的逆</span></h4><blockquote>
+<p>进一步，$GF(2^2)$可以看作$GF(2)$的二次扩域，在$GF(2)$上的不可约多项式只有<script type="math/tex">t(\omega) = \omega^2+\omega+1</script><br>取正规基${W^2, W}$<br>则<script type="math/tex">\Gamma = g_1W^2+g_0W</script><br>逆为<script type="math/tex">\Delta = d_1W^2+d_0W</script><br>其中, $\Gamma\Delta =1$,待定系数求解，可得出</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+d_1 &= g_0 \\
+d_0 &= g_1
+\end{cases}\\</script></blockquote>
+<h4><span id="26-gf22的乘法">2.6 $GF(2^2)$的乘法</span></h4><blockquote>
+<p>$GF(2^2)$的乘法:</p>
+<script type="math/tex; mode=display">\Gamma\Delta = (g_1W^2+g_0W)(d_1W^2+d_0W)</script><p>计算如下：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+f &= (g_1+g_0)(d_1+d_0) \\
+\upsilon\delta&= [f+g_1d_1]W^2+[f+g_0d_0]W\\
+f_1 &=f+g_1d_1\\
+f_0 &=f+g_0d_0\\
+\end{cases}\\</script><p>如下图：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/f3004ba00b2840d59708d117b54301bf.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<h4><span id="27-其他结论">2.7 其他结论</span></h4><blockquote>
+<p>将$GF(2^8)$进行转化，我们还有一些操作未介绍，包括 $\upsilon\gamma^2$、$N\Gamma^2$ 和 $N\Gamma$。这些值可通过选择不同的 $\upsilon$ 和 $N$ 进行简化。文章详细讨论了选取的方法。<br>直接给结论：</p>
+<ol>
+<li>对于$GF(2^2)$，不可约多项式为<script type="math/tex">t(\omega) = \omega^2+\omega+1</script><br>正规基${W^2, W}$</li>
+<li>对于$GF(2^4)/GF(2^2)$，不可约多项式为<script type="math/tex">s(z) = z^2 + z + N \\ N = W^2</script>，<br>正规基${Z^4, Z}$，$N(g_1W^2+g_2W)^2 = W^2(g_1W^2+g_2W) = g_1W^2+(g_1+g_0)W$</li>
+<li>对于$GF(2^8)/GF(2^4)$，不可约多项式为<script type="math/tex">r(y) = y^2 + y +\upsilon \\ \upsilon = N^2Z</script><br>如此:<script type="math/tex; mode=display">\upsilon(AZ^4+BZ)^2 = (A+B)^2Z^4+N^2B^2</script>复合域下，实际上是以<script type="math/tex">[(b_7w^2 + b_6w)z^4 + (b_5w^2 + b_4w)z]y^{16} + [(b_3w^2 + b_2w)z^4 + (b_1w^2 + b_0w)z]y =\\ b_7w^2z^4y^{16} + b_6wz^4y^{16} + b_5w^2zy^{16} + b_4wzy^{16} + b_3w^2z^4y + b_2wz^4y + b_1w^2zy + b_0wzy</script>表示$GF(2^8)$的一个元素。<br>而 S 盒的输入是以多项式基表示进行输入的。要利用复合域进行运算，需要将输入表示进行转换。<br>以线性空间的角度看，这复合域表示相当于是给$GF(2^8)$找了一组新基。两组基有如下关系：<script type="math/tex; mode=display">g_7A^7+g_6A^6+g_5A^5+g_4A^4+g_3A^3+g_2A^2+g_1A+g_0 \\= b_7w^2z^4y^{16} + b_6wz^4y^{16} + b_5w^2zy^{16} + b_4wzy^{16} + b_3w^2z^4y + b_2wz^4y + b_1w^2zy + b_0wzy</script>找到$w^2z^4y^{16}$等在多项式基下的表示，形成矩阵X：<script type="math/tex; mode=display">
+\left(
+\begin{array}{c}
+g_7\\ g_6 \\ g_5\\ g_4 \\ g_3 \\ g_2\\ g_1 \\ g_0
+\end{array}
+\right) =
+X
+\left(
+\begin{array}{c}
+b_7\\ b_6 \\ b_5\\ b_4 \\ b_3 \\ b_2\\ b_1 \\ b_0
+\end{array}
+\right)</script>计算$X^{-1}$，乘以多项式基下的表示即可得到复合域基下的表示。<br>S盒计算完成后，再进行反变换即可。</li>
 </ol>
-<p>加密消息$m$时，首先将它分成比n小的数据分组（采用二进制数，选取小于n的2的最大次幂）。也就是说，如果$p$和$q$为100位素数，那么n将有200位，每个消息分组mi应小于200位长（如果需要加密固定的消息分组，那么可以在它的左边填充0，并确保该数比n小）。加密后的密文c，将由相同长度的分组ci组成。加密公式简化为：</p>
-<script type="math/tex; mode=display">c_i=m_i^emod(n)</script><p>解密消息时，取每一个加密后的分组ci并计算：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210529205337710.png" alt><br>这个公式能恢复明文，如下<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210529205620487.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>消息用d加密就像用e解密一样容易。</p>
-<p><strong>举一个简单的例子</strong>：<br>选择$p=47$，$q=71$，那么</p>
-<script type="math/tex; mode=display">n=pq=3347</script><p>加密密钥$e$必须与$(p-1)(q-1)=46*70=3220$没有公因子。<br>随机选取$e=79$，那么：</p>
-<script type="math/tex; mode=display">d=79^{-1}mod3220=1019</script><p>该结果使用扩展欧几里得算法求出。公开$e$和$n$，将$d$保密，丢弃$p$和$q$。</p>
-<p>对于加密消息：$m=688232687966668003$<br>首先将其分为小的分组。在此例中，按3位数字一组就可以进行加密。这个消息将分成6个分组m，进行加密：<br>$m_1=688$<br>$m_2=232$<br>$m_3=687$<br>$m_4=966$<br>$m_5=668$<br>$m_6=003$</p>
-<p>第一个分组加密为：<br>$688^{79}mod3337 = 1570 = c_1$<br>对随后的分组进行同样的运算产生加密后的密文：</p>
-<script type="math/tex; mode=display">c=15702756209122762423158</script><p>解密消息时需要用解密密钥1019进行相同的指数运算。因而</p>
-<script type="math/tex; mode=display">1570^{1019}mod3337=688=m_1</script><p>消息的其余部分可用同样的方法恢复出来</p>
-<h3><span id="三-rsa的硬件实现">三、RSA的硬件实现</span></h3><ol>
-<li>已有的RSA芯片<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210530171636900.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></li>
-<li><p>RSA速度<br>RSA硬件实现时，RSA比DES慢大约1000倍。最快的具有512位模数的VLSI硬件实现的吞吐量为64Kbit每秒。也有一些实现1024位RSA的加密芯片。如今设计512bit的芯片可以达到1Mb/s，该芯片在1995年制成。在智能卡中已经大量实现了RSA，这些实现都比较慢。</p>
-<p> 有兴趣的读者可以关注我之前的专门RSA硬件设计专栏：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/114192073?spm=1001.2014.3001.5501">基于Montgomery算法的高速、可配置RSA密码IP核硬件设计系列博文</a></p>
-<p> 软件实现时，DES大约比RSA快100倍。这些数字会随着技术发展而发生相应的变化，但RSA的速度将永远不会达到对称算法的速度。下表给出了软件实现RSA算法的情况：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210530172239956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></p>
-</li>
-<li>RSA硬件和软件加速<br>对于RSA硬件实现，可以采用<strong>蒙哥马利算法</strong>来加速硬件。</li>
-</ol>
-<p>如果很适当的选择了一个$e$值，RSA加密速度将快很多。最常用的三个$e$值为3,17和65537（2^16+1）（二进制表示只有两个1，所以只需要17次乘法来实现指数运算）。<br><strong>X.509</strong>中建议采用65537；<br><strong>PEM</strong>中建议采用3；<br><strong>PKCS#1</strong>中建议采用3和65537；<br>即便是一组用户使用同样的$e$值，采用这三个值中的任何一个都不存在安全问题<br>假如已经保存了$p$和$g$值，以及诸如$dmod(p-1)、q^{-1}dmod(p-1)、modp$这类数，那么运用<strong>中国剩余定理</strong>就能使私人密钥的运行速度加快。这些数很容易从私人密钥和公开密钥中计算出来。</p>
-<h3><span id="四-rsa的安全性">四、RSA的安全性</span></h3><p>对于RSA的安全性完全依赖于大数分解的难度，从技术上来说，这是不正确的，只是一种推测。<br>从数学上从未证明过，需要分解n才能从$e$和$c$中计算出$m$。用一种完全不同方法来对RSA进行密码分析还只是一种想象。如果这种新方法能让密码分析者推算出$d$,也可以作为分解大数的一种新方法。</p>
-<p>也可以通过猜测$(p-1)(q-1)$的值来攻击RSA。但这种攻击没有分解n容易。</p>
-<p>对于持有极端怀疑态度的人来说，有些RSA的变型已经被证明和大数分解同样困难。分解$n$是最显而易见的攻击方法。敌方手中有公开秘钥$e$和模数$n$，要找到解密密钥$d$，他们就必须分解$n$，目前，<strong>129位十进制数字的模数是能分解的临界数。所以，n应该大于这个数</strong>。</p>
-<p>对于密码分析者来说，有可能尝试每一种可能的d，直到获得正确的一个。这种穷举攻击还没有试图分解$n$更有效。</p>
-<p>随着时间的推移，声称已经找到破译RSA的简单方法，但直到现在这些宣称还没有强有力的证据。</p>
-<p>还有其他的担心，大多数用于计算素数$p$和$q$的算法是有概率的，假如$p$和$q$不是素数又如何？首先可以找出这件事发生尽可能小的概率。如果不是素数，这就意味着加密和解密均不能正确的工作，可以立即放弃。出现这种问题的主要原因是素性检测是基于概率来检测的。</p>
-<h3><span id="五-对rsa的选择密文攻击">五、对RSA的选择密文攻击</span></h3><p>有些攻击专门针对RSA的实现。他们不攻击算法本身，而是<strong>攻击协议</strong>。仅使用RSA而不重视它的实现时不够的。实现的细节其实也很重要</p>
-<p><strong>情形1——攻击协议</strong>：Eve在Alice的通信过程中进行窃听，设法成功选取一个用她的公开秘钥加密的密文$c$，Eve想读出消息。从数学角度来说，她想得到$m$，这里：</p>
-<script type="math/tex; mode=display">m=c^d$$为了恢复$m$，首先先选取一个随机数$r$，满足$r$小于$n$。他得到的Alice的公开秘钥$e$,然后计算：
-$$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r=x^dmodn$<br>现在，Eve让Alice用她的私人秘钥对y签名，以便解密$y$（Alice必须对消息，而非消息的散列值签名）。记住，Alice以前从未见过$y$.Alice发送给Eve:</p>
-<script type="math/tex; mode=display">u=y^dmodn</script><p>现在Eve计算：</p>
-<script type="math/tex; mode=display">tumodn=r^{-1}y^dmodn=r^{-1}x^dc^dmodn=c^dmodn=m</script><p>那么Eve，现在就获得了m。</p>
+</blockquote>
+<p><div id="box"></div></p>
+<p id="box">
+
+</p><p>🔥 <strong><em>精选往期 《硬件安全》系列文章</em></strong>🔥<br><strong>【算法篇】</strong><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/116717834"><strong><em>密码学之公钥密码体系（1）：背包算法</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117388689"><strong><em>密码学之公钥密码体系（2）：RSA算法</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/123154320"><strong><em>密码学之公钥密码体系（3）：ElGamal算法</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/124784493?spm=1001.2014.3001.5501"><strong><em>密码学之公钥密码体系（4）：Rabin公钥密码方案</em></strong></a><br><a href><strong><em>密码学之对称加密体系（1）：AES、SM4的 S 盒有限域与复合域算法实现原理</em></strong> </a></p>
+<p><strong>【概述篇】</strong><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117250046"><strong><em>硬件安全技术——概述1-安全威胁和硬件安全技术</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117294467"><strong><em>硬件安全技术——概述2-5G时代IoT环境下芯片安全风险与挑战</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117339683"><strong><em>硬件安全技术——芯片安全设计技术1</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117364447"><strong><em>硬件安全技术——芯片安全设计技术2</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117380971"><strong><em>硬件安全技术——芯片安全设计技术3</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117385966"><strong><em>硬件安全技术——芯片安全设计技术4（PUF）</em></strong></a></p>
 
                 
             </div>
@@ -631,7 +684,7 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://www.weivid.vip/posts/e99890812263.html">https://www.weivid.vip/posts/e99890812263.html</a>
+                    <a href="https://www.weivid.vip/posts/eabc1.html">https://www.weivid.vip/posts/eabc1.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1107,12 +1160,12 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/posts/e9989081226666663.html">
+                <a href="/posts/1234a.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/8b5babf2153cb2ec.jpg" class="responsive-img" alt="密码学之公钥密码体系（3）：Elgamal算法">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/bf545d98ce4f1e6b.jpg" class="responsive-img" alt="AHB2APB桥接器设计（1）——基本原理">
                         
-                        <span class="card-title">密码学之公钥密码体系（3）：Elgamal算法</span>
+                        <span class="card-title">AHB2APB桥接器设计（1）——基本原理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1123,8 +1176,56 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-09
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-28
                         </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/SOC/" class="post-category">
+                                    SOC
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AMBA/">
+                        <span class="chip bg-color">AMBA</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/posts/eabc23.html">
+                    <div class="card-image">
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/8b5babf2153cb2ec.jpg" class="responsive-img" alt="密码学之对称加密体系（2）：AES、SM4的 S 盒具体算法的实现">
+                        
+                        <span class="card-title">密码学之对称加密体系（2）：AES、SM4的 S 盒具体算法的实现</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1142,54 +1243,6 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
                     
                     <a href="/tags/Cryptography-Algorithm/">
                         <span class="chip bg-color">Cryptography Algorithm</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/posts/675857645754.html">
-                    <div class="card-image">
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术4（PUF）">
-                        
-                        <span class="card-title">硬件安全技术——芯片安全设计技术4（PUF）</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-05
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Cryptography/" class="post-category">
-                                    Cryptography
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Hardware-Security/">
-                        <span class="chip bg-color">Hardware Security</span>
                     </a>
                     
                 </div>

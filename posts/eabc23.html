@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="密码学之公钥密码体系（2）：RSA算法2, 摆渡沧桑">
+    <meta name="keywords" content="密码学之对称加密体系（2）：AES、SM4的 S 盒具体算法的实现, 摆渡沧桑">
     <meta name="description" content="Designer">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>密码学之公钥密码体系（2）：RSA算法2 | 摆渡沧桑</title>
+    <title>密码学之对称加密体系（2）：AES、SM4的 S 盒具体算法的实现 | 摆渡沧桑</title>
     <link rel="icon" type="image/png" href="/medias/logo.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -387,7 +387,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">密码学之公钥密码体系（2）：RSA算法2</h1>
+                    <h1 class="description center-align post-title">密码学之对称加密体系（2）：AES、SM4的 S 盒具体算法的实现</h1>
                 </div>
             </div>
         </div>
@@ -528,7 +528,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-06-05
+                    2019-06-17
                 </div>
                 
 
@@ -537,14 +537,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    5.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    31 分
                 </div>
                 
 
@@ -567,44 +567,789 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>密码学——公钥密码体系之RSA算法2</p>
-<h3><span id="一-rsa算法背景">一、RSA算法背景</span></h3><p>上一讲介绍了公钥密码体系中的背包算法，在Merkle背包算法出现后不久，便出现了第一个比较完善的公开秘钥算法RSA，它可以用于加密也可以用于数字签名（一般常用作数字签名，速度较快）。</p>
-<p>RSA算法以它的三个发明者Ron Rivest，Adi Shamir和Leonard Adleman的名字命名。</p>
-<p>RSA的安全基于大数分解的难度。其公开密钥和私人秘钥是一对大素数的函数。从一个公开密钥和密文中恢复出明文的难度等价于分解两个大素数之积。</p>
-<h3><span id="二-rsa算法描述">二、RSA算法描述</span></h3><ol>
-<li>为了产生两个密钥，选取两个大素数$p$和$q$.为了获得最大程度的安全性，两数的长度一样。计算乘积。<script type="math/tex; mode=display">n=pq</script></li>
-<li>然后随机算去加密密钥$e$，使得 $e$ 和$(p-1)(q-1)$互素。最后用欧几里得扩展算法计算解密密钥$d$,以满足<script type="math/tex; mode=display">ed = 1 mod (p-1)(q-1)</script>则<script type="math/tex; mode=display">d=e^{-1}mod(p-1)(q-1)</script>其中，$d$与$n$也互素。$e$和$n$是公开密钥，两个素数$p$和$q$不再需要，他们应该被舍弃，但绝不能泄露</li>
+                <p>🔥点击进入<a target="_blank" rel="noopener" href="https://bbs.csdn.net/forums/hardware_security">【硬件安全】</a>社区，查看更多精彩内容🔥</p>
+<p><a href="#box">🔥点击查看《硬件安全》系列文章🔥</a>   </p>
+<blockquote>
+<p>📢 <strong>声明</strong>：<br>🥭 作者主页：<a target="_blank" rel="noopener" href="http://weivid.blog.csdn.net">【摆渡沧桑的CSDN主页】</a>。<br>⚠️ 未经作者允许，禁止转载。<br>⚠️ 本文为非盈利性质，目的为个人学习记录及知识分享。因能力受限，存在知识点分析不正确的可能。若您参考本文造成了不良后果，本人不承担相关责任。<br>⚠️ 若本文所采用图片或相关引用侵犯了您的合法权益，请联系我进行删除。<br>😄 欢迎大家指出文章错误，欢迎同行与我交流 ~</p>
+</blockquote>
+<p>@[toc]</p>
+<h3><span id="一-aes-s盒实现方法">一、AES S盒实现方法</span></h3><p>关于复合域算法实现原理可以参考下面这篇博文：<br><a href>AES、SM4的 S 盒有限域与复合域算法实现原理</a></p>
+<h4><span id="11-实现方法">1.1 实现方法</span></h4><blockquote>
+<p>AES的S盒是定义在$GF(2^8)$（不可约多项式$x^8+x^4+x^3+x+1$），其表达式为<script type="math/tex">S(x) = Ax^{-1}+c</script><br>具体如下：</p>
+<script type="math/tex; mode=display">
+\left(
+\begin{array}{c}
+s_7 \\
+s_6 \\
+s_5 \\
+s_4 \\
+s_3 \\
+s_2 \\
+s_1 \\
+s_0 \\
+\end{array}
+\right) =
+\left(
+\begin{array}{cccccccc}
+1 & 1 & 1 & 1 & 1 & 0 & 0 & 0\\
+0 & 1 & 1 & 1 & 1 & 1 & 0 & 0\\
+0 & 0 & 1 & 1 & 1 & 1 & 1 & 0\\
+0 & 0 & 0 & 1 & 1 & 1 & 1 & 1\\
+1 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
+1 & 1 & 0 & 0 & 0 & 1 & 1 & 1\\
+1 & 1 & 1 & 0 & 0 & 0 & 1 & 1\\
+1 & 1 & 1 & 1 & 0 & 0 & 0 & 1\\
+\end{array}
+\right) \cdot
+\left(
+\begin{array}{c}
+x_7 \\
+x_6 \\
+x_5 \\
+x_4 \\
+x_3 \\
+x_2 \\
+x_1 \\
+x_0 \\
+\end{array}
+\right) +
+\left(
+\begin{array}{c}
+0 \\
+1 \\
+1 \\
+0 \\
+0 \\
+0 \\
+1 \\
+1 \\
+\end{array}
+\right)</script></blockquote>
+<h4><span id="12-求矩阵x和逆">1.2 求矩阵X和逆</span></h4><blockquote>
+<p>求 $X$ 和 $X^{-1}$，我们需要计算 $w$，$z$ 和 $y$，计算 $w^2z^4y^{16}$等一系列系数值。<br>Canright在文章中给出了 $GF(2^8)$ 生成元 $B$ 的 对数表，方便计算。<br>这里直接通过搜索进行计算。</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from pyfinite import ffield
+
+gen &#x3D; 0b100011011
+F &#x3D; ffield.FField(8, gen, useLUT&#x3D;0) # 这里一定要写useLUT&#x3D;0，不然会出问题。。。
+
+def field_pow2(x, F): #计算在F域上的平方
+    return F.Multiply(x, x)
+
+def field_pow3(x, F): #计算在F域上的三次方
+    return F.Multiply(x, field_pow2(x, F))
+
+def field_pow4(x, F): #计算在F域上的四次方
+    return field_pow2(field_pow2(x, F), F)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<ol>
+<li>首先，搜索$GF(2^2)$的正规基${W^2, W}$，我们求出其在$GF(2^8)$下多项式基的表示。</li>
 </ol>
-<p>加密消息$m$时，首先将它分成比n小的数据分组（采用二进制数，选取小于n的2的最大次幂）。也就是说，如果$p$和$q$为100位素数，那么n将有200位，每个消息分组mi应小于200位长（如果需要加密固定的消息分组，那么可以在它的左边填充0，并确保该数比n小）。加密后的密文c，将由相同长度的分组ci组成。加密公式简化为：</p>
-<script type="math/tex; mode=display">c_i=m_i^emod(n)</script><p>解密消息时，取每一个加密后的分组ci并计算：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210529205337710.png" alt><br>这个公式能恢复明文，如下<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210529205620487.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt><br>消息用d加密就像用e解密一样容易。</p>
-<p><strong>举一个简单的例子</strong>：<br>选择$p=47$，$q=71$，那么</p>
-<script type="math/tex; mode=display">n=pq=3347</script><p>加密密钥$e$必须与$(p-1)(q-1)=46*70=3220$没有公因子。<br>随机选取$e=79$，那么：</p>
-<script type="math/tex; mode=display">d=79^{-1}mod3220=1019</script><p>该结果使用扩展欧几里得算法求出。公开$e$和$n$，将$d$保密，丢弃$p$和$q$。</p>
-<p>对于加密消息：$m=688232687966668003$<br>首先将其分为小的分组。在此例中，按3位数字一组就可以进行加密。这个消息将分成6个分组m，进行加密：<br>$m_1=688$<br>$m_2=232$<br>$m_3=687$<br>$m_4=966$<br>$m_5=668$<br>$m_6=003$</p>
-<p>第一个分组加密为：<br>$688^{79}mod3337 = 1570 = c_1$<br>对随后的分组进行同样的运算产生加密后的密文：</p>
-<script type="math/tex; mode=display">c=15702756209122762423158</script><p>解密消息时需要用解密密钥1019进行相同的指数运算。因而</p>
-<script type="math/tex; mode=display">1570^{1019}mod3337=688=m_1</script><p>消息的其余部分可用同样的方法恢复出来</p>
-<h3><span id="三-rsa的硬件实现">三、RSA的硬件实现</span></h3><ol>
-<li>已有的RSA芯片<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210530171636900.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></li>
-<li><p>RSA速度<br>RSA硬件实现时，RSA比DES慢大约1000倍。最快的具有512位模数的VLSI硬件实现的吞吐量为64Kbit每秒。也有一些实现1024位RSA的加密芯片。如今设计512bit的芯片可以达到1Mb/s，该芯片在1995年制成。在智能卡中已经大量实现了RSA，这些实现都比较慢。</p>
-<p> 有兴趣的读者可以关注我之前的专门RSA硬件设计专栏：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/114192073?spm=1001.2014.3001.5501">基于Montgomery算法的高速、可配置RSA密码IP核硬件设计系列博文</a></p>
-<p> 软件实现时，DES大约比RSA快100倍。这些数字会随着技术发展而发生相应的变化，但RSA的速度将永远不会达到对称算法的速度。下表给出了软件实现RSA算法的情况：<br><img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://img-blog.csdnimg.cn/20210530172239956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3ZpdmlkMTE3,size_16,color_FFFFFF,t_70" alt></p>
-</li>
-<li>RSA硬件和软件加速<br>对于RSA硬件实现，可以采用<strong>蒙哥马利算法</strong>来加速硬件。</li>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">for i in range(256):
+    if field_pow2(i, F)^i^1 &#x3D;&#x3D; 0: # 搜索 w^2+w+1 &#x3D; 0的根
+        print(hex(i))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>我们可得到，$W = 0xbd$，$W^2 = 0xbc$（一定要注意，这是$GF(2^8)$的多项式基表示）</p>
+<ol>
+<li>然后，搜索$GF(2^4)/GF(2^2)$的正规基${Z^4, Z}$，我们求出其在$GF(2^8)$下多项式基的表示。<script type="math/tex">s(z) = z^2 + z + N\\N = W^2 = 0xbc</script></li>
 </ol>
-<p>如果很适当的选择了一个$e$值，RSA加密速度将快很多。最常用的三个$e$值为3,17和65537（2^16+1）（二进制表示只有两个1，所以只需要17次乘法来实现指数运算）。<br><strong>X.509</strong>中建议采用65537；<br><strong>PEM</strong>中建议采用3；<br><strong>PKCS#1</strong>中建议采用3和65537；<br>即便是一组用户使用同样的$e$值，采用这三个值中的任何一个都不存在安全问题<br>假如已经保存了$p$和$g$值，以及诸如$dmod(p-1)、q^{-1}dmod(p-1)、modp$这类数，那么运用<strong>中国剩余定理</strong>就能使私人密钥的运行速度加快。这些数很容易从私人密钥和公开密钥中计算出来。</p>
-<h3><span id="四-rsa的安全性">四、RSA的安全性</span></h3><p>对于RSA的安全性完全依赖于大数分解的难度，从技术上来说，这是不正确的，只是一种推测。<br>从数学上从未证明过，需要分解n才能从$e$和$c$中计算出$m$。用一种完全不同方法来对RSA进行密码分析还只是一种想象。如果这种新方法能让密码分析者推算出$d$,也可以作为分解大数的一种新方法。</p>
-<p>也可以通过猜测$(p-1)(q-1)$的值来攻击RSA。但这种攻击没有分解n容易。</p>
-<p>对于持有极端怀疑态度的人来说，有些RSA的变型已经被证明和大数分解同样困难。分解$n$是最显而易见的攻击方法。敌方手中有公开秘钥$e$和模数$n$，要找到解密密钥$d$，他们就必须分解$n$，目前，<strong>129位十进制数字的模数是能分解的临界数。所以，n应该大于这个数</strong>。</p>
-<p>对于密码分析者来说，有可能尝试每一种可能的d，直到获得正确的一个。这种穷举攻击还没有试图分解$n$更有效。</p>
-<p>随着时间的推移，声称已经找到破译RSA的简单方法，但直到现在这些宣称还没有强有力的证据。</p>
-<p>还有其他的担心，大多数用于计算素数$p$和$q$的算法是有概率的，假如$p$和$q$不是素数又如何？首先可以找出这件事发生尽可能小的概率。如果不是素数，这就意味着加密和解密均不能正确的工作，可以立即放弃。出现这种问题的主要原因是素性检测是基于概率来检测的。</p>
-<h3><span id="五-对rsa的选择密文攻击">五、对RSA的选择密文攻击</span></h3><p>有些攻击专门针对RSA的实现。他们不攻击算法本身，而是<strong>攻击协议</strong>。仅使用RSA而不重视它的实现时不够的。实现的细节其实也很重要</p>
-<p><strong>情形1——攻击协议</strong>：Eve在Alice的通信过程中进行窃听，设法成功选取一个用她的公开秘钥加密的密文$c$，Eve想读出消息。从数学角度来说，她想得到$m$，这里：</p>
-<script type="math/tex; mode=display">m=c^d$$为了恢复$m$，首先先选取一个随机数$r$，满足$r$小于$n$。他得到的Alice的公开秘钥$e$,然后计算：
-$$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r=x^dmodn$<br>现在，Eve让Alice用她的私人秘钥对y签名，以便解密$y$（Alice必须对消息，而非消息的散列值签名）。记住，Alice以前从未见过$y$.Alice发送给Eve:</p>
-<script type="math/tex; mode=display">u=y^dmodn</script><p>现在Eve计算：</p>
-<script type="math/tex; mode=display">tumodn=r^{-1}y^dmodn=r^{-1}x^dc^dmodn=c^dmodn=m</script><p>那么Eve，现在就获得了m。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">for i in range(256):
+    if field_pow2(i, F)^i^0xbc &#x3D;&#x3D; 0: # 搜索 z^2+z+0xbc &#x3D; 0的根
+        print(hex(i))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>于是我们又得到，$Z = 0x5c$，$Z^4 = 0x5d$</p>
+<ol>
+<li>最后，搜索$GF(2^8)/GF(2^4)$的正规基${Y^{16}, Y}$，我们求出其在$GF(2^8)$下多项式基的表示。<script type="math/tex">r(y) = y^2 + y +\upsilon \\
+\upsilon = N^2Z</script></li>
+</ol>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">u &#x3D; F.Multiply(field_pow2(0xbc, F), 0x5c)
+for i in range(256):
+    if field_pow2(i, F)^i^0xec &#x3D;&#x3D; 0: # 搜索 z^2+z+0xbc &#x3D; 0的根
+        print(hex(i))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>于是我们又得到，$Y= 0xff$，$Y^{16} = 0xfe$</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">w &#x3D; 0xbd
+w_2 &#x3D; 0xbc
+z &#x3D; 0x5c
+z_4 &#x3D; 0x5d
+y &#x3D; 0xff
+y_16 &#x3D; 0xfe
+w_2_z_4_y_16 &#x3D; F.Multiply(F.Multiply(w_2, z_4), y_16)
+w_z_4_y_16 &#x3D; F.Multiply(F.Multiply(w, z_4), y_16)
+w_2_z_y_16 &#x3D; F.Multiply(F.Multiply(w_2, z), y_16)
+w_z_y_16 &#x3D; F.Multiply(F.Multiply(w, z), y_16)
+w_2_z_4_y &#x3D; F.Multiply(F.Multiply(w_2, z_4), y)
+w_z_4_y &#x3D; F.Multiply(F.Multiply(w, z_4), y)
+w_2_z_y &#x3D; F.Multiply(F.Multiply(w_2, z), y)
+w_z_y &#x3D; F.Multiply(F.Multiply(w, z), y)
+print(&#39;w_2_z_4_y_16\t&#39;, hex(w_2_z_4_y_16))
+print(&#39;w_z_4_y_16\t&#39;, hex(w_z_4_y_16))
+print(&#39;w_2_z_y_16\t&#39;, hex(w_2_z_y_16))
+print(&#39;w_z_y_16\t&#39;, hex(w_z_y_16))
+print(&#39;w_2_z_4_y\t&#39;, hex(w_2_z_4_y))
+print(&#39;w_z_4_y\t\t&#39;, hex(w_z_4_y))
+print(&#39;w_2_z_y\t\t&#39;, hex(w_2_z_y))
+print(&#39;w_z_y\t\t&#39;, hex(w_z_y))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>得到多项式基在复合域基下表示如下：</p>
+<script type="math/tex; mode=display">
+\left(
+\begin{array}{c}
+g_7\\ g_6 \\ g_5\\ g_4 \\ g_3 \\ g_2\\ g_1 \\ g_0
+\end{array}
+\right) =
+\left(
+\begin{array}{cccccccc}
+0 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+1 & 1 & 1 & 0 & 1 & 0 & 1 & 1 \\
+1 & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\
+0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 \\
+0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\
+1 & 0 & 1 & 1 & 0 & 0 & 1 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+b_7\\ b_6 \\ b_5\\ b_4 \\ b_3 \\ b_2\\ b_1 \\ b_0
+\end{array}
+\right)</script><p>求$X^{-1}$，可得到复合域基下多项式基的表示：</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from pyfinite import genericmatrix
+
+XOR &#x3D; lambda x,y: x^y
+AND &#x3D; lambda x,y: x&amp;y
+DIV &#x3D; lambda x,y: x 
+m &#x3D; genericmatrix.GenericMatrix(size&#x3D;(8, 8),zeroElement&#x3D;0,identityElement&#x3D;1,add&#x3D;XOR,mul&#x3D;AND,sub&#x3D;XOR,div&#x3D;DIV)
+
+m.SetRow(0, [0, 0, 0, 1, 0, 0, 1, 0])
+m.SetRow(1, [1, 1, 1, 0, 1, 0, 1, 1])
+m.SetRow(2, [1, 1, 1, 0, 1, 1, 0, 1])
+m.SetRow(3, [0, 1, 0, 0, 0, 0, 1, 0])
+m.SetRow(4, [0, 1, 1, 1, 1, 1, 1, 0])
+m.SetRow(5, [1, 0, 1, 1, 0, 0, 1, 0])
+m.SetRow(6, [0, 0, 1, 0, 0, 0, 1, 0])
+m.SetRow(7, [0, 0, 0, 0, 0, 1, 0, 0])
+print(m)
+
+print(m.Inverse())<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<script type="math/tex; mode=display">
+\left(
+\begin{array}{c}
+b_7\\ b_6 \\ b_5\\ b_4 \\ b_3 \\ b_2\\ b_1 \\ b_0
+\end{array}
+\right) =
+\left(
+\begin{array}{cccccccc}
+1 & 1 & 1 & 0 & 0 & 1 & 1 & 1\\
+0 & 1 & 1 & 1 & 0 & 0 & 0 & 1\\
+0 & 1 & 1 & 0 & 0 & 0 & 1 & 1\\
+1 & 1 & 1 & 0 & 0 & 0 & 0 & 1\\
+1 & 0 & 0 & 1 & 1 & 0 & 1 & 1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+0 & 1 & 1 & 0 & 0 & 0 & 0 & 1\\
+0 & 1 & 0 & 0 & 1 & 1 & 1 & 1
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+g_7\\ g_6 \\ g_5\\ g_4 \\ g_3 \\ g_2\\ g_1 \\ g_0
+\end{array}
+\right)</script><h4><span id="13-具体函数实现">1.3、具体函数实现</span></h4><h5><span id="131-基础函数定义">1.3.1 基础函数定义</span></h5><pre class="line-numbers language-python" data-language="python"><code class="language-python">g2b &#x3D; [0b10011000, 0b11110011, 0b11110010, 0b01001000, 0b00001001, 0b10000001, 0b10101001, 0b11111111]
+b2g &#x3D; [0b01100100, 0b01111000, 0b01101110, 0b10001100, 0b01101000, 0b00101001, 0b11011110, 0b01100000]
+
+def G4_mul(x, y):
+    &#39;&#39;&#39;
+    GF(2^2)的乘法运算，正规基&#123;W^2, W&#125;
+    &#39;&#39;&#39;
+    a &#x3D; (x &amp; 0x02)&gt;&gt;1
+    b &#x3D; x &amp; 0x01
+    c &#x3D; (y &amp; 0x02)&gt;&gt;1
+    d &#x3D; y &amp; 0x01
+    e &#x3D; (a ^ b) &amp; (c ^ d)
+    return (((a &amp; c) ^ e) &lt;&lt; 1)|((b &amp; d) ^ e)
+
+def G4_mul_N(x):
+    &#39;&#39;&#39;
+    GF(2^2)的乘N操作，N &#x3D; W^2
+    &#39;&#39;&#39;
+    a &#x3D; (x &amp; 0x02)&gt;&gt;1
+    b &#x3D; x &amp; 0x01
+    p &#x3D; b
+    q &#x3D; a ^ b
+    return (p&lt;&lt;1)|q
+
+def G4_mul_N2(x):
+    &#39;&#39;&#39;
+    GF(2^2)的乘N^2操作，N &#x3D; W^2
+    &#39;&#39;&#39;
+    a &#x3D; (x &amp; 0x02)&gt;&gt;1
+    b &#x3D; x &amp; 0x01
+    return ((a ^ b)&lt;&lt;1)|a
+
+def G4_inv(x):
+    &#39;&#39;&#39;
+    GF(2^2)的求逆操作，该操作和GF(2^2)的平方操作等价
+    &#39;&#39;&#39;
+    a &#x3D; (x &amp; 0x02)&gt;&gt;1
+    b &#x3D; x &amp; 0x01
+    return (b&lt;&lt;1)|a
+
+def G16_mul(x, y):
+    &#39;&#39;&#39;
+    GF(2^4)的乘法操作，正规基&#123;Z^4, Z&#125;
+    &#39;&#39;&#39;
+    a &#x3D; (x &amp; 0xc)&gt;&gt;2
+    b &#x3D; x &amp; 0x03
+    c &#x3D; (y &amp; 0xc)&gt;&gt;2
+    d &#x3D; y &amp; 0x03
+    e &#x3D; G4_mul(a ^ b, c ^ d)
+    e &#x3D; G4_mul_N(e)
+    p &#x3D; G4_mul(a, c) ^ e
+    q &#x3D; G4_mul(b, d) ^ e
+    return (p&lt;&lt;2) | q
+
+def G16_sq_mul_u(x):
+    &#39;&#39;&#39;
+    GF(2^4)的平方后乘u操作, u &#x3D; N^2Z, N &#x3D; W^2
+    &#39;&#39;&#39;
+    a &#x3D; (x &amp; 0xc)&gt;&gt;2
+    b &#x3D; x &amp; 0x03
+    p &#x3D; G4_inv(a ^ b) # G4平方和求逆等价
+    q &#x3D; G4_mul_N2(G4_inv(b)) 
+    return (p&lt;&lt;2)|q
+
+def G16_inv(x):
+    &#39;&#39;&#39;
+    GF(2^4)的求逆操作
+    &#39;&#39;&#39;
+    a &#x3D; (x &amp; 0xc)&gt;&gt;2
+    b &#x3D; x &amp; 0x03
+    c &#x3D; G4_mul_N(G4_inv(a ^ b))
+    d &#x3D; G4_mul(a, b)
+    e &#x3D; G4_inv(c ^ d)
+    p &#x3D; G4_mul(e, b)
+    q &#x3D; G4_mul(e, a)
+    return (p&lt;&lt;2)|q
+
+def G256_inv(x):
+    &#39;&#39;&#39;
+    GF(2^8)的求逆操作
+    &#39;&#39;&#39;
+    a &#x3D; (x &amp; 0xF0)&gt;&gt;4
+    b &#x3D; x &amp; 0x0F
+    c &#x3D; G16_sq_mul_u(a ^ b)
+    d &#x3D; G16_mul(a, b)
+    e &#x3D; G16_inv(c ^ d)
+    p &#x3D; G16_mul(e, b)
+    q &#x3D; G16_mul(e, a)
+    return (p&lt;&lt;4)|q
+
+def G256_new_basis(x, b):
+    &#39;&#39;&#39;
+    x在新基b下的表示
+    &#39;&#39;&#39;
+    y &#x3D; 0
+    for i in range(8):
+        if x &amp; (1&lt;&lt;(7-i)):
+            y ^&#x3D; b[i]
+    return y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5><span id="132-计算s盒输出值">1.3.2 计算S盒输出值</span></h5><pre class="line-numbers language-python" data-language="python"><code class="language-python">A &#x3D; [0b10001111, 0b11000111, 0b11100011, 0b11110001, 0b11111000, 0b01111100, 0b00111110, 0b00011111] #仿射变换矩阵乘
+
+def AES_SBOX(x):
+    t &#x3D; G256_new_basis(x, g2b)
+    t &#x3D; G256_inv(t)
+    t &#x3D; G256_new_basis(t, b2g)
+    t &#x3D; G256_new_basis(t, A) #仿射变换乘
+    return t ^ 0x63
+
+sbox &#x3D; []
+for i in range(256):
+    sbox.append(AES_SBOX(i))  # 生成sbox
+
+for i,s in enumerate(sbox):
+    print(f&#39;%02x&#39;%s,&#39;, &#39;, end&#x3D;&#39;&#39;)
+    if (i+1)%16&#x3D;&#x3D;0:
+        print()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3><span id="二-sm4-s盒实现方法">二、 SM4 S盒实现方法</span></h3><h4><span id="21-实现方法">2.1 实现方法</span></h4><blockquote>
+<p>SM4 的 S 盒和 AES 不同， 定义在$GF(2^8)$采用的不可约多项式为<script type="math/tex">x^8+x^7+x^6+x^5+x^4+x^2+1</script><br>生成方式为<script type="math/tex">S(x) = A(Ax+c)^{-1}+c</script><br>其中：</p>
+<script type="math/tex; mode=display">
+A =
+\left(
+\begin{array}{cccccccc}
+1 & 1 & 0 & 1 & 0 & 0 & 1 & 1\\
+1 & 1 & 1 & 0 & 1 & 0 & 0 & 1\\
+1 & 1 & 1 & 1 & 0 & 1 & 0 & 0\\
+0 & 1 & 1 & 1 & 1 & 0 & 1 & 0\\
+0 & 0 & 1 & 1 & 1 & 1 & 0 & 1\\
+1 & 0 & 0 & 1 & 1 & 1 & 1 & 0\\
+0 & 1 & 0 & 0 & 1 & 1 & 1 & 1\\
+1 & 0 & 1 & 0 & 0 & 1 & 1 & 1\\
+\end{array}
+\right) %右括号
+,
+c =
+\left(
+\begin{array}{c}
+1 \\
+1 \\
+0 \\
+1 \\
+0 \\
+0 \\
+1 \\
+1 \\
+\end{array}
+\right)</script></blockquote>
+<h4><span id="22-求矩阵x和逆">2.2 求矩阵X和逆</span></h4><blockquote>
+<p>不可约多项式不同，$X$ 矩阵也不相同。下面我们为 SM4 求 $X$ 和 $X^{-1}$，我们需要计算 $w$，$z$ 和 $y$，计算 $w^2z^4y^{16}$等一系列系数值</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from pyfinite import ffield
+
+gen &#x3D; 0b111110101
+F &#x3D; ffield.FField(8, gen, useLUT&#x3D;0) # 这里一定要写useLUT&#x3D;0，不然会出问题。。。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>首先，搜索$GF(2^2)$的正规基${W^2, W}$，我们求出其在$GF(2^8)$下多项式基的表示。</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">for i in range(256):
+    if field_pow2(i, F)^i^1 &#x3D;&#x3D; 0: # 搜索 w^2+w+1 &#x3D; 0的根
+        print(hex(i))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>我们得到，$W = 0x5d$，$W^2 = 0x5c$（一定要注意，这是$GF(2^8)$的多项式基表示）</p>
+<p>然后，搜索$GF(2^4)/GF(2^2)$的正规基${Z^4, Z}$，我们求出其在$GF(2^8)$下多项式基的表示。<script type="math/tex">s(z) = z^2 + z + N\\N = W^2 = 0x5c</script></p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">for i in range(256):
+    if field_pow2(i, F)^i^0x5c &#x3D;&#x3D; 0: # 搜索 z^2+z+0x5c &#x3D; 0的根
+        print(hex(i))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>于是我们又得到，$Z = 0x0c$，$Z^4 = 0x0d$</p>
+<p>最后，搜索$GF(2^8)/GF(2^4)$的正规基${Y^{16}, Y}$，我们求出其在$GF(2^8)$下多项式基的表示。<script type="math/tex">r(y) = y^2 + y +\upsilon \\ \upsilon = N^2Z</script></p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">u &#x3D; F.Multiply(field_pow2(0x5c, F), 0x0c)
+for i in range(256):
+    if field_pow2(i, F)^i^0x76 &#x3D;&#x3D; 0: # 搜索 z^2+z+0x76 &#x3D; 0的根
+        print(hex(i))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>于是我们又得到，$Y= 0xef$，$Y^{16} = 0xee$</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">w &#x3D; 0x5d
+w_2 &#x3D; 0x5c
+z &#x3D; 0x0c
+z_4 &#x3D; 0x0d
+y &#x3D; 0xef
+y_16 &#x3D; 0xee
+w_2_z_4_y_16 &#x3D; F.Multiply(F.Multiply(w_2, z_4), y_16)
+w_z_4_y_16 &#x3D; F.Multiply(F.Multiply(w, z_4), y_16)
+w_2_z_y_16 &#x3D; F.Multiply(F.Multiply(w_2, z), y_16)
+w_z_y_16 &#x3D; F.Multiply(F.Multiply(w, z), y_16)
+w_2_z_4_y &#x3D; F.Multiply(F.Multiply(w_2, z_4), y)
+w_z_4_y &#x3D; F.Multiply(F.Multiply(w, z_4), y)
+w_2_z_y &#x3D; F.Multiply(F.Multiply(w_2, z), y)
+w_z_y &#x3D; F.Multiply(F.Multiply(w, z), y)
+
+print(&#39;w_2_z_4_y_16\t&#39;, hex(w_2_z_4_y_16))
+print(&#39;w_z_4_y_16\t&#39;, hex(w_z_4_y_16))
+print(&#39;w_2_z_y_16\t&#39;, hex(w_2_z_y_16))
+print(&#39;w_z_y_16\t&#39;, hex(w_z_y_16))
+print(&#39;w_2_z_4_y\t&#39;, hex(w_2_z_4_y))
+print(&#39;w_z_4_y\t\t&#39;, hex(w_z_4_y))
+print(&#39;w_2_z_y\t\t&#39;, hex(w_2_z_y))
+print(&#39;w_z_y\t\t&#39;, hex(w_z_y))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>得到多项式基在复合域基下表示如下：</p>
+<script type="math/tex; mode=display">
+\left(
+\begin{array}{c}
+g_7\\ g_6 \\ g_5\\ g_4 \\ g_3 \\ g_2\\ g_1 \\ g_0
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cccccccc}
+1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 \\
+1 & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\
+1 & 1 & 0 & 1 & 0 & 0 & 1 & 0 \\
+1 & 0 & 1 & 0 & 1 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 \\
+1 & 1 & 1 & 0 & 0 & 1 & 1 & 1 \\
+0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+b_7\\ b_6 \\ b_5\\ b_4 \\ b_3 \\ b_2\\ b_1 \\ b_0
+\end{array}
+\right)</script><p>求$X^{-1}$，可得到复合域基下多项式基的表示：</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from pyfinite import genericmatrix
+
+XOR &#x3D; lambda x,y: x^y
+AND &#x3D; lambda x,y: x&amp;y
+DIV &#x3D; lambda x,y: x 
+m &#x3D; genericmatrix.GenericMatrix(size&#x3D;(8, 8),zeroElement&#x3D;0,identityElement&#x3D;1,add&#x3D;XOR,mul&#x3D;AND,sub&#x3D;XOR,div&#x3D;DIV)
+
+m.SetRow(0, [1, 1, 0, 1, 1, 1, 0, 1])
+m.SetRow(1, [1, 1, 1, 0, 1, 1, 0, 1])
+m.SetRow(2, [1, 1, 0, 1, 0, 0, 1, 0])
+m.SetRow(3, [1, 0, 1, 0, 1, 0, 0, 1])
+m.SetRow(4, [0, 1, 0, 0, 0, 0, 1, 0])
+m.SetRow(5, [1, 1, 1, 0, 0, 1, 1, 1])
+m.SetRow(6, [0, 0, 0, 1, 1, 1, 1, 0])
+m.SetRow(7, [0, 0, 0, 0, 0, 1, 0, 0])
+print(m)
+print(m.Inverse())<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4><span id="23-具体函数实现">2.3 具体函数实现</span></h4><h5><span id="231-基础函数定义">2.3.1 基础函数定义</span></h5><blockquote>
+<p>SM4 和 AES 采用的复合域结构相同，其基础函数也相同。仅定义X矩阵即可。</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">g2b &#x3D; [0b00100001, 0b11010011, 0b10000001, 0b01001010, 0b10001010, 0b10111001, 0b10110000, 0b11111111]
+b2g &#x3D; [0xf4, 0xec, 0x54, 0xa2, 0xd2, 0xc7, 0x2e, 0xd4]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h5><span id="232-计算s盒输出值">2.3.2 计算S盒输出值</span></h5><pre class="line-numbers language-python" data-language="python"><code class="language-python">A &#x3D; [0b11100101, 0b11110010, 0b01111001, 0b10111100, 0b01011110, 0b00101111, 0b10010111, 0b11001011]
+def SM4_SBOX(x):
+    t &#x3D; G256_new_basis(x, A)
+    t ^&#x3D; 0xd3
+    t &#x3D; G256_new_basis(t, g2b)
+    t &#x3D; G256_inv(t)
+    t &#x3D; G256_new_basis(t, b2g)
+    t &#x3D; G256_new_basis(t, A) #仿射变换乘
+    return t ^ 0xd3
+
+sbox &#x3D; []
+for i in range(256):
+    sbox.append(SM4_SBOX(i))  # 生成sbox
+
+for i,s in enumerate(sbox):
+    print(f&#39;%02x&#39;%s,&#39;, &#39;, end&#x3D;&#39;&#39;)
+    if (i+1)%16&#x3D;&#x3D;0:
+        print()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3><span id="三-推广结论">三、推广结论</span></h3><blockquote>
+<p>通过 AES 和 SM4 的 S 盒复合域实现，我们不难发现，在复合域上，AES 和 SM4 的求逆运算过程相同，而除此之外，其他操作都是线性的仿射变换。<br>那么我们能不能通过 AES 的 S 盒计算 SM4 的 S 盒输出呢？也就是，<script type="math/tex">S_{sm4}(x) = L(S_{aes}(Mx+C_1)) + C_2</script>，下面我们尝试进行推导。</p>
+<p>假设复合域求逆运算为$f$，则:</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+S_{aes}(x) = A_{aes}X_{aes}f(X^{-1}_{aes}x)+0x63 &\Rightarrow f(X^{-1}_{aes}x) = X^{-1}_{aes}A_{aes}^{-1}(S_{aes}(x) + 0x63) \\
+& \Rightarrow f(x) = X^{-1}_{aes}A_{aes}^{-1}(S_{aes}(X_{aes}x) + 0x63)
+\end{cases}\\</script><p>由此得出：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+&S_{sm4}(x) = A_{sm4}X_{sm4}f(X^{-1}_{sm4}(A_{sm4}x+0xd3))+0xd3 \Rightarrow \\ &S_{sm4}(x) = A_{sm4}X_{sm4}X^{-1}_{aes}A_{aes}^{-1}(S_{aes}(X_{aes}(X^{-1}_{sm4}(A_{sm4}x+0xd3))) + 0x63) +0xd3
+\end{cases}</script><p>由此可得出:</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+&M = X_{aes}X^{-1}_{sm4}A_{sm4}\\ &C_1 = X_{aes}X^{-1}_{sm4}0xd3 \\ &L = A_{sm4}X_{sm4}X^{-1}_{aes}A^{-1}_{aes} \\ &C_2 = A_{sm4}X_{sm4}X^{-1}_{aes}A^{-1}_{aes}0x63+0xd3
+\end{cases}</script></blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">XOR &#x3D; lambda x,y: x^y
+AND &#x3D; lambda x,y: x&amp;y
+DIV &#x3D; lambda x,y: x 
+X_aes &#x3D; genericmatrix.GenericMatrix(size&#x3D;(8, 8),zeroElement&#x3D;0,identityElement&#x3D;1,add&#x3D;XOR,mul&#x3D;AND,sub&#x3D;XOR,div&#x3D;DIV)
+X_sm4 &#x3D; genericmatrix.GenericMatrix(size&#x3D;(8, 8),zeroElement&#x3D;0,identityElement&#x3D;1,add&#x3D;XOR,mul&#x3D;AND,sub&#x3D;XOR,div&#x3D;DIV)
+A_aes &#x3D; genericmatrix.GenericMatrix(size&#x3D;(8, 8),zeroElement&#x3D;0,identityElement&#x3D;1,add&#x3D;XOR,mul&#x3D;AND,sub&#x3D;XOR,div&#x3D;DIV)
+A_sm4 &#x3D; genericmatrix.GenericMatrix(size&#x3D;(8, 8),zeroElement&#x3D;0,identityElement&#x3D;1,add&#x3D;XOR,mul&#x3D;AND,sub&#x3D;XOR,div&#x3D;DIV)
+c_aes &#x3D; genericmatrix.GenericMatrix(size&#x3D;(8, 1),zeroElement&#x3D;0,identityElement&#x3D;1,add&#x3D;XOR,mul&#x3D;AND,sub&#x3D;XOR,div&#x3D;DIV)
+c_sm4 &#x3D; genericmatrix.GenericMatrix(size&#x3D;(8, 1),zeroElement&#x3D;0,identityElement&#x3D;1,add&#x3D;XOR,mul&#x3D;AND,sub&#x3D;XOR,div&#x3D;DIV)
+
+X_aes.SetRow(0, [0, 0, 0, 1, 0, 0, 1, 0])
+X_aes.SetRow(1, [1, 1, 1, 0, 1, 0, 1, 1])
+X_aes.SetRow(2, [1, 1, 1, 0, 1, 1, 0, 1])
+X_aes.SetRow(3, [0, 1, 0, 0, 0, 0, 1, 0])
+X_aes.SetRow(4, [0, 1, 1, 1, 1, 1, 1, 0])
+X_aes.SetRow(5, [1, 0, 1, 1, 0, 0, 1, 0])
+X_aes.SetRow(6, [0, 0, 1, 0, 0, 0, 1, 0])
+X_aes.SetRow(7, [0, 0, 0, 0, 0, 1, 0, 0])
+print(X_aes)
+
+X_aes_inv &#x3D; X_aes.Inverse()
+X_aes_inv
+
+X_sm4.SetRow(0, [1, 1, 0, 1, 1, 1, 0, 1])
+X_sm4.SetRow(1, [1, 1, 1, 0, 1, 1, 0, 1])
+X_sm4.SetRow(2, [1, 1, 0, 1, 0, 0, 1, 0])
+X_sm4.SetRow(3, [1, 0, 1, 0, 1, 0, 0, 1])
+X_sm4.SetRow(4, [0, 1, 0, 0, 0, 0, 1, 0])
+X_sm4.SetRow(5, [1, 1, 1, 0, 0, 1, 1, 1])
+X_sm4.SetRow(6, [0, 0, 0, 1, 1, 1, 1, 0])
+X_sm4.SetRow(7, [0, 0, 0, 0, 0, 1, 0, 0])
+print(X_sm4)
+
+X_sm4_inv &#x3D; X_sm4.Inverse()
+X_sm4_inv
+
+A_aes.SetRow(0, [1, 1, 1, 1, 1, 0, 0, 0])
+A_aes.SetRow(1, [0, 1, 1, 1, 1, 1, 0, 0])
+A_aes.SetRow(2, [0, 0, 1, 1, 1, 1, 1, 0])
+A_aes.SetRow(3, [0, 0, 0, 1, 1, 1, 1, 1])
+A_aes.SetRow(4, [1, 0, 0, 0, 1, 1, 1, 1])
+A_aes.SetRow(5, [1, 1, 0, 0, 0, 1, 1, 1])
+A_aes.SetRow(6, [1, 1, 1, 0, 0, 0, 1, 1])
+A_aes.SetRow(7, [1, 1, 1, 1, 0, 0, 0, 1])
+print(A_aes)
+
+A_aes_inv &#x3D; A_aes.Inverse()
+
+A_sm4.SetRow(0, [1, 1, 0, 1, 0, 0, 1, 1])
+A_sm4.SetRow(1, [1, 1, 1, 0, 1, 0, 0, 1])
+A_sm4.SetRow(2, [1, 1, 1, 1, 0, 1, 0, 0])
+A_sm4.SetRow(3, [0, 1, 1, 1, 1, 0, 1, 0])
+A_sm4.SetRow(4, [0, 0, 1, 1, 1, 1, 0, 1])
+A_sm4.SetRow(5, [1, 0, 0, 1, 1, 1, 1, 0])
+A_sm4.SetRow(6, [0, 1, 0, 0, 1, 1, 1, 1])
+A_sm4.SetRow(7, [1, 0, 1, 0, 0, 1, 1, 1])
+print(A_sm4)
+
+A_sm4_inv &#x3D; A_sm4.Inverse()
+
+M &#x3D; X_aes*X_sm4_inv*A_sm4
+print(M)
+
+A &#x3D; [0, 1, 1, 0, 0, 0, 1, 1]
+for i in range(8):
+    c_aes.SetRow(i, [A[i]])
+print(c_aes)
+
+A &#x3D; [1, 1, 0, 1, 0, 0, 1, 1]
+for i in range(8):
+    c_sm4.SetRow(i, [A[i]])
+print(c_sm4)
+
+C1 &#x3D; X_aes*(X_sm4_inv*c_sm4)
+print(C1)
+
+L &#x3D; A_sm4*X_sm4*X_aes_inv*A_aes_inv
+print(L)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>因此:</p>
+<script type="math/tex; mode=display">
+S_{sm4}(x) =
+\left(
+\begin{array}{cccccccc}
+1 & 1 & 1 & 1 & 1 & 0 & 1 & 0\\
+0 & 1 & 1 & 0 & 0 & 1 & 0 & 0\\
+1 & 0 & 1 & 1 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0 & 1 & 0\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 1\\
+1 & 1 & 0 & 1 & 1 & 1 & 0 & 1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+1 & 1 & 0 & 0 & 0 & 0 & 0 & 1\\
+\end{array}
+\right)
+S_{aes}(
+\left(
+\begin{array}{cccccccc}
+1 & 0 & 0 & 1 & 0 & 1 & 1 & 0\\
+0 & 1 & 0 & 0 & 0 & 1 & 1 & 1\\
+1 & 1 & 1 & 0 & 1 & 0 & 0 & 1\\
+0 & 0 & 1 & 1 & 1 & 1 & 0 & 1\\
+1 & 1 & 0 & 1 & 1 & 1 & 1 & 0\\
+0 & 1 & 1 & 0 & 0 & 1 & 0 & 1\\
+1 & 0 & 1 & 0 & 1 & 1 & 0 & 0\\
+1 & 0 & 1 & 0 & 0 & 1 & 1 & 1\\
+\end{array}
+\right)x+
+\left(
+\begin{array}{c}
+0\\
+1\\
+1\\
+0\\
+1\\
+0\\
+0\\
+1\\
+\end{array}
+\right)
+)+
+\left(
+\begin{array}{c}
+0\\
+1\\
+1\\
+0\\
+0\\
+0\\
+0\\
+1\\
+\end{array}
+\right)</script><p>可以进行程序验证如下：</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">L &#x3D; [0b10100101, 0b11001101, 0b11100000, 0b10100100, 0b10010100, 0b01100100, 0b10010000, 0b00001111]
+M &#x3D; [0b10101011, 0b01101100, 0b00110111, 0b10011000, 0b00111010, 0b11011111, 0b11001001, 0b01110101]
+c1 &#x3D; 0x69
+c2 &#x3D; 0x61
+
+SBOX_AES &#x3D; [0x63 , 0x7c , 0x77 , 0x7b , 0xf2 , 0x6b , 0x6f , 0xc5 , 0x30 , 0x01 , 0x67 , 0x2b , 0xfe , 0xd7 , 0xab , 0x76 , 
+0xca , 0x82 , 0xc9 , 0x7d , 0xfa , 0x59 , 0x47 , 0xf0 , 0xad , 0xd4 , 0xa2 , 0xaf , 0x9c , 0xa4 , 0x72 , 0xc0 , 
+0xb7 , 0xfd , 0x93 , 0x26 , 0x36 , 0x3f , 0xf7 , 0xcc , 0x34 , 0xa5 , 0xe5 , 0xf1 , 0x71 , 0xd8 , 0x31 , 0x15 , 
+0x04 , 0xc7 , 0x23 , 0xc3 , 0x18 , 0x96 , 0x05 , 0x9a , 0x07 , 0x12 , 0x80 , 0xe2 , 0xeb , 0x27 , 0xb2 , 0x75 , 
+0x09 , 0x83 , 0x2c , 0x1a , 0x1b , 0x6e , 0x5a , 0xa0 , 0x52 , 0x3b , 0xd6 , 0xb3 , 0x29 , 0xe3 , 0x2f , 0x84 , 
+0x53 , 0xd1 , 0x00 , 0xed , 0x20 , 0xfc , 0xb1 , 0x5b , 0x6a , 0xcb , 0xbe , 0x39 , 0x4a , 0x4c , 0x58 , 0xcf , 
+0xd0 , 0xef , 0xaa , 0xfb , 0x43 , 0x4d , 0x33 , 0x85 , 0x45 , 0xf9 , 0x02 , 0x7f , 0x50 , 0x3c , 0x9f , 0xa8 , 
+0x51 , 0xa3 , 0x40 , 0x8f , 0x92 , 0x9d , 0x38 , 0xf5 , 0xbc , 0xb6 , 0xda , 0x21 , 0x10 , 0xff , 0xf3 , 0xd2 , 
+0xcd , 0x0c , 0x13 , 0xec , 0x5f , 0x97 , 0x44 , 0x17 , 0xc4 , 0xa7 , 0x7e , 0x3d , 0x64 , 0x5d , 0x19 , 0x73 , 
+0x60 , 0x81 , 0x4f , 0xdc , 0x22 , 0x2a , 0x90 , 0x88 , 0x46 , 0xee , 0xb8 , 0x14 , 0xde , 0x5e , 0x0b , 0xdb , 
+0xe0 , 0x32 , 0x3a , 0x0a , 0x49 , 0x06 , 0x24 , 0x5c , 0xc2 , 0xd3 , 0xac , 0x62 , 0x91 , 0x95 , 0xe4 , 0x79 , 
+0xe7 , 0xc8 , 0x37 , 0x6d , 0x8d , 0xd5 , 0x4e , 0xa9 , 0x6c , 0x56 , 0xf4 , 0xea , 0x65 , 0x7a , 0xae , 0x08 , 
+0xba , 0x78 , 0x25 , 0x2e , 0x1c , 0xa6 , 0xb4 , 0xc6 , 0xe8 , 0xdd , 0x74 , 0x1f , 0x4b , 0xbd , 0x8b , 0x8a , 
+0x70 , 0x3e , 0xb5 , 0x66 , 0x48 , 0x03 , 0xf6 , 0x0e , 0x61 , 0x35 , 0x57 , 0xb9 , 0x86 , 0xc1 , 0x1d , 0x9e , 
+0xe1 , 0xf8 , 0x98 , 0x11 , 0x69 , 0xd9 , 0x8e , 0x94 , 0x9b , 0x1e , 0x87 , 0xe9 , 0xce , 0x55 , 0x28 , 0xdf , 
+0x8c , 0xa1 , 0x89 , 0x0d , 0xbf , 0xe6 , 0x42 , 0x68 , 0x41 , 0x99 , 0x2d , 0x0f , 0xb0 , 0x54 , 0xbb , 0x16]
+
+def SM4_SBOX_CALC_WITH_AES(x):
+    t &#x3D; G256_new_basis(x, M)
+    t ^&#x3D; c1
+    t &#x3D; SBOX_AES[t]
+    t &#x3D; G256_new_basis(t, L)
+    t ^&#x3D; c2
+    return t
+
+sbox &#x3D; []
+for i in range(256):
+    sbox.append(SM4_SBOX_CALC_WITH_AES(i))  # 生成sbox
+
+for i,s in enumerate(sbox):
+    print(f&#39;%02x&#39;%s,&#39;, &#39;, end&#x3D;&#39;&#39;)
+    if (i+1)%16&#x3D;&#x3D;0:
+        print()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3><span id="四-总结">四、总结</span></h3><blockquote>
+<p>对 AES 和 SM4 来说，我们都可以把仿射变换和基变换操作的矩阵乘结合起来，简化对应的计算过程，从而减少运算。<br>利用这一思想，我们可以对 AES 和 SM4 的 bit直接进行逻辑运算，避免查表操作。<br>在硬件实现时，可利用该方法构造资源非常受限情况下的S盒实现。在软件上，该方法在抵抗cache攻击方面有效果，同时，我们可以使用bitslice并行技术进行加速。</p>
+<p>此外，SM4 的 S 盒可由 AES 表示得出，这一点在 CPU 有 AES 的指令集时，可将 SM4 的 S 盒运算转化为 AES 的 S 盒运算进行加速。</p>
+</blockquote>
+<h3><span id="附录aes-和-sm4-的-s-盒生成方法简介">附录：AES 和 SM4 的 S 盒生成方法简介</span></h3><h4><span id="aes-s盒">AES S盒</span></h4><blockquote>
+<p>原理<br>AES的S盒是定义在$GF(2^8)$（不可约多项式$x^8+x^4+x^3+x+1$），其表达式为$S(x) = Ax^{-1}+c$，具体如下：</p>
+<script type="math/tex; mode=display">
+\left(
+\begin{array}{c}
+s_7 \\
+s_6 \\
+s_5 \\
+s_4 \\
+s_3 \\
+s_2 \\
+s_1 \\
+s_0 \\
+\end{array}
+\right)=
+\left(
+\begin{array}{cccccccc}
+1 & 1 & 1 & 1 & 1 & 0 & 0 & 0\\
+0 & 1 & 1 & 1 & 1 & 1 & 0 & 0\\
+0 & 0 & 1 & 1 & 1 & 1 & 1 & 0\\
+0 & 0 & 0 & 1 & 1 & 1 & 1 & 1\\
+1 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
+1 & 1 & 0 & 0 & 0 & 1 & 1 & 1\\
+1 & 1 & 1 & 0 & 0 & 0 & 1 & 1\\
+1 & 1 & 1 & 1 & 0 & 0 & 0 & 1\\
+\end{array}
+\right)
+\cdot
+\left(
+\begin{array}{c}
+x_7 \\
+x_6 \\
+x_5 \\
+x_4 \\
+x_3 \\
+x_2 \\
+x_1 \\
+x_0 \\
+\end{array}
+\right)+
+\left(
+\begin{array}{c}
+0 \\
+1 \\
+1 \\
+0 \\
+0 \\
+0 \\
+1 \\
+1 \\
+\end{array}
+\right)</script><p>该表示是将一个字节（8 bits）看成$GF(2^8)$上的一个元素。将$GF(2^8)$看成向量空间，其上任何一个元素均可由该向量空间的一组基表示。在AES的定义使用多项式基:假设$A$为多项式$x^8+x^4+x^3+x+1$的根，即$A^8+A^4+A^3+A+1=0$。那么任何一个元素$x$可以表示为$x = x_7A^7+x_6A^6+x_5A^5+x_4A^4+x_3A^3+x_2A^2+x_1A+x_0$</p>
+<p>生成<br>下面我们尝试利用pyfinite生成 AES 的 S 盒。</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from pyfinite import ffield
+
+gen &#x3D; 0b100011011
+F &#x3D; ffield.FField(8, gen, useLUT&#x3D;0) # 这里一定要写useLUT&#x3D;0，不然会出问题。。。
+
+A &#x3D; [0b10001111, 0b11000111, 0b11100011, 0b11110001, 0b11111000, 0b01111100, 0b00111110, 0b00011111]
+
+def aes_sbox_gen(x):
+    &#39;&#39;&#39;
+    输入x，输出S(x)
+    &#39;&#39;&#39;
+    x_inv &#x3D; F.Inverse(x)
+    y &#x3D; 0
+    for i, a in enumerate(A):
+        if(x_inv&amp;(1&lt;&lt;(7-i))):
+            y ^&#x3D; a  # 若该bit为1，则异或相应列
+    return y^0x63
+
+sbox &#x3D; []
+for i in range(256):
+    sbox.append(aes_sbox_gen(i))  # 生成sbox<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4><span id="sm4-s盒">SM4 S盒</span></h4><blockquote>
+<p>生成<br>在SM4官方文档中，仅仅给出了S盒的定义。进行学术搜索，发现各个论文上对SM4 S盒的生成方法描述各有不同。比较靠谱的一篇描述为S-box Optimization for SM4 Algorithm，结合GMSSL中关于SM4 bitslice的实现sm4_bs.c，我们可以得出：SM4 S盒同样定义在$GF(2^8)$上。与AES有所不同，该$GF(2^8)$采用的不可约多项式为$x^8+x^7+x^6+x^5+x^4+x^2+1$，生成方式为$S(x) = A(Ax+c)^{-1}+c$，其中：</p>
+<script type="math/tex; mode=display">
+A = \left(
+\begin{array}{cccccccc}
+1 & 1 & 0 & 1 & 0 & 0 & 1 & 1\\
+1 & 1 & 1 & 0 & 1 & 0 & 0 & 1\\
+1 & 1 & 1 & 1 & 0 & 1 & 0 & 0\\
+0 & 1 & 1 & 1 & 1 & 0 & 1 & 0\\
+0 & 0 & 1 & 1 & 1 & 1 & 0 & 1\\
+1 & 0 & 0 & 1 & 1 & 1 & 1 & 0\\
+0 & 1 & 0 & 0 & 1 & 1 & 1 & 1\\
+1 & 0 & 1 & 0 & 0 & 1 & 1 & 1\\
+\end{array}
+\right),
+c = \left(
+\begin{array}{c}
+1 \\
+1 \\
+0 \\
+1 \\
+0 \\
+0 \\
+1 \\
+1 \\
+\end{array}
+\right)</script><p>SM4的S盒生成也是采用了多项式基的表示，同AES。</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from pyfinite import ffield
+
+gen &#x3D; 0b111110101
+F &#x3D; ffield.FField(8, gen, useLUT&#x3D;0) # 这里一定要写useLUT&#x3D;0，不然会出问题。。。
+
+A &#x3D; [0b11100101, 0b11110010, 0b01111001, 0b10111100, 0b01011110, 0b00101111, 0b10010111, 0b11001011]
+
+def sm4_sbox_gen(x):
+    &#39;&#39;&#39;
+    输入x，输出S(x)
+    &#39;&#39;&#39;
+    y &#x3D; 0
+    for i, a in enumerate(A):
+        if(x&amp;(1&lt;&lt;(7-i))):
+            y ^&#x3D; a  # 若该bit为1，则异或相应列, y&#x3D;Ax
+    y ^&#x3D; 0xd3
+    y_inv &#x3D; F.Inverse(y) # (Ax+c)^(-1)
+    z &#x3D; 0
+    for i, a in enumerate(A):
+        if(y_inv&amp;(1&lt;&lt;(7-i))):
+            z ^&#x3D; a  # 若该bit为1，则异或相应列, z&#x3D;A(Ax+c)^(-1)
+    return z^0xd3
+
+sbox &#x3D; []
+for i in range(256):
+    sbox.append(sm4_sbox_gen(i))  # 生成sbox<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><div id="box"></div></p>
+<p id="box">
+
+</p><p>🔥 <strong><em>精选往期 《硬件安全》系列文章</em></strong>🔥<br><strong>【算法篇】</strong><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/116717834"><strong><em>密码学之公钥密码体系（1）：背包算法</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117388689"><strong><em>密码学之公钥密码体系（2）：RSA算法</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/123154320"><strong><em>密码学之公钥密码体系（3）：ElGamal算法</em></strong></a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/vivid117/article/details/124784493?spm=1001.2014.3001.5501"><strong><em>密码学之公钥密码体系（4）：Rabin公钥密码方案</em></strong></a><br><a href><strong><em>密码学之对称加密体系（1）：AES、SM4的 S 盒有限域与复合域算法实现原理</em></strong> </a><br><a href><strong><em>密码学之对称加密体系（2）：AES、SM4的 S 盒具体算法的实现</em></strong></a></p>
+<p><strong>【概述篇】</strong><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117250046"><strong><em>硬件安全技术——概述1-安全威胁和硬件安全技术</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117294467"><strong><em>硬件安全技术——概述2-5G时代IoT环境下芯片安全风险与挑战</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117339683"><strong><em>硬件安全技术——芯片安全设计技术1</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117364447"><strong><em>硬件安全技术——芯片安全设计技术2</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117380971"><strong><em>硬件安全技术——芯片安全设计技术3</em></strong></a><br><a target="_blank" rel="noopener" href="https://weivid.blog.csdn.net/article/details/117385966"><strong><em>硬件安全技术——芯片安全设计技术4（PUF）</em></strong></a></p>
 
                 
             </div>
@@ -631,7 +1376,7 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://www.weivid.vip/posts/e99890812263.html">https://www.weivid.vip/posts/e99890812263.html</a>
+                    <a href="https://www.weivid.vip/posts/eabc23.html">https://www.weivid.vip/posts/eabc23.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1107,12 +1852,12 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/posts/e9989081226666663.html">
+                <a href="/posts/eabc1.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/8b5babf2153cb2ec.jpg" class="responsive-img" alt="密码学之公钥密码体系（3）：Elgamal算法">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/8b5babf2153cb2ec.jpg" class="responsive-img" alt="密码学之对称加密体系（1）：AES、SM4的 S 盒有限域与复合域算法实现原理">
                         
-                        <span class="card-title">密码学之公钥密码体系（3）：Elgamal算法</span>
+                        <span class="card-title">密码学之对称加密体系（1）：AES、SM4的 S 盒有限域与复合域算法实现原理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1123,7 +1868,7 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-09
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-17
                         </span>
                         <span class="publish-author">
                             
@@ -1155,12 +1900,12 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/675857645754.html">
+                <a href="/posts/e9989081226666663agfda.html">
                     <div class="card-image">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="硬件安全技术——芯片安全设计技术4（PUF）">
+                        <img src="https://cdn.jsdelivr.net/gh/skyls03/skyls03.github.io/medias/loading.gif" data-original="https://s3.bmp.ovh/imgs/2022/05/29/8b5babf2153cb2ec.jpg" class="responsive-img" alt="密码学之公钥密码体系（4）：Rabin公钥密码方案">
                         
-                        <span class="card-title">硬件安全技术——芯片安全设计技术4（PUF）</span>
+                        <span class="card-title">密码学之公钥密码体系（4）：Rabin公钥密码方案</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1171,7 +1916,7 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-15
                             </span>
                         <span class="publish-author">
                             
@@ -1188,8 +1933,8 @@ $$x=r^emodn$$$$y=xcmodn$$$$t=r^{-1} modn</script><p>如果$x=r^emodn$，那么$r
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Hardware-Security/">
-                        <span class="chip bg-color">Hardware Security</span>
+                    <a href="/tags/Cryptography-Algorithm/">
+                        <span class="chip bg-color">Cryptography Algorithm</span>
                     </a>
                     
                 </div>
