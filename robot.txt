@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Allow: /posts/
+Allow: /archives/
 Allow: /categories/
 Allow: /about/
 Allow: /contact/
@@ -11,4 +12,4 @@ Disallow: /js/
 Disallow: /css/
 Disallow: /libs/
 
-Sitemap: http://www.weivid.vip/sitemap.xml
+Sitemap: https://www.weivid.vip/sitemap.xml
