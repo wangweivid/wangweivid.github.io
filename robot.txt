@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /posts/
+Allow: /categories/
+Allow: /about/
+Allow: /contact/
+Allow: /friends/
+Allow: /tags/
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /libs/
+
+Sitemap: http://www.weivid.vip/sitemap.xml
