@@ -8,8 +8,4 @@ Allow: /contact/
 Allow: /friends/
 Allow: /tags/
 
-Disallow: /js/
-Disallow: /css/
-Disallow: /libs/
-
 Sitemap: https://www.weivid.vip/sitemap.xml
